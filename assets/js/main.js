@@ -192,53 +192,62 @@
 
 
   $( ".php-email-form" ).submit(function( event ) {
-    alert( "Handler for .submit() called.");
+    // alert( "Handler for .submit() called.");
+    $('div.sent-message').css("display", "none");
+    
+    $('div.loading').css("display", "block");
+    let url = 'https://e35u8yvpbj.execute-api.us-east-1.amazonaws.com/test/myemail'
 
     var name =  $('input#name').val()
     var email = $('input#email').val()
     var subject = $('input#subject').val()
-    var message =  $('input#messgge').val()
+    var message =  $('textarea#message').val()
     
 
     if(email.length >= 0){
-      var data = {
-        "personalizations": [{"to":{
-          "email":email,
-        "name": name, "subject": subject}
-      }],
-      "content": [{"type": "text/plain", "value": "Heya!"}],
 
-      "from":{"email":"black.king1232@gmail.com","name":"kev kev test"},
-      "reply_to":{"email":"black.king1232@gmail.com"}
+
+      let body  = `
+      client:
+        name: ${name}
+        email: ${email}
+
+      project: ${message}
+      `
+      var data = {
+        "subject": subject +" " + "Name: " + name,
+        "text": body
       }
+
+
 
       var data_str =  JSON.stringify(data);
 
-      $.ajax({ 
-        type: "POST",
-       headers:{
-        "Access-Control-Allow-Origin": "*",
-        'Content-Type': 'application/json',
-        Authorization : 'Bearer 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'
-       },
-        xhrFields: {
-          'Access-Control-Allow-Credentials': true,
-          withCredentials: false
+
+      var settings = {
+        "url": "https://e35u8yvpbj.execute-api.us-east-1.amazonaws.com/test/myemail",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/json"
         },
-        url: 'https://api.sendgrid.com/v3/mail/send',
-        data:data_str ,
-         success: function(msg) {
+        "data": JSON.stringify(data),
+      };
+      
+      console.log({data})
+      $.ajax(settings).done(function (response) {
+        $('input#name').val('') 
+         $('input#email').val('') 
+         $('input#subject').val('') 
+          $('textarea#message').val('') 
+       $('div.loading').css("display", "none");
+       $('div.sent-message').css("display", "block");
 
-          console.log('email sent........')
-          console.log(msg)
-          // $("#results").append("The result =" + StringifyPretty(msg));
 
-        },
-        error: function(err){
-          console.log('error  ' + err)
 
-        }
+        console.log(response);
       });
+
     event.preventDefault();
     
     }
