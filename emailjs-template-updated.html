@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Contact Form Message</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .email-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .message-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .contact-info {
+            background-color: #e8f4fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .contact-info h3 {
+            color: #2c5aa0;
+            margin-top: 0;
+            font-size: 18px;
+        }
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            min-width: 80px;
+        }
+        .info-value {
+            color: #333;
+            flex: 1;
+        }
+        .message-content {
+            background-color: #ffffff;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .message-content h3 {
+            color: #2c5aa0;
+            margin-top: 0;
+            font-size: 18px;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e1e5e9;
+        }
+        .timestamp {
+            color: #999;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .header {
+                padding: 20px 15px;
+            }
+            .content {
+                padding: 20px 15px;
+            }
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .info-label {
+                min-width: auto;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📧 New Contact Form Message</h1>
+            <p>You have received a new message from your portfolio website</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h3>👤 Contact Information</h3>
+                <div class="info-row">
+                    <span class="info-label">Name:</span>
+                    <span class="info-value">{{from_name}}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">{{from_email}}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Subject:</span>
+                    <span class="info-value">{{subject}}</span>
+                </div>
+            </div>
+
+            <!-- Message Content -->
+            <div class="message-content">
+                <h3>💬 Message</h3>
+                <div class="message-box">
+                    {{message}}
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div style="text-align: center;">
+                <a href="mailto:{{from_email}}?subject=Re: {{subject}}" class="cta-button">
+                    📧 Reply to {{from_name}}
+                </a>
+            </div>
+
+            <!-- Additional Info -->
+            <div style="margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+                <h3 style="color: #2c5aa0; margin-top: 0;">📋 Quick Actions</h3>
+                <ul style="color: #666; line-height: 1.8;">
+                    <li><strong>Reply directly:</strong> Click the button above to reply to this message</li>
+                    <li><strong>Add to contacts:</strong> Save {{from_name}}'s email for future reference</li>
+                    <li><strong>Portfolio view:</strong> This message was sent from your portfolio contact form</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>This message was sent from your portfolio contact form at <strong>kevoncadogan.com</strong></p>
+            <p>Sent to: {{to_name}} ({{to_email}})</p>
+            <div class="timestamp">
+                Sent on {{sent_date}} at {{sent_time}}
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

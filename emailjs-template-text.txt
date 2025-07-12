@@ -1,0 +1,29 @@
+NEW CONTACT FORM MESSAGE
+========================
+
+You have received a new message from your portfolio website.
+
+CONTACT INFORMATION:
+-------------------
+Name: {{from_name}}
+Email: {{from_email}}
+Subject: {{subject}}
+
+MESSAGE:
+--------
+{{message}}
+
+QUICK ACTIONS:
+--------------
+* Reply directly to: {{from_email}}
+* Subject: Re: {{subject}}
+* This message was sent from your portfolio contact form
+
+DETAILS:
+--------
+Sent to: {{to_name}}
+Sent on: {{sent_date}} at {{sent_time}}
+Source: Portfolio contact form at kevoncadogan.com
+
+---
+This is an automated message from your portfolio website contact form. 
