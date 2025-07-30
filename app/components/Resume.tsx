@@ -1,21 +1,6 @@
-import { motion, useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+
 
 export default function Resume() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-    
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, []);
 
   const education = [
     {
@@ -81,102 +66,74 @@ export default function Resume() {
 
 
   return (
-    <section id="resume" className="py-20 bg-gray-50" ref={ref}>
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Resume</h2>
-          <div className="w-20 h-1 bg-primary mx-auto"></div>
-        </motion.div>
+    <section id="resume" className="py-12 xs:py-16 sm:py-20 bg-gray-50">
+      <div className="container mx-auto px-3 xs:px-4">
+        <div className="text-center mb-12 xs:mb-14 sm:mb-16">
+          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">Resume</h2>
+          <div className="w-16 xs:w-18 sm:w-20 h-1 bg-primary mx-auto"></div>
+        </div>
 
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 xs:gap-10 sm:gap-12">
           {/* Education Column */}
-          <motion.div 
-            className="w-full"
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h3 className="text-3xl font-semibold text-gray-800 mb-8">Education</h3>
-            <div className="space-y-8">
+          <div className="w-full">
+            <h3 className="text-xl xs:text-2xl sm:text-3xl font-semibold text-gray-800 mb-6 xs:mb-7 sm:mb-8">Education</h3>
+            <div className="space-y-6 xs:space-y-7 sm:space-y-8">
               {education.map((edu, index) => (
-                <motion.div
+                <div
                   key={index}
-                  className="bg-white rounded-lg p-6 shadow-lg border-l-4 border-primary w-full"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ scale: !isMobile ? 1.02 : 1, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+                  className="bg-white rounded-lg p-4 xs:p-5 sm:p-6 shadow-lg border-l-4 border-primary w-full"
                 >
-                  <h4 className="text-xl font-semibold text-gray-800 mb-4">{edu.title}</h4>
+                  <h4 className="text-lg xs:text-xl font-semibold text-gray-800 mb-3 xs:mb-4">{edu.title}</h4>
                   <ul className="space-y-2">
                     {edu.description.map((item, i) => (
-                      <li key={i} className="text-gray-600 flex items-start">
-                        <span className="text-primary mr-2 mt-1">•</span>
-                        {item}
+                      <li key={i} className="text-gray-600 flex items-start text-sm xs:text-base">
+                        <span className="text-primary mr-2 mt-1 flex-shrink-0">•</span>
+                        <span>{item}</span>
                       </li>
                     ))}
                   </ul>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Experience Column */}
-          <motion.div 
-            className="w-full"
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <h3 className="text-3xl font-semibold text-gray-800 mb-8">Professional Experience</h3>
-            <div className="space-y-8">
+          <div className="w-full">
+            <h3 className="text-xl xs:text-2xl sm:text-3xl font-semibold text-gray-800 mb-6 xs:mb-7 sm:mb-8">Professional Experience</h3>
+            <div className="space-y-6 xs:space-y-7 sm:space-y-8">
               {experience.map((exp, index) => (
-                <motion.div
+                <div
                   key={index}
-                  className="bg-white rounded-lg p-6 shadow-lg border-l-4 border-primary w-full"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ scale: !isMobile ? 1.02 : 1, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+                  className="bg-white rounded-lg p-4 xs:p-5 sm:p-6 shadow-lg border-l-4 border-primary w-full"
                 >
-                  <h4 className="text-xl font-semibold text-gray-800 mb-4">{exp.title}</h4>
+                  <h4 className="text-lg xs:text-xl font-semibold text-gray-800 mb-3 xs:mb-4">{exp.title}</h4>
                   
                   {exp.description && exp.description.length > 0 && (
                     <ul className="space-y-2 mb-4">
                       {exp.description.map((item, i) => (
-                        <li key={i} className="text-gray-600 flex items-start">
-                          <span className="text-primary mr-2 mt-1">•</span>
-                          {item}
+                        <li key={i} className="text-gray-600 flex items-start text-sm xs:text-base">
+                          <span className="text-primary mr-2 mt-1 flex-shrink-0">•</span>
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>
                   )}
 
                   {exp.subsections && (
-                    <div className="space-y-4">
+                    <div className="space-y-3 xs:space-y-4">
                       {exp.subsections.map((sub, i) => (
-                        <div key={i} className="border-l-2 border-gray-200 pl-4">
-                          <h5 className="font-semibold text-gray-700 mb-2">{sub.subtitle}</h5>
-                          <p className="text-gray-600 text-sm">{sub.content}</p>
+                        <div key={i} className="border-l-2 border-gray-200 pl-3 xs:pl-4">
+                          <h5 className="font-semibold text-gray-700 mb-2 text-sm xs:text-base">{sub.subtitle}</h5>
+                          <p className="text-gray-600 text-xs xs:text-sm leading-relaxed">{sub.content}</p>
                         </div>
                       ))}
                     </div>
                   )}
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
