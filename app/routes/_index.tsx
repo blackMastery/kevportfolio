@@ -48,7 +48,7 @@ export default function Index() {
       <Header isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
       {/* Main content */}
-      <main className="xl:ml-80">
+      <main className="xl:ml-80 min-h-screen flex flex-col">
         <Hero />
         <About />
         <Facts />

@@ -1,9 +1,21 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export default function Resume() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   const education = [
     {
@@ -66,25 +78,7 @@ export default function Resume() {
     }
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
 
   return (
     <section id="resume" className="py-20 bg-gray-50" ref={ref}>
@@ -100,21 +94,28 @@ export default function Resume() {
         </motion.div>
 
         <motion.div
-          className="grid lg:grid-cols-2 gap-12"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
         >
           {/* Education Column */}
-          <motion.div variants={itemVariants}>
+          <motion.div 
+            className="w-full"
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <h3 className="text-3xl font-semibold text-gray-800 mb-8">Education</h3>
             <div className="space-y-8">
               {education.map((edu, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white rounded-lg p-6 shadow-lg border-l-4 border-primary"
-                  whileHover={{ scale: 1.02, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className="bg-white rounded-lg p-6 shadow-lg border-l-4 border-primary w-full"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ scale: !isMobile ? 1.02 : 1, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
                 >
                   <h4 className="text-xl font-semibold text-gray-800 mb-4">{edu.title}</h4>
                   <ul className="space-y-2">
@@ -131,15 +132,22 @@ export default function Resume() {
           </motion.div>
 
           {/* Experience Column */}
-          <motion.div variants={itemVariants}>
+          <motion.div 
+            className="w-full"
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <h3 className="text-3xl font-semibold text-gray-800 mb-8">Professional Experience</h3>
             <div className="space-y-8">
               {experience.map((exp, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white rounded-lg p-6 shadow-lg border-l-4 border-primary"
-                  whileHover={{ scale: 1.02, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className="bg-white rounded-lg p-6 shadow-lg border-l-4 border-primary w-full"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ scale: !isMobile ? 1.02 : 1, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
                 >
                   <h4 className="text-xl font-semibold text-gray-800 mb-4">{exp.title}</h4>
                   
