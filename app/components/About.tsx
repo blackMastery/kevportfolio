@@ -73,9 +73,24 @@ export default function About() {
           </motion.div>
 
           <motion.div variants={itemVariants} className="order-1 lg:order-2">
-            <h3 className="text-3xl font-semibold text-gray-800 mb-4">
+            <h3 className="text-3xl font-semibold text-gray-800 mb-2">
               Full-Stack Developer
             </h3>
+            <motion.a
+              href="https://v75inc.com/our-team/kevon-cadogan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-primary hover:text-primary-hover transition-colors mb-4 text-lg font-medium"
+              whileHover={{ x: 5 }}
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span>Currently at V75 Inc</span>
+              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </motion.a>
             <p className="text-gray-600 text-lg mb-8 leading-relaxed italic">
               I am a full-stack developer with an eye for detail, building client and server 
               applications for five years, with a diverse set of skills from HTML and JavaScript, 
