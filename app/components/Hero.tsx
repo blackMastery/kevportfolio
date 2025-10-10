@@ -9,10 +9,10 @@ function TypedComponent() {
   useEffect(() => {
     if (typeof window !== "undefined" && el.current) {
       const typed = new Typed(el.current, {
-        strings: ["Designer", "Developer", "Freelancer", "ChatBot Dev"],
-        typeSpeed: 100,
-        backSpeed: 50,
-        backDelay: 2000,
+        strings: [ "Software Developer",  "AI Engineer", "Mobile Developer"],
+        typeSpeed: 70,
+        backSpeed: 3,
+        backDelay: 1000,
         loop: true,
       });
 
@@ -61,13 +61,13 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
         >
-          <span className="text-gray-200">I'm </span>
+          <span className="text-gray-200">I'm a  </span>
           <span className="text-primary font-semibold">
             <TypedComponent />
           </span>
         </motion.div>
 
-        <motion.a
+        {/* <motion.a
           href="https://v75inc.com/our-team/kevon-cadogan"
           target="_blank"
           rel="noopener noreferrer"
@@ -83,7 +83,7 @@ export default function Hero() {
           <svg className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
-        </motion.a>
+        </motion.a> */}
 
         {/* Scroll Down Indicator */}
         <motion.div

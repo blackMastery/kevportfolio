@@ -186,9 +186,9 @@ export default function Footer() {
           <p>
             &copy; {currentYear} <span className="text-primary font-semibold">Kevon Cadogan</span>. All rights reserved.
           </p>
-          <p className="mt-2 text-xs lg:text-sm">
+          {/* <p className="mt-2 text-xs lg:text-sm">
             Designed & Built with <span className="text-primary">❤</span> using React & Remix
-          </p>
+          </p> */}
         </motion.div>
       </div>
     </footer>
