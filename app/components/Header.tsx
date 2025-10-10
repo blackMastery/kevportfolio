@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import ParticlesBackground from "./ParticlesBackground";
 
 interface HeaderProps {
   isOpen: boolean;
@@ -46,7 +47,12 @@ export default function Header({ isOpen, onClose }: HeaderProps) {
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
-        <div className="flex flex-col px-4 py-6">
+        {/* Particles Background */}
+        <div className="absolute inset-0 opacity-30 pointer-events-none">
+          <ParticlesBackground id="sidebar-particles" />
+        </div>
+
+        <div className="flex flex-col px-4 py-6 relative z-10">
           {/* Profile Section */}
           <motion.div 
             className="profile text-center mb-8"

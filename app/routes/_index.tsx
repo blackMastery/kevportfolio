@@ -10,6 +10,7 @@ import Portfolio from "~/components/Portfolio";
 import Resume from "~/components/Resume";
 import Services from "~/components/Services";
 import Contact from "~/components/Contact";
+import Footer from "~/components/Footer";
 
 export const meta: MetaFunction = () => {
   return [
@@ -58,6 +59,7 @@ export default function Index() {
         <Resume />
         <Services />
         <Contact />
+        <Footer />
       </main>
 
       {/* Back to top button */}

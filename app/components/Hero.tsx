@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import Typed from "typed.js";
+import ParticlesBackground from "./ParticlesBackground";
 
 function TypedComponent() {
   const el = useRef(null);
@@ -35,30 +36,8 @@ export default function Hero() {
         <div className="absolute inset-0  bg-cover bg-center bg-no-repeat"></div>
       </div>
       
-      {/* Animated Particles */}
-      {typeof window !== "undefined" && (
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-primary rounded-full opacity-20"
-              animate={{
-                x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
-                y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
-              }}
-              transition={{
-                duration: Math.random() * 10 + 10,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-              style={{
-                left: Math.random() * 100 + "%",
-                top: Math.random() * 100 + "%",
-              }}
-            />
-          ))}
-        </div>
-      )}
+      {/* Particles Background */}
+      <ParticlesBackground id="hero-particles" />
 
       {/* Hero Content */}
       <motion.div
