@@ -44,7 +44,7 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="py-20 bg-white" ref={ref}>
+    <section id="about" className="py-20 bg-white" ref={ref} aria-label="About Kevon Cadogan">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-16"
@@ -65,10 +65,13 @@ export default function About() {
           <motion.div variants={itemVariants} className="order-2 lg:order-1">
             <motion.img
               src="/img/2021-02-24.jpg"
-              alt="Kevon Cadogan"
+              alt="Kevon Cadogan - Full-Stack Developer and AI Engineer, professional portrait"
               className="w-full max-w-md mx-auto rounded-lg shadow-lg"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300, damping: 10 }}
+              loading="lazy"
+              width="400"
+              height="400"
             />
           </motion.div>
 

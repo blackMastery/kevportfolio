@@ -30,6 +30,7 @@ export default function Hero() {
     <section
       id="hero"
       className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 relative overflow-hidden"
+      aria-label="Hero section with introduction"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">

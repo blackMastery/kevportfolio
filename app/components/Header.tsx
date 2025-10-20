@@ -62,10 +62,13 @@ export default function Header({ isOpen, onClose }: HeaderProps) {
           >
             <motion.img
               src="/img/2021-02-24.jpg"
-              alt="Kevon Cadogan"
+              alt="Kevon Cadogan - Full-Stack Developer profile picture"
               className="w-32 h-32 mx-auto rounded-full border-8 border-sidebar-border mb-4"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              loading="eager"
+              width="128"
+              height="128"
             />
             <h1 className="text-2xl font-semibold text-white font-poppins mb-4">
               <a href="#hero" onClick={(e) => { e.preventDefault(); handleNavClick('#hero'); }}>

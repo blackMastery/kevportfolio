@@ -13,9 +13,46 @@ import Contact from "~/components/Contact";
 import Footer from "~/components/Footer";
 
 export const meta: MetaFunction = () => {
+  const title = "Kevon Cadogan - Full-Stack Developer & AI Engineer | React, Node.js, Mobile Development";
+  const description = "Experienced full-stack developer specializing in React, Node.js, Django, and mobile development. 5+ years building scalable web and mobile applications. Available for freelance projects.";
+  const keywords = "full-stack developer, React developer, Node.js, Django, mobile developer, AI engineer, software engineer, web development, JavaScript, TypeScript, Python, React Native, freelance developer, Georgetown Guyana";
+  const siteUrl = "https://kevportfolio.vercel.app";
+  const imageUrl = `${siteUrl}/img/2021-02-24.jpg`;
+
   return [
-    { title: "Portfolio: Kevon Cadogan" },
-    { name: "description", content: "Full-stack developer portfolio" },
+    { title },
+    { name: "description", content: description },
+    { name: "keywords", content: keywords },
+    { name: "author", content: "Kevon Cadogan" },
+    { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+    
+    // Open Graph tags for social media
+    { property: "og:type", content: "website" },
+    { property: "og:url", content: siteUrl },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:image", content: imageUrl },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
+    { property: "og:image:alt", content: "Kevon Cadogan - Full-Stack Developer" },
+    { property: "og:locale", content: "en_US" },
+    { property: "og:site_name", content: "Kevon Cadogan Portfolio" },
+    
+    // Twitter Card tags
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:url", content: siteUrl },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: imageUrl },
+    { name: "twitter:image:alt", content: "Kevon Cadogan - Full-Stack Developer" },
+    { name: "twitter:creator", content: "@kevoncadogan" },
+    
+    // Additional SEO tags
+    { name: "theme-color", content: "#149ddd" },
+    { name: "msapplication-TileColor", content: "#149ddd" },
+    { name: "apple-mobile-web-app-capable", content: "yes" },
+    { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+    { name: "format-detection", content: "telephone=no" },
   ];
 };
 
@@ -33,8 +70,63 @@ export default function Index() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Structured Data (JSON-LD) for better SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Kevon Cadogan",
+    "url": "https://kevportfolio.vercel.app",
+    "image": "https://kevportfolio.vercel.app/img/2021-02-24.jpg",
+    "jobTitle": "Full-Stack Developer",
+    "description": "Experienced full-stack developer specializing in React, Node.js, Django, and mobile development",
+    "email": "kev.cadogan300@gmail.com",
+    "telephone": "+592-694-3827",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Georgetown",
+      "addressCountry": "GY"
+    },
+    "birthDate": "1988-02-05",
+    "knowsAbout": [
+      "React",
+      "Node.js",
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Django",
+      "MongoDB",
+      "MySQL",
+      "React Native",
+      "Angular",
+      "Full-Stack Development",
+      "AI Engineering",
+      "Mobile Development"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "V75 Inc",
+      "url": "https://v75inc.com"
+    },
+    "sameAs": [
+      "https://github.com/blackMastery",
+      "https://www.linkedin.com/in/kevon-cadogan-113034a8",
+      "https://x.com/kevon_cadogan",
+      "https://www.facebook.com/kevongudlove24",
+      "https://v75inc.com/our-team/kevon-cadogan"
+    ],
+    "alumniOf": {
+      "@type": "Organization",
+      "name": "University"
+    }
+  };
+
   return (
     <div className="relative min-h-screen">
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       {/* Mobile nav toggle */}
       <button
         type="button"
