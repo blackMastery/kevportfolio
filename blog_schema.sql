@@ -91,9 +91,12 @@ CREATE TABLE comments (
 CREATE TABLE likes (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     post_id UUID NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+    guest_session_id TEXT, -- For unauthenticated users
     created_at TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE(post_id, user_id)
+    CHECK ((user_id IS NOT NULL) OR (guest_session_id IS NOT NULL)), -- At least one must be set
+    UNIQUE(post_id, user_id),
+    UNIQUE(post_id, guest_session_id)
 );
 
 -- =====================================================
@@ -107,6 +110,7 @@ CREATE INDEX idx_comments_post ON comments(post_id);
 CREATE INDEX idx_comments_author ON comments(author_id);
 CREATE INDEX idx_likes_post ON likes(post_id);
 CREATE INDEX idx_likes_user ON likes(user_id);
+CREATE INDEX idx_likes_guest_session ON likes(guest_session_id);
 
 -- =====================================================
 -- FUNCTIONS
@@ -291,13 +295,19 @@ CREATE POLICY "Likes are viewable by everyone"
     ON likes FOR SELECT
     USING (true);
 
-CREATE POLICY "Authenticated users can like posts"
+CREATE POLICY "Anyone can like posts"
     ON likes FOR INSERT
-    WITH CHECK (auth.uid() = user_id);
+    WITH CHECK (
+        (auth.uid() IS NOT NULL AND auth.uid() = user_id) OR
+        (auth.uid() IS NULL AND guest_session_id IS NOT NULL)
+    );
 
-CREATE POLICY "Users can unlike posts"
+CREATE POLICY "Users can unlike their own likes"
     ON likes FOR DELETE
-    USING (auth.uid() = user_id);
+    USING (
+        (auth.uid() IS NOT NULL AND auth.uid() = user_id) OR
+        (auth.uid() IS NULL AND guest_session_id IS NOT NULL)
+    );
 
 -- =====================================================
 -- SAMPLE DATA (Optional - Remove if not needed)

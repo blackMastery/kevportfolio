@@ -1,8 +1,8 @@
 import { json } from "@remix-run/node";
-import type { LoaderFunctionArgs, MetaFunction, ErrorResponse } from "@remix-run/node";
-import { useLoaderData, Link, useRouteError, isRouteErrorResponse } from "@remix-run/react";
+import type { LoaderFunctionArgs, MetaFunction, ErrorResponse, ActionFunctionArgs } from "@remix-run/node";
+import { useLoaderData, Link, useRouteError, isRouteErrorResponse, useFetcher } from "@remix-run/react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Header from "~/components/Header";
@@ -33,6 +33,8 @@ interface BlogPost {
   banner_image: string | null;
   published_at: string | null;
   view_count: number;
+  like_count: number;
+  is_liked: boolean;
   created_at: string;
   author: Profile | null;
   category: Category | null;
@@ -85,6 +87,10 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       return json({ post: null, error: "Slug is required" }, { status: 400, headers: response.headers });
     }
 
+    // Get current user session
+    const { data: { session } } = await supabase.auth.getSession();
+    const userId = session?.user?.id || null;
+
     // Fetch the post with author and category information
     const { data: posts, error } = await supabase
       .from("posts")
@@ -126,6 +132,41 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       );
     }
 
+    // Fetch like count
+    const { count: likeCount } = await supabase
+      .from("likes")
+      .select("*", { count: "exact", head: true })
+      .eq("post_id", posts.id);
+
+    // Check if current user or guest has liked the post
+    let isLiked = false;
+    if (userId) {
+      const { data: userLike } = await supabase
+        .from("likes")
+        .select("id")
+        .eq("post_id", posts.id)
+        .eq("user_id", userId)
+        .single();
+      isLiked = !!userLike;
+    } else {
+      // Check for guest session
+      const cookies = request.headers.get("cookie") || "";
+      const guestSessionId = cookies
+        .split("; ")
+        .find((c) => c.startsWith("guest_session_id="))
+        ?.split("=")[1];
+      
+      if (guestSessionId) {
+        const { data: guestLike } = await supabase
+          .from("likes")
+          .select("id")
+          .eq("post_id", posts.id)
+          .eq("guest_session_id", guestSessionId)
+          .single();
+        isLiked = !!guestLike;
+      }
+    }
+
     // Transform the data to ensure correct typing (same as blog.tsx)
     // Handle both array and object responses from Supabase relations
     let author: Profile | null = null;
@@ -156,6 +197,8 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       banner_image: posts.banner_image,
       published_at: posts.published_at,
       view_count: posts.view_count || 0,
+      like_count: likeCount || 0,
+      is_liked: isLiked,
       created_at: posts.created_at,
       author,
       category,
@@ -178,10 +221,184 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   }
 };
 
+export const action = async ({ request, params }: ActionFunctionArgs) => {
+  const response = new Response();
+  const supabase = createServerClientHandler(request, response.headers);
+
+  // Get current user session
+  const { data: { session } } = await supabase.auth.getSession();
+  const userId = session?.user?.id || null;
+
+  const { slug } = params;
+  if (!slug) {
+    return json({ error: "Slug is required" }, { status: 400, headers: response.headers });
+  }
+
+  // Get the post ID
+  const { data: post } = await supabase
+    .from("posts")
+    .select("id")
+    .eq("slug", slug)
+    .single();
+
+  if (!post) {
+    return json({ error: "Post not found" }, { status: 404, headers: response.headers });
+  }
+
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+  
+  // Get or create guest session ID for unauthenticated users
+  let guestSessionId: string | null = null;
+  if (!userId) {
+    const cookies = request.headers.get("cookie") || "";
+    guestSessionId = cookies
+      .split("; ")
+      .find((c) => c.startsWith("guest_session_id="))
+      ?.split("=")[1] || null;
+
+    // If no guest session exists, get it from form data (generated client-side)
+    if (!guestSessionId) {
+      guestSessionId = formData.get("guest_session_id") as string | null;
+      if (guestSessionId) {
+        // Set cookie for future requests
+        response.headers.append(
+          "Set-Cookie",
+          `guest_session_id=${guestSessionId}; Path=/; Max-Age=31536000; SameSite=Lax`
+        );
+      }
+    }
+  }
+
+  if (intent === "like") {
+    // Check if already liked
+    let existingLike;
+    if (userId) {
+      const result = await supabase
+        .from("likes")
+        .select("id")
+        .eq("post_id", post.id)
+        .eq("user_id", userId)
+        .single();
+      existingLike = result.data;
+    } else if (guestSessionId) {
+      const result = await supabase
+        .from("likes")
+        .select("id")
+        .eq("post_id", post.id)
+        .eq("guest_session_id", guestSessionId)
+        .single();
+      existingLike = result.data;
+    } else {
+      return json({ error: "Unable to identify user" }, { status: 400, headers: response.headers });
+    }
+
+    if (existingLike) {
+      return json({ error: "Post already liked" }, { status: 400, headers: response.headers });
+    }
+
+    // Add like
+    const likeData: any = { post_id: post.id };
+    if (userId) {
+      likeData.user_id = userId;
+    } else if (guestSessionId) {
+      likeData.guest_session_id = guestSessionId;
+    } else {
+      return json({ error: "Unable to identify user" }, { status: 400, headers: response.headers });
+    }
+
+    const { error } = await supabase.from("likes").insert(likeData);
+
+    if (error) {
+      console.error("Error liking post:", error);
+      return json({ error: error.message }, { status: 500, headers: response.headers });
+    }
+
+    // Get updated like count
+    const { count: likeCount } = await supabase
+      .from("likes")
+      .select("*", { count: "exact", head: true })
+      .eq("post_id", post.id);
+
+    return json({ success: true, like_count: likeCount || 0, is_liked: true }, { headers: response.headers });
+  }
+
+  if (intent === "unlike") {
+    // Remove like
+    let deleteQuery = supabase.from("likes").delete().eq("post_id", post.id);
+    
+    if (userId) {
+      deleteQuery = deleteQuery.eq("user_id", userId);
+    } else if (guestSessionId) {
+      deleteQuery = deleteQuery.eq("guest_session_id", guestSessionId);
+    } else {
+      return json({ error: "Unable to identify user" }, { status: 400, headers: response.headers });
+    }
+
+    const { error } = await deleteQuery;
+
+    if (error) {
+      console.error("Error unliking post:", error);
+      return json({ error: error.message }, { status: 500, headers: response.headers });
+    }
+
+    // Get updated like count
+    const { count: likeCount } = await supabase
+      .from("likes")
+      .select("*", { count: "exact", head: true })
+      .eq("post_id", post.id);
+
+    return json({ success: true, like_count: likeCount || 0, is_liked: false }, { headers: response.headers });
+  }
+
+  return json({ error: "Invalid intent" }, { status: 400, headers: response.headers });
+};
+
+// Helper to get or create guest session ID
+function getGuestSessionId(): string {
+  if (typeof window === "undefined") return "";
+  
+  let guestId = localStorage.getItem("guest_session_id");
+  if (!guestId) {
+    // Generate a simple UUID-like string
+    guestId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+    localStorage.setItem("guest_session_id", guestId);
+  }
+  return guestId;
+}
+
 export default function BlogPost() {
   const data = useLoaderData<typeof loader>();
   const { post, error } = data;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const fetcher = useFetcher<typeof action>();
+  const [likeError, setLikeError] = useState<string | null>(null);
+  const [guestSessionId] = useState(() => getGuestSessionId());
+  
+  // Optimistic UI state
+  const isLiked = fetcher.formData 
+    ? fetcher.formData.get("intent") === "like" 
+    : ((fetcher.data as any)?.is_liked ?? post?.is_liked ?? false);
+  const likeCount = ((fetcher.data as any)?.like_count ?? post?.like_count ?? 0) as number;
+
+  // Handle fetcher errors
+  useEffect(() => {
+    if (fetcher.data && "error" in fetcher.data) {
+      setLikeError((fetcher.data as any).error);
+      setTimeout(() => setLikeError(null), 5000);
+    }
+  }, [fetcher.data]);
+
+  // Set guest session cookie if not already set
+  useEffect(() => {
+    if (guestSessionId && typeof document !== "undefined") {
+      const cookies = document.cookie.split("; ");
+      const hasGuestCookie = cookies.some((c) => c.startsWith("guest_session_id="));
+      if (!hasGuestCookie) {
+        document.cookie = `guest_session_id=${guestSessionId}; Path=/; Max-Age=31536000; SameSite=Lax`;
+      }
+    }
+  }, [guestSessionId]);
 
   console.log("BlogPost component render - post:", post ? post.title : "null", "error:", error);
 
@@ -318,6 +535,51 @@ export default function BlogPost() {
                 <span>{formatDate(post.published_at || post.created_at)}</span>
                 <span>•</span>
                 <span>{post.view_count} views</span>
+              </div>
+
+              {/* Like Button */}
+              <div className="mt-6">
+                <fetcher.Form method="post">
+                  <input type="hidden" name="intent" value={isLiked ? "unlike" : "like"} />
+                  {guestSessionId && (
+                    <input type="hidden" name="guest_session_id" value={guestSessionId} />
+                  )}
+                  <button
+                    type="submit"
+                    disabled={fetcher.state !== "idle"}
+                    className={`inline-flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+                      isLiked
+                        ? "bg-white text-primary hover:bg-white/90"
+                        : "bg-white/20 text-white hover:bg-white/30"
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                  >
+                    <svg
+                      className={`w-5 h-5 ${isLiked ? "fill-current" : ""}`}
+                      fill={isLiked ? "currentColor" : "none"}
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                    <span className="font-medium">
+                      {likeCount} {likeCount === 1 ? "like" : "likes"}
+                    </span>
+                  </button>
+                </fetcher.Form>
+                {likeError && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-2 text-sm text-white/80"
+                  >
+                    {likeError}
+                  </motion.p>
+                )}
               </div>
             </motion.div>
           </div>
