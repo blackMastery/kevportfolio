@@ -33,6 +33,7 @@ interface BlogPost {
   created_at: string;
   author: Profile | null;
   category: Category | null;
+  banner_image: string | null;
 }
 
 export const meta: MetaFunction = () => {
@@ -62,6 +63,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       content,
       excerpt,
       featured_image,
+      banner_image,
       published_at,
       view_count,
       created_at,
@@ -87,6 +89,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     content: post.content,
     excerpt: post.excerpt,
     featured_image: post.featured_image,
+    banner_image: post.banner_image,
     published_at: post.published_at,
     view_count: post.view_count || 0,
     created_at: post.created_at,
@@ -286,11 +289,11 @@ export default function Blog() {
                     className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col"
                     variants={itemVariants}
                   >
-                    {/* Featured Image */}
-                    {post.featured_image && (
+                    {/* Banner Image or Featured Image */}
+                    {(post.banner_image || post.featured_image) && (
                       <div className="w-full h-48 overflow-hidden bg-gray-200">
                         <img
-                          src={post.featured_image}
+                          src={post.banner_image || post.featured_image || ""}
                           alt={post.title}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                           loading="lazy"

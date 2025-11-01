@@ -30,6 +30,7 @@ interface BlogPost {
   content: string;
   excerpt: string | null;
   featured_image: string | null;
+  banner_image: string | null;
   published_at: string | null;
   view_count: number;
   created_at: string;
@@ -45,16 +46,29 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     ];
   }
 
+  const imageUrl = data.post.banner_image || data.post.featured_image;
+  const description = data.post.excerpt || `Read ${data.post.title} on Kevon Cadogan's blog.`;
+
   return [
     { title: `${data.post.title} - Kevon Cadogan | Blog` },
     {
       name: "description",
-      content: data.post.excerpt || `Read ${data.post.title} on Kevon Cadogan's blog.`,
+      content: description,
     },
     {
       name: "keywords",
       content: data.post.category ? `${data.post.category.name}, blog, web development` : "blog, web development",
     },
+    // Open Graph tags
+    { property: "og:type", content: "article" },
+    { property: "og:title", content: `${data.post.title} - Kevon Cadogan | Blog` },
+    { property: "og:description", content: description },
+    ...(imageUrl ? [{ property: "og:image", content: imageUrl }] : []),
+    // Twitter Card tags
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: `${data.post.title} - Kevon Cadogan | Blog` },
+    { name: "twitter:description", content: description },
+    ...(imageUrl ? [{ name: "twitter:image", content: imageUrl }] : []),
   ];
 };
 
@@ -82,6 +96,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
         content,
         excerpt,
         featured_image,
+        banner_image,
         published_at,
         view_count,
         created_at,
@@ -138,6 +153,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       content: posts.content,
       excerpt: posts.excerpt,
       featured_image: posts.featured_image,
+      banner_image: posts.banner_image,
       published_at: posts.published_at,
       view_count: posts.view_count || 0,
       created_at: posts.created_at,
@@ -310,8 +326,8 @@ export default function BlogPost() {
         {/* Article Content */}
         <article className="py-12 px-4 flex-1">
           <div className="container mx-auto max-w-4xl">
-            {/* Featured Image */}
-            {post.featured_image && (
+            {/* Banner Image or Featured Image */}
+            {(post.banner_image || post.featured_image) && (
               <motion.div
                 className="mb-8 rounded-lg overflow-hidden"
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -319,7 +335,7 @@ export default function BlogPost() {
                 transition={{ duration: 0.5 }}
               >
                 <img
-                  src={post.featured_image}
+                  src={post.banner_image || post.featured_image || ""}
                   alt={post.title}
                   className="w-full h-auto max-h-96 object-cover"
                   loading="eager"
