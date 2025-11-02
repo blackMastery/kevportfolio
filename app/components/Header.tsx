@@ -8,13 +8,13 @@ interface HeaderProps {
 
 export default function Header({ isOpen, onClose }: HeaderProps) {
   const menuItems = [
-    { href: "#hero", icon: "home", label: "Home" },
-    { href: "#about", icon: "user", label: "About" },
-    { href: "#resume", icon: "file", label: "Resume" },
-    { href: "#portfolio", icon: "briefcase", label: "Portfolio" },
-    { href: "#services", icon: "server", label: "Services" },
+    { href: "/", icon: "home", label: "Home" },
+    // { href: "#about", icon: "user", label: "About" },
+    // { href: "#resume", icon: "file", label: "Resume" },
+    // { href: "#portfolio", icon: "briefcase", label: "Portfolio" },
+    // { href: "#services", icon: "server", label: "Services" },
     { href: "/blog", icon: "blog", label: "Blog", isExternal: false },
-    { href: "#contact", icon: "envelope", label: "Contact" },
+    // { href: "#contact", icon: "envelope", label: "Contact" },
   ];
 
   const handleNavClick = (href: string, isExternal: boolean = false) => {
