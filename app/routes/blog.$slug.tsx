@@ -50,6 +50,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
   const imageUrl = data.post.banner_image || data.post.featured_image;
   const description = data.post.excerpt || `Read ${data.post.title} on Kevon Cadogan's blog.`;
+  
+  // Construct full URL for the post
+  const siteUrl = process.env.PUBLIC_SITE_URL || "https://kevportfolio.vercel.app";
+  const postUrl = `${siteUrl}/blog/${data.post.slug}`;
 
   return [
     { title: `${data.post.title} - Kevon Cadogan | Blog` },
@@ -61,16 +65,35 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       name: "keywords",
       content: data.post.category ? `${data.post.category.name}, blog, web development` : "blog, web development",
     },
-    // Open Graph tags
+    // Open Graph tags (used by LinkedIn, Facebook, etc.)
     { property: "og:type", content: "article" },
     { property: "og:title", content: `${data.post.title} - Kevon Cadogan | Blog` },
     { property: "og:description", content: description },
-    ...(imageUrl ? [{ property: "og:image", content: imageUrl }] : []),
+    { property: "og:url", content: postUrl },
+    { property: "og:site_name", content: "Kevon Cadogan" },
+    ...(imageUrl ? [
+      { property: "og:image", content: imageUrl },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: data.post.title },
+    ] : []),
+    // Article-specific tags (LinkedIn, Facebook)
+    ...(data.post.published_at ? [
+      { property: "article:published_time", content: data.post.published_at },
+    ] : []),
+    ...(data.post.author ? [
+      { property: "article:author", content: data.post.author.full_name || data.post.author.username },
+    ] : []),
+    ...(data.post.category ? [
+      { property: "article:section", content: data.post.category.name },
+    ] : []),
     // Twitter Card tags
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: `${data.post.title} - Kevon Cadogan | Blog` },
     { name: "twitter:description", content: description },
     ...(imageUrl ? [{ name: "twitter:image", content: imageUrl }] : []),
+    // LinkedIn-specific tags
+    { name: "linkedin:owner", content: "Kevon Cadogan" },
   ];
 };
 
