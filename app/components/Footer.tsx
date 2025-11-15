@@ -38,7 +38,6 @@ export default function Footer() {
     { label: 'Home', href: '#hero' },
     { label: 'About', href: '#about' },
     { label: 'Services', href: '#services' },
-    { label: 'Portfolio', href: '#portfolio' },
     { label: 'Resume', href: '#resume' },
     { label: 'Contact', href: '#contact' },
   ];

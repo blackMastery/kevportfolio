@@ -6,7 +6,6 @@ import Hero from "~/components/Hero";
 import About from "~/components/About";
 import Facts from "~/components/Facts";
 import Skills from "~/components/Skills";
-import Portfolio from "~/components/Portfolio";
 import Resume from "~/components/Resume";
 import Services from "~/components/Services";
 import Contact from "~/components/Contact";
@@ -145,9 +144,8 @@ export default function Index() {
       <main className="xl:ml-80 min-h-screen flex flex-col">
         <Hero />
         <About />
-        <Facts />
+        {/* <Facts /> */}
         <Skills />
-        <Portfolio />
         <Resume />
         <Services />
         <Contact />

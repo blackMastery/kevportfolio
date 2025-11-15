@@ -34,14 +34,6 @@ export const loader: LoaderFunction = () => {
     <priority>0.8</priority>
   </url>
 
-  <!-- Portfolio Section -->
-  <url>
-    <loc>${baseUrl}/#portfolio</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
   <!-- Resume Section -->
   <url>
     <loc>${baseUrl}/#resume</loc>
