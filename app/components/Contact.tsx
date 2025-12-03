@@ -1,9 +1,77 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+  // Google Forms configuration
+  const GOOGLE_FORM_ACTION_URL =
+    "https://docs.google.com/forms/d/e/1FAIpQLScuzxUU4WJkJdmmzqjVHyBwjwXcyMOh39DfmQvxGQd3DnD0AA/formResponse";
+  // These IDs are taken from the prefilled form URL query parameters:
+  // ?entry.1911928778=email&entry.802955492=name&entry.651554928=message&entry.421899253=phone
+  const GOOGLE_FORM_EMAIL_FIELD = "entry.1911928778";
+  const GOOGLE_FORM_NAME_FIELD = "entry.802955492";
+  const GOOGLE_FORM_MESSAGE_FIELD = "entry.651554928";
+  const GOOGLE_FORM_PHONE_FIELD = "entry.421899253";
+
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const data = new FormData();
+
+      if (GOOGLE_FORM_NAME_FIELD) {
+        data.append(GOOGLE_FORM_NAME_FIELD, formValues.name);
+      }
+
+      data.append(GOOGLE_FORM_EMAIL_FIELD, formValues.email);
+      data.append(GOOGLE_FORM_PHONE_FIELD, formValues.phone);
+
+      if (GOOGLE_FORM_MESSAGE_FIELD) {
+        data.append(GOOGLE_FORM_MESSAGE_FIELD, formValues.message);
+      }
+
+      await fetch(GOOGLE_FORM_ACTION_URL, {
+        method: "POST",
+        body: data,
+        mode: "no-cors",
+      });
+
+      setSubmitStatus("success");
+      setFormValues({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Error submitting Google Form:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const contactInfo = [
     {
@@ -65,8 +133,9 @@ export default function Contact() {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {/* Contact Information */}
+          {/* Contact Information, Social Links, and Google Forms Contact */}
           <motion.div variants={itemVariants} className="space-y-8">
+            {/* Contact Info */}
             <div className="bg-white rounded-xl p-8 shadow-lg">
               <h3 className="text-2xl font-semibold text-gray-800 mb-6">Get In Touch</h3>
               <div className="space-y-6">
@@ -124,6 +193,100 @@ export default function Contact() {
                 ))}
               </div>
             </motion.div>
+
+            {/* Google Forms Contact Form */}
+            <motion.form
+              variants={itemVariants}
+              onSubmit={handleSubmit}
+              className="bg-white rounded-xl p-8 shadow-lg space-y-6"
+            >
+              <h3 className="text-2xl font-semibold text-gray-800">Send Me a Message</h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col space-y-2">
+                  <label htmlFor="name" className="text-sm font-medium text-gray-700">
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    value={formValues.name}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-gray-200 px-3 py-2 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="Your name"
+                  />
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                  <label htmlFor="email" className="text-sm font-medium text-gray-700">
+                    Email *
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={formValues.email}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-gray-200 px-3 py-2 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="you@example.com"
+                  />
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                  <label htmlFor="phone" className="text-sm font-medium text-gray-700">
+                    Phone *
+                  </label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    required
+                    value={formValues.phone}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-gray-200 px-3 py-2 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="+1 (592) 694 3827"
+                  />
+                </div>
+
+                <div className="flex flex-col space-y-2 md:col-span-2">
+                  <label htmlFor="message" className="text-sm font-medium text-gray-700">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    value={formValues.message}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-gray-200 px-3 py-2 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                    placeholder="Tell me a bit about your project or how I can help..."
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary-hover transition-colors w-full md:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? "Sending..." : "Send"}
+                </button>
+
+                {submitStatus === "success" && (
+                  <p className="text-sm text-green-600">
+                    Thanks! Your message has been submitted.
+                  </p>
+                )}
+                {submitStatus === "error" && (
+                  <p className="text-sm text-red-600">
+                    Something went wrong while submitting. Please try again or contact me directly via email.
+                  </p>
+                )}
+              </div>
+            </motion.form>
           </motion.div>
         </motion.div>
       </div>
