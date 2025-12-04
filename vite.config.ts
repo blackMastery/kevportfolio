@@ -25,8 +25,15 @@ export default defineConfig({
     resolve: {
       conditions: ["node", "import"],
     },
-    external: ["node:fs", "node:path", "fs", "path", "fs/promises"],
-    noExternal: ["@openai/agents", "@openai/guardrails"],
+    external: [
+      "node:fs", 
+      "node:path", 
+      "fs", 
+      "path", 
+      "fs/promises",
+      "@openai/guardrails"
+    ],
+    noExternal: ["@openai/agents"],
   },
   optimizeDeps: {
     exclude: ["@openai/agents", "@openai/guardrails"],
