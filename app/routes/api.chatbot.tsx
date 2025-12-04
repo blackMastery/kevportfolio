@@ -106,10 +106,10 @@ const classificationAgent = new Agent({
 });
 
 // Cache portfolio content at module initialization
-// Using dynamic import to avoid build issues
 let cachedPortfolioContent: string | null = null;
+let portfolioContentPromise: Promise<string> | null = null;
 
-function getPortfolioContent(): string {
+async function loadPortfolioContent(): Promise<string> {
   if (cachedPortfolioContent !== null) {
     return cachedPortfolioContent;
   }
@@ -117,9 +117,9 @@ function getPortfolioContent(): string {
   // Only execute on server
   if (typeof process !== "undefined" && process.cwd) {
     try {
-      // Dynamic import to avoid bundling issues
-      const fs = require("fs");
-      const path = require("path");
+      // Use dynamic import for ESM compatibility
+      const fs = await import("node:fs");
+      const path = await import("node:path");
       const filePath = path.join(process.cwd(), "TEXT_CONTENT_DOCUMENTATION.md");
       const content = fs.readFileSync(filePath, "utf-8");
       cachedPortfolioContent = content;
@@ -134,16 +134,45 @@ function getPortfolioContent(): string {
   return fallback;
 }
 
-// Initialize cache on module load (server-side only)
-if (typeof process !== "undefined") {
-  getPortfolioContent();
+function getPortfolioContent(): string {
+  if (cachedPortfolioContent !== null) {
+    return cachedPortfolioContent;
+  }
+  
+  // Start loading if not already started
+  if (!portfolioContentPromise) {
+    portfolioContentPromise = loadPortfolioContent();
+  }
+  
+  // Return fallback while loading (will be updated when loaded)
+  return "# Portfolio Text Content Documentation\n\nThis document contains all text content from the main portfolio components.";
 }
 
-const informationAgent = new Agent({
-  name: "Information agent",
-  instructions: `You are an information agent for answering informational queries about Kevon Cadogan's portfolio. Your aim is to provide clear, concise responses to user questions. Use the policy below to assemble your answer.
+// Initialize cache on module load (server-side only)
+if (typeof process !== "undefined") {
+  portfolioContentPromise = loadPortfolioContent();
+}
 
-${getPortfolioContent()}
+// Create information agent lazily with portfolio content
+let informationAgent: Agent | null = null;
+
+async function getInformationAgent(): Promise<Agent> {
+  if (informationAgent) {
+    return informationAgent;
+  }
+  
+  // Ensure portfolio content is loaded
+  if (portfolioContentPromise) {
+    await portfolioContentPromise;
+  }
+  
+  const portfolioContent = getPortfolioContent();
+  
+  informationAgent = new Agent({
+    name: "Information agent",
+    instructions: `You are an information agent for answering informational queries about Kevon Cadogan's portfolio. Your aim is to provide clear, concise responses to user questions. Use the policy below to assemble your answer.
+
+${portfolioContent}
 
 When answering questions:
 - Be friendly and professional
@@ -151,14 +180,17 @@ When answering questions:
 - If you don't know something, say so politely
 - Keep responses concise but informative
 - Focus on helping users learn about Kevon's skills, experience, projects, and services`,
-  model: "gpt-4o-mini",
-  modelSettings: {
-    temperature: 1,
-    topP: 1,
-    maxTokens: 2048,
-    store: true
-  }
-});
+    model: "gpt-4o-mini",
+    modelSettings: {
+      temperature: 1,
+      topP: 1,
+      maxTokens: 2048,
+      store: true
+    }
+  });
+  
+  return informationAgent;
+}
 
 type WorkflowInput = { 
   input_as_text: string;
@@ -243,8 +275,9 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
       
       // All classifications route to information agent for portfolio chatbot
       // The classification helps provide context but we always use information agent
+      const agent = await getInformationAgent();
       const informationAgentResultTemp = await runner.run(
-        informationAgent,
+        agent,
         [
           ...conversationHistory
         ]
