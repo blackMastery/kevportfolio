@@ -157,7 +157,7 @@ export default function Index() {
       {/* Back to top button */}
       <motion.a
         href="#hero"
-        className="fixed bottom-4 right-4 w-10 h-10 bg-primary hover:bg-primary-hover rounded-full flex items-center justify-center text-white z-40 transition-colors"
+        className="fixed bottom-4 right-20 md:right-24 w-10 h-10 bg-primary hover:bg-primary-hover rounded-full flex items-center justify-center text-white z-40 transition-colors"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         initial={{ opacity: 0 }}
@@ -173,6 +173,7 @@ export default function Index() {
             });
           }
         }}
+        aria-label="Back to top"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
