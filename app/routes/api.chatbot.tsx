@@ -362,7 +362,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     // Enforce an internal timeout to avoid Vercel function timeouts
     const result = await withTimeout(
       runWorkflow(workflowInput),
-      6000,
+      8000,
       "The chatbot is taking too long to respond. Please try again in a moment."
     );
 
