@@ -8,6 +8,7 @@ import Facts from "~/components/Facts";
 import Skills from "~/components/Skills";
 import Resume from "~/components/Resume";
 import Services from "~/components/Services";
+import Portfolio from "~/components/Portfolio";
 import Contact from "~/components/Contact";
 import Footer from "~/components/Footer";
 
@@ -148,6 +149,7 @@ export default function Index() {
         <Skills />
         <Resume />
         <Services />
+        <Portfolio />
         <Contact />
         <Footer />
       </main>
