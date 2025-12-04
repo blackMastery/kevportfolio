@@ -114,24 +114,25 @@ async function loadPortfolioContent(): Promise<string> {
     return cachedPortfolioContent;
   }
   
-  // Only execute on server
-  if (typeof process !== "undefined" && process.cwd) {
-    try {
-      // Use dynamic import for ESM compatibility
-      const fs = await import("node:fs");
-      const path = await import("node:path");
-      const filePath = path.join(process.cwd(), "TEXT_CONTENT_DOCUMENTATION.md");
-      const content = fs.readFileSync(filePath, "utf-8");
-      cachedPortfolioContent = content;
-      return content;
-    } catch (error) {
-      console.error("Error reading portfolio content:", error);
+  try {
+    // Fetch content from Supabase storage
+    const response = await fetch(
+      "https://oezpwkmifizigkodxufg.supabase.co/storage/v1/object/public/assets/TEXT_CONTENT_DOCUMENTATION.md"
+    );
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch portfolio content: ${response.status} ${response.statusText}`);
     }
+    
+    const content = await response.text();
+    cachedPortfolioContent = content;
+    return content;
+  } catch (error) {
+    console.error("Error loading portfolio content:", error);
+    const fallback = "# Portfolio Text Content Documentation\n\nThis document contains all text content from the main portfolio components.";
+    cachedPortfolioContent = fallback;
+    return fallback;
   }
-  
-  const fallback = "# Portfolio Text Content Documentation\n\nThis document contains all text content from the main portfolio components.";
-  cachedPortfolioContent = fallback;
-  return fallback;
 }
 
 function getPortfolioContent(): string {
