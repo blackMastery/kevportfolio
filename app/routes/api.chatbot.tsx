@@ -3,8 +3,6 @@ import { OpenAI } from "openai";
 import { runGuardrails } from "@openai/guardrails";
 import { z } from "zod";
 import { Agent, type AgentInputItem, Runner, withTrace } from "@openai/agents";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 
 // Shared client for guardrails and file search
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -108,6 +106,7 @@ const classificationAgent = new Agent({
 });
 
 // Cache portfolio content at module initialization
+// Using dynamic import to avoid build issues
 let cachedPortfolioContent: string | null = null;
 
 function getPortfolioContent(): string {
@@ -115,20 +114,30 @@ function getPortfolioContent(): string {
     return cachedPortfolioContent;
   }
   
-  try {
-    const filePath = join(process.cwd(), "TEXT_CONTENT_DOCUMENTATION.md");
-    cachedPortfolioContent = readFileSync(filePath, "utf-8");
-    return cachedPortfolioContent;
-  } catch (error) {
-    console.error("Error reading portfolio content:", error);
-    const fallback = "# Portfolio Text Content Documentation\n\nThis document contains all text content from the main portfolio components.";
-    cachedPortfolioContent = fallback;
-    return fallback;
+  // Only execute on server
+  if (typeof process !== "undefined" && process.cwd) {
+    try {
+      // Dynamic import to avoid bundling issues
+      const fs = require("fs");
+      const path = require("path");
+      const filePath = path.join(process.cwd(), "TEXT_CONTENT_DOCUMENTATION.md");
+      const content = fs.readFileSync(filePath, "utf-8");
+      cachedPortfolioContent = content;
+      return content;
+    } catch (error) {
+      console.error("Error reading portfolio content:", error);
+    }
   }
+  
+  const fallback = "# Portfolio Text Content Documentation\n\nThis document contains all text content from the main portfolio components.";
+  cachedPortfolioContent = fallback;
+  return fallback;
 }
 
-// Initialize cache on module load
-getPortfolioContent();
+// Initialize cache on module load (server-side only)
+if (typeof process !== "undefined") {
+  getPortfolioContent();
+}
 
 const informationAgent = new Agent({
   name: "Information agent",

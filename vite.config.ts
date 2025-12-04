@@ -21,4 +21,14 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  ssr: {
+    resolve: {
+      conditions: ["node", "import"],
+    },
+    external: ["node:fs", "node:path", "fs", "path", "fs/promises"],
+    noExternal: ["@openai/agents", "@openai/guardrails"],
+  },
+  optimizeDeps: {
+    exclude: ["@openai/agents", "@openai/guardrails"],
+  },
 });
