@@ -178,7 +178,7 @@ export default function Portfolio() {
                   ) : (
                     <img
                       src={imageSrc}
-                      alt={project.name}
+                      alt={`${project.name} website design project in Guyana`}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       loading="lazy"
                       onError={(e) => {

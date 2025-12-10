@@ -79,6 +79,35 @@ export default function Services() {
         </motion.div>
 
         <motion.div
+          className="mt-4 mb-10 grid gap-3 md:grid-cols-2 lg:grid-cols-3"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          {[
+            "Custom website design for Guyanese businesses",
+            "E-commerce website development in Guyana",
+            "Responsive web design Georgetown",
+            "Affordable web design packages Guyana",
+            "WordPress development and care plans",
+            "Website maintenance and speed optimization",
+            "Small business website design Guyana",
+            "Hire a local web developer in Georgetown",
+            "IT services and cloud setup for local teams"
+          ].map((item) => (
+            <div
+              key={item}
+              className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3 shadow-sm"
+            >
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white text-sm font-semibold">
+                •
+              </span>
+              <p className="text-gray-700 text-sm md:text-base leading-relaxed">{item}</p>
+            </div>
+          ))}
+        </motion.div>
+
+        <motion.div
           className="grid md:grid-cols-2 lg:grid-cols-2 gap-8"
           variants={containerVariants}
           initial="hidden"

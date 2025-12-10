@@ -13,9 +13,11 @@ import Contact from "~/components/Contact";
 import Footer from "~/components/Footer";
 
 export const meta: MetaFunction = () => {
-  const title = "Kevon Cadogan - Full-Stack Developer & AI Engineer | React, Node.js, Mobile Development";
-  const description = "Experienced full-stack developer specializing in React, Node.js, Django, and mobile development. 5+ years building scalable web and mobile applications. Available for freelance projects.";
-  const keywords = "full-stack developer, React developer, Node.js, Django, mobile developer, AI engineer, software engineer, web development, JavaScript, TypeScript, Python, React Native, freelance developer, Georgetown Guyana";
+  const title = "Website Development in Guyana | Web Design Georgetown | Kevon Cadogan";
+  const description =
+    "Professional website design and development in Georgetown, Guyana. Custom websites, e-commerce, WordPress, and responsive web design services tailored for local businesses that want to grow online.";
+  const keywords =
+    "website development Guyana, web design Georgetown, custom website design, e-commerce website development, responsive web design, affordable web design Guyana, best web development services in Guyana, local website developers Guyana, IT services in Guyana, hire web developer Guyana, website design packages Guyana, professional website designer Guyana, small business website design Guyana, website maintenance services Guyana, wordpress development Guyana, web development company";
   const siteUrl = "https://kevportfolio.vercel.app";
   const imageUrl = `${siteUrl}/img/2021-02-24.jpg`;
 
@@ -78,14 +80,34 @@ export default function Index() {
     "url": "https://kevportfolio.vercel.app",
     "image": "https://kevportfolio.vercel.app/img/2021-02-24.jpg",
     "jobTitle": "Full-Stack Developer",
-    "description": "Experienced full-stack developer specializing in React, Node.js, Django, and mobile development",
+    "description": "Website design and development in Georgetown, Guyana including custom websites, e-commerce, WordPress, and ongoing maintenance.",
     "email": "kev.cadogan300@gmail.com",
     "telephone": "+592-694-3827",
+    "areaServed": [
+      {
+        "@type": "Country",
+        "name": "Guyana"
+      },
+      {
+        "@type": "City",
+        "name": "Georgetown",
+        "addressCountry": "GY"
+      }
+    ],
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Georgetown",
       "addressCountry": "GY"
     },
+    "serviceType": [
+      "website development",
+      "web design Georgetown",
+      "e-commerce website development",
+      "responsive web design",
+      "WordPress development and maintenance",
+      "small business website design",
+      "website maintenance services in Guyana"
+    ],
     "birthDate": "1988-02-05",
     "knowsAbout": [
       "React",

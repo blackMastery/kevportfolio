@@ -9,7 +9,13 @@ function TypedComponent() {
   useEffect(() => {
     if (typeof window !== "undefined" && el.current) {
       const typed = new Typed(el.current, {
-        strings: [ "Software Developer",  "AI Engineer", "Mobile Developer"],
+        strings: [
+          "Website Developer in Guyana",
+          "Responsive Web Design Specialist",
+          "E-commerce & WordPress Developer",
+          "AI Engineer",
+          "Mobile Developer"
+        ],
         typeSpeed: 70,
         backSpeed: 3,
         backDelay: 1000,
@@ -66,6 +72,35 @@ export default function Hero() {
           <span className="text-primary font-semibold">
             <TypedComponent />
           </span>
+        </motion.div>
+
+        <motion.p
+          className="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-gray-200 leading-relaxed"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.8 }}
+        >
+          I build fast, secure, and conversion-focused websites for businesses in Georgetown and across Guyana—custom designs, e-commerce, and maintenance that keep you visible to local customers.
+        </motion.p>
+
+        <motion.div
+          className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+        >
+          <a
+            href="#contact"
+            className="px-6 py-3 rounded-full bg-primary text-white font-semibold shadow-lg hover:bg-primary-hover transition-colors"
+          >
+            Book a consult in Guyana
+          </a>
+          <a
+            href="#services"
+            className="px-6 py-3 rounded-full border border-white/40 text-white font-semibold hover:bg-white/10 transition-colors"
+          >
+            View web design services
+          </a>
         </motion.div>
 
 
