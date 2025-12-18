@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 
 export const loader: LoaderFunction = () => {
-  const baseUrl = "https://kevportfolio.vercel.app";
+  const baseUrl = "https://www.kevoncadogan.com";
   const currentDate = new Date().toISOString().split('T')[0];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

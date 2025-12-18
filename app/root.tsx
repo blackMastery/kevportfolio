@@ -29,7 +29,7 @@ export const links: LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const currentUrl = `https://kevportfolio.vercel.app${location.pathname}`;
+  const currentUrl = `https://www.kevoncadogan.com${location.pathname}`;
 
   return (
     <html lang="en">
