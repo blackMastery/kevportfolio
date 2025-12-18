@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 
 export const loader: LoaderFunction = () => {
-  const baseUrl = "https://kevportfolio.vercel.app";
+  const baseUrl = "https://www.kevoncadogan.com";
 
   const robotsTxt = `# https://www.robotstxt.org/robotstxt.html
 User-agent: *
