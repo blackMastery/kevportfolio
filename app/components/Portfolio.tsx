@@ -32,13 +32,13 @@ const projects: Project[] = [
     id: "smartwastegy",
     name: "SmartWasteGy",
     description: "SmartWasteGy Management at Your Fingertips. Join thousands of Guyanese making waste collection smarter, faster, and more sustainable. Track bins, schedule pickups, and contribute to a cleaner Guyana.",
-    url: "https://smartwaste-landing-page.vercel.app/"
+    url: "https://smartwastegy.com"
   },
   {
-    id: "bizsetup",
-    name: "BizSetup",
-    description: "Stop Looking Like a Hobby. Get professional email, secure passwords, and complete online presence setup in one week. $597 flat rate. Everything handled for you.",
-    url: "https://bizsetup-sandy.vercel.app/"
+    id: "selenafurniturestore",
+    name: "Selena's Furniture Store Guyana",
+    description: "Selena's Furniture Store Guyana is a furniture store that sells furniture for the home and office.",
+    url: "https://selenafurniturestore.com/"
   }
 ];
 
