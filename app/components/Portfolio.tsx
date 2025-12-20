@@ -16,12 +16,12 @@ const projects: Project[] = [
     description: "Since 2021, Impact Business Solutions has been empowering businesses to grow both online and offline through innovative marketing and business development strategies. We are a boutique marketing and business development agency, dedicated to fueling business growth through innovation and excellence.",
     url: "https://impact-business-solutions.vercel.app/"
   },
-  {
-    id: "synergy-auto-zone",
-    name: "Synergy Auto Zone",
-    description: "Our mission is to simplify the car-buying process by providing transparent pricing, exceptional customer service, and a seamless purchasing experience. Whether you're seeking a luxury vehicle, an eco-friendly option, or something unique, Synergy Auto Zone is here to help you find the perfect vehicle.",
-    url: "https://synergyautozone.vercel.app/"
-  },
+  // {
+  //   id: "synergy-auto-zone",
+  //   name: "Synergy Auto Zone",
+  //   description: "Our mission is to simplify the car-buying process by providing transparent pricing, exceptional customer service, and a seamless purchasing experience. Whether you're seeking a luxury vehicle, an eco-friendly option, or something unique, Synergy Auto Zone is here to help you find the perfect vehicle.",
+  //   url: "https://synergyautozone.vercel.app/"
+  // },
   {
     id: "healthyzway",
     name: "Healthyzway",
