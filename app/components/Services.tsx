@@ -3,7 +3,7 @@ import { useRef } from "react";
 
 export default function Services() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, amount: 0.1, margin: "-100px" });
 
   const services = [
     {
@@ -66,22 +66,22 @@ export default function Services() {
   };
 
   return (
-    <section id="services" className="py-20 bg-white" ref={ref}>
-      <div className="container mx-auto px-4">
+    <section id="services" className="py-12 md:py-20 bg-white" ref={ref}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Services</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">Services</h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
         </motion.div>
 
         <motion.div
-          className="mt-4 mb-10 grid gap-3 md:grid-cols-2 lg:grid-cols-3"
+          className="mt-4 mb-8 md:mb-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           {[
@@ -108,16 +108,16 @@ export default function Services() {
         </motion.div>
 
         <motion.div
-          className="grid md:grid-cols-2 lg:grid-cols-2 gap-8"
+          className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8"
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          animate={isInView ? "visible" : "visible"}
         >
           {services.map((service, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
-              className="bg-gray-50 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group"
+              className="bg-gray-50 rounded-xl p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group"
               whileHover={{ 
                 y: -10, 
                 scale: 1.02,
@@ -152,17 +152,17 @@ export default function Services() {
 
         {/* Call to Action */}
         <motion.div
-          className="text-center mt-16"
+          className="text-center mt-12 md:mt-16"
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
         >
-          <p className="text-xl text-gray-600 mb-8">
+          <p className="text-lg md:text-xl text-gray-600 mb-6 md:mb-8 px-4">
             Ready to start your next project? Let's work together!
           </p>
           <motion.a
             href="#contact"
-            className="inline-block bg-gradient-to-r from-primary to-primary-hover text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+            className="inline-block bg-gradient-to-r from-primary to-primary-hover text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             onClick={(e) => {
