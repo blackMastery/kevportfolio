@@ -89,7 +89,6 @@ export default function Services() {
             "E-commerce website development in Guyana",
             "Responsive web design Georgetown",
             "Affordable web design packages Guyana",
-            "WordPress development and care plans",
             "Website maintenance and speed optimization",
             "Small business website design Guyana",
             "Hire a local web developer in Georgetown",

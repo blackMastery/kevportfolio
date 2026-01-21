@@ -78,7 +78,7 @@ export default function Index() {
     "url": "https://www.kevoncadogan.com",
     "image": "https://www.kevoncadogan.com/img/2021-02-24.jpg",
     "jobTitle": "Full-Stack Developer",
-    "description": "Website design and development in Georgetown, Guyana including custom websites, e-commerce, WordPress, and ongoing maintenance.",
+    "description": "Website design and development in Georgetown, Guyana including custom websites, e-commerce, and ongoing maintenance.",
     "email": "kev.cadogan300@gmail.com",
     "telephone": "+592-694-3827",
     "areaServed": [
@@ -102,7 +102,6 @@ export default function Index() {
       "web design Georgetown",
       "e-commerce website development",
       "responsive web design",
-      "WordPress development and maintenance",
       "small business website design",
       "website maintenance services in Guyana"
     ],

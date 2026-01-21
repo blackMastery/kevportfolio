@@ -12,7 +12,7 @@ function TypedComponent() {
         strings: [
           "Website Developer in Guyana",
           "Responsive Web Design Specialist",
-          "E-commerce & WordPress Developer",
+          "E-commerce Developer",
           "AI Engineer",
           "Mobile Developer"
         ],
