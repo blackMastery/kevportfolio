@@ -17,7 +17,7 @@ export const meta: MetaFunction = () => {
   const description = "Experienced full-stack developer specializing in React, Node.js, Django, and mobile development. 5+ years building scalable web and mobile applications. Available for freelance projects.";
   const keywords = "full-stack developer, React developer, Node.js, Django, mobile developer, AI engineer, software engineer, web development, JavaScript, TypeScript, Python, React Native, freelance developer, Georgetown Guyana";
   const siteUrl = "https://www.kevoncadogan.com";
-  const imageUrl = `${siteUrl}/img/2021-02-24.jpg`;
+  const imageUrl = `${siteUrl}/img/kev_logo.png`;
 
   return [
     { title },
