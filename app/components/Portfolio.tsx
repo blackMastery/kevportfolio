@@ -167,8 +167,17 @@ export default function Portfolio() {
               <motion.div
                 key={project.id}
                 variants={itemVariants}
-                className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
+                className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col relative cursor-pointer"
               >
+                {/* Full-card tap target for mobile */}
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 z-10"
+                  aria-label={`View ${project.name}`}
+                />
+
                 {/* Project Image */}
                 <div className="w-full h-48 xs:h-52 sm:h-56 bg-gray-200 overflow-hidden relative">
                   {isLoading ? (
@@ -203,7 +212,7 @@ export default function Portfolio() {
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-auto inline-flex items-center justify-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors text-xs xs:text-sm font-medium"
+                    className="relative z-20 mt-auto inline-flex items-center justify-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors text-xs xs:text-sm font-medium"
                   >
                     <span>View</span>
                     <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
