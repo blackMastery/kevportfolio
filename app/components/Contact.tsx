@@ -1,79 +1,42 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { CALENDLY_URL, CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_HREF } from "~/config/contact";
 
 export default function Contact() {
   const ref = useRef(null);
+  const calendlyRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
-  // Google Forms configuration
-  const GOOGLE_FORM_ACTION_URL =
-    "https://docs.google.com/forms/d/e/1FAIpQLScuzxUU4WJkJdmmzqjVHyBwjwXcyMOh39DfmQvxGQd3DnD0AA/formResponse";
-  // These IDs are taken from the prefilled form URL query parameters:
-  // ?entry.1911928778=email&entry.802955492=name&entry.651554928=message&entry.421899253=phone
-  const GOOGLE_FORM_EMAIL_FIELD = "entry.1911928778";
-  const GOOGLE_FORM_NAME_FIELD = "entry.802955492";
-  const GOOGLE_FORM_MESSAGE_FIELD = "entry.651554928";
-  const GOOGLE_FORM_PHONE_FIELD = "entry.421899253";
+  useEffect(() => {
+    if (!isInView || !calendlyRef.current) return;
 
-  const [formValues, setFormValues] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
+    const link = document.createElement("link");
+    link.href = "https://assets.calendly.com/assets/external/widget.css";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+    const script = document.createElement("script");
+    script.src = "https://assets.calendly.com/assets/external/widget.js";
+    script.async = true;
+    document.body.appendChild(script);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setIsSubmitting(true);
-    setSubmitStatus("idle");
-
-    try {
-      const data = new FormData();
-
-      if (GOOGLE_FORM_NAME_FIELD) {
-        data.append(GOOGLE_FORM_NAME_FIELD, formValues.name);
-      }
-
-      data.append(GOOGLE_FORM_EMAIL_FIELD, formValues.email);
-      data.append(GOOGLE_FORM_PHONE_FIELD, formValues.phone);
-
-      if (GOOGLE_FORM_MESSAGE_FIELD) {
-        data.append(GOOGLE_FORM_MESSAGE_FIELD, formValues.message);
-      }
-
-      await fetch(GOOGLE_FORM_ACTION_URL, {
-        method: "POST",
-        body: data,
-        mode: "no-cors",
-      });
-
-      setSubmitStatus("success");
-      setFormValues({
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
-      });
-    } catch (error) {
-      console.error("Error submitting Google Form:", error);
-      setSubmitStatus("error");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    return () => {
+      document.head.removeChild(link);
+      document.body.removeChild(script);
+    };
+  }, [isInView]);
 
   const contactInfo = [
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      ),
+      title: "Book a Meeting:",
+      content: "Schedule a call on Calendly",
+      href: CALENDLY_URL,
+    },
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,7 +44,8 @@ export default function Contact() {
         </svg>
       ),
       title: "Email:",
-      content: "kev.cadogan300@gmail.com"
+      content: CONTACT_EMAIL,
+      href: `mailto:${CONTACT_EMAIL}`,
     },
     {
       icon: (
@@ -90,8 +54,9 @@ export default function Contact() {
         </svg>
       ),
       title: "Call:",
-      content: "+(592) 694 3827"
-    }
+      content: CONTACT_PHONE,
+      href: CONTACT_PHONE_HREF,
+    },
   ];
 
   const containerVariants = {
@@ -125,6 +90,9 @@ export default function Contact() {
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Contact</h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
+          <p className="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+            The fastest way to reach me is to book a meeting. Pick a time that works for you below.
+          </p>
         </motion.div>
 
         <motion.div
@@ -133,30 +101,50 @@ export default function Contact() {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {/* Contact Information, Social Links, and Google Forms Contact */}
           <motion.div variants={itemVariants} className="space-y-8">
-            {/* Contact Info */}
+            <div className="bg-white rounded-xl p-8 shadow-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                <h3 className="text-2xl font-semibold text-gray-800">Book a Meeting</h3>
+                <a
+                  href={CALENDLY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary-hover transition-colors"
+                >
+                  Open in Calendly
+                </a>
+              </div>
+              <div
+                ref={calendlyRef}
+                className="calendly-inline-widget rounded-lg overflow-hidden"
+                data-url={CALENDLY_URL}
+                style={{ minWidth: "320px", height: "700px" }}
+              />
+            </div>
+
             <div className="bg-white rounded-xl p-8 shadow-lg">
               <h3 className="text-2xl font-semibold text-gray-800 mb-6">Get In Touch</h3>
               <div className="space-y-6">
                 {contactInfo.map((info, index) => (
-                  <motion.div
+                  <motion.a
                     key={index}
-                    className="flex items-start space-x-4"
+                    href={info.href}
+                    target={info.href.startsWith("http") ? "_blank" : undefined}
+                    rel={info.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="flex items-start space-x-4 group"
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
                   >
                     <div className="text-primary mt-1">{info.icon}</div>
                     <div>
                       <h4 className="font-semibold text-gray-800 text-lg">{info.title}</h4>
-                      <p className="text-gray-600">{info.content}</p>
+                      <p className="text-gray-600 group-hover:text-primary transition-colors">{info.content}</p>
                     </div>
-                  </motion.div>
+                  </motion.a>
                 ))}
               </div>
             </div>
 
-            {/* Social Media Links */}
             <motion.div
               className="bg-white rounded-xl p-8 shadow-lg"
               whileHover={{ y: -5 }}
@@ -193,100 +181,6 @@ export default function Contact() {
                 ))}
               </div>
             </motion.div>
-
-            {/* Google Forms Contact Form */}
-            <motion.form
-              variants={itemVariants}
-              onSubmit={handleSubmit}
-              className="bg-white rounded-xl p-8 shadow-lg space-y-6"
-            >
-              <h3 className="text-2xl font-semibold text-gray-800">Send Me a Message</h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-gray-700">
-                    Name
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    value={formValues.name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-200 px-3 py-2 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Your name"
-                  />
-                </div>
-
-                <div className="flex flex-col space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-gray-700">
-                    Email *
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    value={formValues.email}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-200 px-3 py-2 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="you@example.com"
-                  />
-                </div>
-
-                <div className="flex flex-col space-y-2">
-                  <label htmlFor="phone" className="text-sm font-medium text-gray-700">
-                    Phone *
-                  </label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    required
-                    value={formValues.phone}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-200 px-3 py-2 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="+1 (592) 694 3827"
-                  />
-                </div>
-
-                <div className="flex flex-col space-y-2 md:col-span-2">
-                  <label htmlFor="message" className="text-sm font-medium text-gray-700">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    value={formValues.message}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-200 px-3 py-2 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                    placeholder="Tell me a bit about your project or how I can help..."
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary-hover transition-colors w-full md:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Sending..." : "Send"}
-                </button>
-
-                {submitStatus === "success" && (
-                  <p className="text-sm text-green-600">
-                    Thanks! Your message has been submitted.
-                  </p>
-                )}
-                {submitStatus === "error" && (
-                  <p className="text-sm text-red-600">
-                    Something went wrong while submitting. Please try again or contact me directly via email.
-                  </p>
-                )}
-              </div>
-            </motion.form>
           </motion.div>
         </motion.div>
       </div>

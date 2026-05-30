@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { CALENDLY_URL } from "~/config/contact";
 
 export default function Services() {
   const ref = useRef(null);
@@ -160,16 +161,14 @@ export default function Services() {
             Ready to start your next project? Let's work together!
           </p>
           <motion.a
-            href="#contact"
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-gradient-to-r from-primary to-primary-hover text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            onClick={(e) => {
-              e.preventDefault();
-              document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-            }}
           >
-            Get In Touch
+            Book a Meeting
           </motion.a>
         </motion.div>
       </div>

@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Form } from "@remix-run/react";
 import ReactMarkdown from "react-markdown";
+import { CALENDLY_URL } from "~/config/contact";
 
 interface Message {
   id: string;
@@ -232,7 +233,7 @@ export default function Chatbot() {
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "I'm sorry, something went wrong. Please try again or contact me directly via email at kev.cadogan300@gmail.com.",
+        content: `I'm sorry, something went wrong. Please try again or book a meeting at ${CALENDLY_URL}.`,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, assistantMessage]);

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import Typed from "typed.js";
+import { CALENDLY_URL } from "~/config/contact";
 import ParticlesBackground from "./ParticlesBackground";
 
 function TypedComponent() {
@@ -90,10 +91,12 @@ export default function Hero() {
           transition={{ delay: 1.2, duration: 0.8 }}
         >
           <a
-            href="#contact"
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-6 py-3 rounded-full bg-primary text-white font-semibold shadow-lg hover:bg-primary-hover transition-colors"
           >
-            Book a consult in Guyana
+            Book a Meeting
           </a>
           <a
             href="#services"

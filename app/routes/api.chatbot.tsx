@@ -85,7 +85,7 @@ const classificationAgent = new Agent({
 
 1. Questions about technical skills, programming languages, frameworks, or technologies should route to "skills".
 2. Questions about portfolio projects, applications, or work samples should route to "projects".
-3. Questions about how to contact, email, phone, or social media should route to "contact".
+3. Questions about how to contact, book a meeting, email, phone, or social media should route to "contact".
 4. Questions about services offered, what can be built, or service offerings should route to "services".
 5. Questions about education, work experience, certifications, or professional background should route to "resume".
 6. Any other general questions or unclear intents should route to "general".`,
@@ -127,7 +127,7 @@ const PORTFOLIO_CONTENT_MD = `# Kevon Cadogan - Portfolio Information
 
 **Technologies:** React, Next.js, Node.js, Express, MongoDB, PostgreSQL, Django, Flask, Angular, Vue.js, TypeScript, GraphQL, Docker, AWS, Git, Redux, Tailwind CSS, Bootstrap.
 
-**Contact:** Email: kev.cadogan300@gmail.com | Phone: +592 694 3827 | Location: Georgetown, Guyana | Freelance: Available
+**Contact:** Book a meeting: https://calendly.com/kev-cadogan300/new-meeting | Email: kev.cadogan300@gmail.com | Phone: +592 694 3827 | Location: Georgetown, Guyana | Freelance: Available
 
 **Services:**
 1. Website Development - Custom web solutions, e-commerce, B2B apps, admin panels

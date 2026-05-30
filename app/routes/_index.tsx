@@ -11,6 +11,7 @@ import Services from "~/components/Services";
 import Portfolio from "~/components/Portfolio";
 import Contact from "~/components/Contact";
 import Footer from "~/components/Footer";
+import { CALENDLY_URL } from "~/config/contact";
 
 export const meta: MetaFunction = () => {
   const title = "Kevon Cadogan - Full-Stack Developer & AI Engineer | React, Node.js, Mobile Development";
@@ -81,6 +82,11 @@ export default function Index() {
     "description": "Website design and development in Georgetown, Guyana including custom websites, e-commerce, and ongoing maintenance.",
     "email": "kev.cadogan300@gmail.com",
     "telephone": "+592-694-3827",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "url": CALENDLY_URL
+    },
     "areaServed": [
       {
         "@type": "Country",
