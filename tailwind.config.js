@@ -12,6 +12,13 @@ export default {
         dark: '#040b14',
         'text-light': '#272829',
         'sidebar-border': '#2c2f3f',
+        // shadcn token layer (additive; used by ui/card.tsx)
+        border: 'hsl(var(--border))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        card: 'hsl(var(--card))',
+        'card-foreground': 'hsl(var(--card-foreground))',
+        'muted-foreground': 'hsl(var(--muted-foreground))',
       },
       fontFamily: {
         'open-sans': ['"Open Sans"', 'sans-serif'],
@@ -23,8 +30,13 @@ export default {
         'slide-up': 'slideUp 1s ease-out',
         'slide-right': 'slideRight 1s ease-out',
         'slide-left': 'slideLeft 1s ease-out',
+        spotlight: 'spotlight 2s ease .75s 1 forwards',
       },
       keyframes: {
+        spotlight: {
+          '0%': { opacity: '0', transform: 'translate(-72%, -62%) scale(0.5)' },
+          '100%': { opacity: '1', transform: 'translate(-50%,-40%) scale(1)' },
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },

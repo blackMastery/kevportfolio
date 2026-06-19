@@ -1,6 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 import Header from "~/components/Header";
 import Hero from "~/components/Hero";
 import About from "~/components/About";
@@ -58,19 +57,6 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1280) {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   // Structured Data (JSON-LD) for better SEO
   const structuredData = {
     "@context": "https://schema.org",
@@ -152,22 +138,11 @@ export default function Index() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      {/* Mobile nav toggle */}
-      <button
-        type="button"
-        className="fixed top-4 right-4 z-50 xl:hidden w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white"
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-
-      {/* Header/Sidebar */}
-      <Header isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+      {/* Top navbar */}
+      <Header />
 
       {/* Main content */}
-      <main className="xl:ml-80 min-h-screen flex flex-col">
+      <main className="min-h-screen flex flex-col">
         <Hero />
         <About />
         {/* <Facts /> */}
