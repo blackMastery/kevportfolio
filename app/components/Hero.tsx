@@ -17,7 +17,7 @@ function TypedComponent() {
           "Responsive Web Design Specialist",
           "E-commerce Developer",
           "AI Engineer",
-          "Mobile Developer"
+          "Mobile Developer",
         ],
         typeSpeed: 70,
         backSpeed: 3,
@@ -74,7 +74,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
           >
-            <span className="text-gray-200">I'm a  </span>
+            <span className="text-gray-200">I'm a </span>
             <span className="text-primary font-semibold">
               <TypedComponent />
             </span>
@@ -86,7 +86,8 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.8 }}
           >
-            I build fast, secure, and conversion-focused websites for businesses in Georgetown and across Guyana—custom designs, e-commerce, and maintenance that keep you visible to local customers.
+
+            I am a full-stack developer with a passion for creating innovative web solutions. 
           </motion.p>
 
           <motion.div
@@ -102,12 +103,6 @@ export default function Hero() {
               className="px-6 py-3 rounded-full bg-primary text-white font-semibold shadow-lg hover:bg-primary-hover transition-colors"
             >
               Book a Meeting
-            </a>
-            <a
-              href="#services"
-              className="px-6 py-3 rounded-full border border-white/40 text-white font-semibold hover:bg-white/10 transition-colors"
-            >
-              View web design services
             </a>
           </motion.div>
         </motion.div>
