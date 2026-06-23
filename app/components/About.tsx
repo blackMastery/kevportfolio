@@ -65,7 +65,7 @@ export default function About() {
         >
           <motion.div variants={itemVariants} className="order-2 lg:order-1">
             <motion.img
-              src="/img/2021-02-24.jpg"
+              src="/img/kevon-cadogan-full-stack-developer.jpg"
               alt="Kevon Cadogan - Full-Stack Developer and AI Engineer, professional portrait"
               className="w-full max-w-md mx-auto rounded-lg shadow-lg"
               whileHover={{ scale: 1.05 }}

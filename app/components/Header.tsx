@@ -1,15 +1,30 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { useNavigate } from "@remix-run/react";
+import { SERVICE_PAGES } from "~/config/services";
 
-const menuItems = [
+type SubLink = { href: string; label: string };
+type MenuItem = {
+  href: string;
+  label: string;
+  children?: SubLink[];
+};
+
+// Dedicated service landing pages — also linked from the homepage Services section and the footer.
+const serviceLinks: SubLink[] = SERVICE_PAGES.map((service) => ({
+  href: service.path,
+  label: service.navLabel,
+}));
+
+const menuItems: MenuItem[] = [
   { href: "/", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#resume", label: "Resume" },
-  { href: "#services", label: "Services" },
-  { href: "#portfolio", label: "Portfolio" },
-  { href: "/blog", label: "Blog", isExternal: false },
-  { href: "#contact", label: "Contact" },
+  { href: "/about", label: "About" },
+  { href: "/skills", label: "Skills" },
+  { href: "/resume", label: "Resume" },
+  { href: "/services", label: "Services", children: serviceLinks },
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const socials = [
@@ -37,21 +52,22 @@ const socials = [
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleNavClick = (href: string, isExternal: boolean = false) => {
-    if (isExternal || !href.startsWith("#")) {
-      // External links or non-anchor links (like /blog) navigate normally
-      window.location.href = href;
-    } else {
-      // Anchor links scroll smoothly if the element exists, else go home with the hash
+  const handleNavClick = (href: string) => {
+    setIsOpen(false);
+    if (href.startsWith("#")) {
+      // In-page anchor (e.g. the brand → hero): scroll if present, else go home with the hash.
       const element = document.querySelector(href);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       } else {
         window.location.href = "/" + href;
       }
+      return;
     }
-    setIsOpen(false);
+    // Real route — client-side navigation (the homepage sections are now their own pages).
+    navigate(href);
   };
 
   return (
@@ -67,7 +83,7 @@ export default function Header() {
           className="flex items-center gap-3"
         >
           <img
-            src="/img/2021-02-24.jpg"
+            src="/img/kevon-cadogan-full-stack-developer.jpg"
             alt="Kevon Cadogan"
             className="w-9 h-9 rounded-full border-2 border-primary object-cover"
             width="36"
@@ -82,17 +98,41 @@ export default function Header() {
         {/* Desktop nav links */}
         <ul className="hidden lg:flex items-center gap-1">
           {menuItems.map((item) => (
-            <li key={item.href}>
+            <li key={item.href} className={item.children ? "relative group" : undefined}>
               <a
                 href={item.href}
                 onClick={(e) => {
                   e.preventDefault();
-                  handleNavClick(item.href, item.isExternal || false);
+                  handleNavClick(item.href);
                 }}
-                className="px-3 py-2 text-sm font-medium text-gray-200 hover:text-primary transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-200 hover:text-primary transition-colors"
+                aria-haspopup={item.children ? true : undefined}
               >
                 {item.label}
+                {item.children && (
+                  <svg className="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                )}
               </a>
+              {item.children && (
+                <ul className="absolute left-0 top-full hidden min-w-[15rem] rounded-lg border border-sidebar-border bg-dark/95 py-2 shadow-xl backdrop-blur-md group-hover:block group-focus-within:block">
+                  {item.children.map((child) => (
+                    <li key={child.href}>
+                      <a
+                        href={child.href}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleNavClick(child.href);
+                        }}
+                        className="block whitespace-nowrap px-4 py-2 text-sm text-gray-200 transition-colors hover:bg-white/5 hover:text-primary"
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>
@@ -152,12 +192,30 @@ export default function Header() {
                     href={item.href}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavClick(item.href, item.isExternal || false);
+                      handleNavClick(item.href);
                     }}
                     className="block px-3 py-3 text-white hover:text-primary transition-colors"
                   >
                     {item.label}
                   </a>
+                  {item.children && (
+                    <ul className="ml-3 mb-1 space-y-1 border-l border-sidebar-border pl-3">
+                      {item.children.map((child) => (
+                        <li key={child.href}>
+                          <a
+                            href={child.href}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleNavClick(child.href);
+                            }}
+                            className="block px-3 py-2 text-sm text-gray-300 hover:text-primary transition-colors"
+                          >
+                            {child.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>

@@ -1,12 +1,10 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 
 interface Project {
   id: string;
   name: string;
   description: string;
   url: string;
-  thumbnail?: string;
 }
 
 const projects: Project[] = [
@@ -42,76 +40,18 @@ const projects: Project[] = [
   }
 ];
 
-// Utility function to fetch og:image from a URL using Microlink API
-async function fetchOgImage(url: string): Promise<string | null> {
-  try {
-    // Use Microlink API which handles CORS properly and extracts og:image
-    const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(url)}&fields=image`;
-    
-    // Add timeout to prevent hanging requests
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-    
-    const response = await fetch(microlinkUrl, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-      },
-      signal: controller.signal,
-    });
-    
-    clearTimeout(timeoutId);
-    
-    if (!response.ok) {
-      return null;
-    }
-    
-    const data = await response.json();
-    
-    // Microlink returns the image URL in the image field
-    if (data.data?.image?.url) {
-      return data.data.image.url;
-    }
-    
-    return null;
-  } catch (error) {
-    // Silently fail - placeholder image will be used
-    if (error instanceof Error && error.name !== 'AbortError') {
-      console.warn(`Could not fetch og:image for ${url}, using placeholder`);
-    }
-    return null;
-  }
-}
+// TODO: Project cards are currently TEXT-ONLY (the previous runtime Microlink
+// screenshot fetch was removed). To re-add real images later, drop a descriptively
+// named screenshot into /public/img/portfolio/ for each project, then render an
+// <img> at the top of each card with the existing alt-text pattern:
+//   alt={`${project.name} website design project in Guyana`}
+// Suggested descriptive filenames:
+//   impact-business-solutions → /img/portfolio/impact-business-solutions-marketing-agency-guyana.webp
+//   healthyzway               → /img/portfolio/healthyzway-seamoss-ecommerce-guyana.webp
+//   smartwastegy              → /img/portfolio/smartwastegy-waste-management-app-guyana.webp
+//   selenafurniturestore      → /img/portfolio/selena-furniture-store-ecommerce-guyana.webp
 
 export default function Portfolio() {
-  const [projectThumbnails, setProjectThumbnails] = useState<Record<string, string>>({});
-  const [loadingThumbnails, setLoadingThumbnails] = useState<Record<string, boolean>>({});
-
-  useEffect(() => {
-    // Fetch thumbnails for all projects sequentially to avoid rate limiting
-    const fetchThumbnails = async () => {
-      for (const project of projects) {
-        setLoadingThumbnails((prev) => ({ ...prev, [project.id]: true }));
-        
-        try {
-          const thumbnail = await fetchOgImage(project.url);
-          if (thumbnail) {
-            setProjectThumbnails((prev) => ({ ...prev, [project.id]: thumbnail }));
-          }
-        } catch (error) {
-          // Error already handled in fetchOgImage
-        } finally {
-          setLoadingThumbnails((prev) => ({ ...prev, [project.id]: false }));
-        }
-        
-        // Small delay between requests to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 500));
-      }
-    };
-
-    fetchThumbnails();
-  }, []);
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -131,11 +71,6 @@ export default function Portfolio() {
         duration: 0.5
       }
     }
-  };
-
-  // Placeholder image for projects without thumbnails
-  const getPlaceholderImage = () => {
-    return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e5e7eb' width='400' height='300'/%3E%3Ctext fill='%239ca3af' font-family='sans-serif' font-size='18' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EProject Image%3C/text%3E%3C/svg%3E";
   };
 
   return (
@@ -158,74 +93,47 @@ export default function Portfolio() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {projects.map((project) => {
-            const thumbnail = projectThumbnails[project.id];
-            const isLoading = loadingThumbnails[project.id];
-            const imageSrc = thumbnail || getPlaceholderImage();
+          {projects.map((project) => (
+            <motion.div
+              key={project.id}
+              variants={itemVariants}
+              className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col relative cursor-pointer"
+            >
+              {/* Full-card tap target for mobile */}
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute inset-0 z-10"
+                aria-label={`View ${project.name}`}
+              />
 
-            return (
-              <motion.div
-                key={project.id}
-                variants={itemVariants}
-                className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col relative cursor-pointer"
-              >
-                {/* Full-card tap target for mobile */}
+              {/* Project Content */}
+              <div className="p-5 xs:p-6 flex flex-col flex-1">
+                <h3 className="text-base xs:text-lg sm:text-xl font-semibold text-gray-800 mb-3 xs:mb-4 break-words">
+                  {project.name}
+                </h3>
+
+                <p className="text-gray-600 text-xs xs:text-sm mb-4 flex-1">
+                  {project.description}
+                </p>
+
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="absolute inset-0 z-10"
-                  aria-label={`View ${project.name}`}
-                />
-
-                {/* Project Image */}
-                <div className="w-full h-48 xs:h-52 sm:h-56 bg-gray-200 overflow-hidden relative">
-                  {isLoading ? (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                    </div>
-                  ) : (
-                    <img
-                      src={imageSrc}
-                      alt={`${project.name} website design project in Guyana`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = getPlaceholderImage();
-                      }}
-                    />
-                  )}
-                </div>
-
-                {/* Project Content */}
-                <div className="p-5 xs:p-6 flex flex-col flex-1">
-                  <h3 className="text-base xs:text-lg sm:text-xl font-semibold text-gray-800 mb-3 xs:mb-4 break-words">
-                    {project.name}
-                  </h3>
-
-                  <p className="text-gray-600 text-xs xs:text-sm mb-4 flex-1 line-clamp-4">
-                    {project.description}
-                  </p>
-
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative z-20 mt-auto inline-flex items-center justify-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors text-xs xs:text-sm font-medium"
-                  >
-                    <span>View</span>
-                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
-                </div>
-              </motion.div>
-            );
-          })}
+                  className="relative z-20 mt-auto inline-flex items-center justify-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors text-xs xs:text-sm font-medium"
+                >
+                  <span>View</span>
+                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>
   );
 }
-

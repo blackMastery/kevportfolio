@@ -1,63 +1,45 @@
 import type { LoaderFunction } from "@remix-run/node";
+import { SERVICE_PAGES } from "~/config/services";
+import { SECTION_PAGES } from "~/config/sections";
 
 export const loader: LoaderFunction = () => {
   const baseUrl = "https://www.kevoncadogan.com";
-  const currentDate = new Date().toISOString().split('T')[0];
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  // Only real, canonical, indexable pages belong in a sitemap — not URL fragments
+  // (#about, #skills, …); search engines index the page, not the fragment.
+  const routes: { path: string; changefreq: string; priority: string }[] = [
+    { path: "/", changefreq: "weekly", priority: "1.0" },
+    { path: "/blog", changefreq: "weekly", priority: "0.7" },
+    ...SERVICE_PAGES.map((service) => ({
+      path: service.path,
+      changefreq: "monthly",
+      priority: "0.8",
+    })),
+    ...SECTION_PAGES.map((section) => ({
+      path: section.path,
+      changefreq: "monthly",
+      priority: "0.6",
+    })),
+  ];
+
+  const urls = routes
+    .map(
+      (route) => `  <url>
+    <loc>${baseUrl}${route.path}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>${route.changefreq}</changefreq>
+    <priority>${route.priority}</priority>
+  </url>`
+    )
+    .join("\n");
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  
-  <!-- Homepage -->
-  <url>
-    <loc>${baseUrl}/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-
-  <!-- About Section -->
-  <url>
-    <loc>${baseUrl}/#about</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Skills Section -->
-  <url>
-    <loc>${baseUrl}/#skills</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Resume Section -->
-  <url>
-    <loc>${baseUrl}/#resume</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Services Section -->
-  <url>
-    <loc>${baseUrl}/#services</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Contact Section -->
-  <url>
-    <loc>${baseUrl}/#contact</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
+${urls}
 </urlset>`;
 
   return new Response(sitemap, {
@@ -69,4 +51,3 @@ export const loader: LoaderFunction = () => {
     },
   });
 };
-

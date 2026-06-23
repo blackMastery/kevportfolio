@@ -1,20 +1,12 @@
 import type { MetaFunction } from "@remix-run/node";
-import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import Header from "~/components/Header";
 import Hero from "~/components/Hero";
-import { CALENDLY_URL } from "~/config/contact";
-
-const About = lazy(() => import("~/components/About"));
-const Skills = lazy(() => import("~/components/Skills"));
-const Resume = lazy(() => import("~/components/Resume"));
-const Services = lazy(() => import("~/components/Services"));
-const Portfolio = lazy(() => import("~/components/Portfolio"));
-const Contact = lazy(() => import("~/components/Contact"));
-const Footer = lazy(() => import("~/components/Footer"));
+import Footer from "~/components/Footer";
+import { CALENDLY_URL, CONTACT_EMAIL } from "~/config/contact";
 
 export const meta: MetaFunction = () => {
-  const title = "Kevon Cadogan - Full-Stack Developer & AI Engineer | React, Node.js, Mobile Development";
+  const title = "Full-Stack Developer in Georgetown, Guyana | Kevon Cadogan";
   const description = "Experienced full-stack developer specializing in React, Node.js, Django, and mobile development. 5+ years building scalable web and mobile applications. Available for freelance projects.";
   const keywords = "full-stack developer, React developer, Node.js, Django, mobile developer, AI engineer, software engineer, web development, JavaScript, TypeScript, Python, React Native, freelance developer, Georgetown Guyana";
   const siteUrl = "https://www.kevoncadogan.com";
@@ -58,78 +50,103 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  // Structured Data (JSON-LD) for better SEO
+  const siteUrl = "https://www.kevoncadogan.com";
+  const portraitUrl = `${siteUrl}/img/kevon-cadogan-full-stack-developer.jpg`;
+
+  // Structured Data (JSON-LD) — Person + ProfessionalService graph for better SEO.
+  // Comments below are stripped by JSON.stringify and never reach the rendered markup.
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Kevon Cadogan",
-    "url": "https://www.kevoncadogan.com",
-    "image": "https://www.kevoncadogan.com/img/2021-02-24.jpg",
-    "jobTitle": "Full-Stack Developer",
-    "description": "Website design and development in Georgetown, Guyana including custom websites, e-commerce, and ongoing maintenance.",
-    "email": "kev.cadogan300@gmail.com",
-    "telephone": "+592-694-3827",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer service",
-      "url": CALENDLY_URL
-    },
-    "areaServed": [
+    "@graph": [
       {
-        "@type": "Country",
-        "name": "Guyana"
+        "@type": "Person",
+        "@id": `${siteUrl}/#person`,
+        "name": "Kevon Cadogan",
+        "url": siteUrl,
+        "image": portraitUrl,
+        "jobTitle": "Full-Stack Developer",
+        "description": "Website design and development in Georgetown, Guyana including custom websites, e-commerce, and ongoing maintenance.",
+        "email": CONTACT_EMAIL,
+        "telephone": "+592-694-3827",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Georgetown",
+          "addressCountry": "GY"
+        },
+        "birthDate": "1988-02-05",
+        "knowsAbout": [
+          "React",
+          "Node.js",
+          "JavaScript",
+          "TypeScript",
+          "Python",
+          "Django",
+          "MongoDB",
+          "MySQL",
+          "React Native",
+          "Angular",
+          "Full-Stack Development",
+          "AI Engineering",
+          "Mobile Development"
+        ],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "V75 Inc",
+          "url": "https://v75inc.com"
+        },
+        "sameAs": [
+          "https://github.com/blackMastery",
+          "https://www.linkedin.com/in/kevon-cadogan-113034a8",
+          "https://x.com/kevon_cadogan",
+          "https://www.facebook.com/kevongudlove24",
+          "https://v75inc.com/our-team/kevon-cadogan"
+        ]
+        // TODO: Add real education credentials as `alumniOf` here, e.g.
+        //   "alumniOf": { "@type": "EducationalOrganization", "name": "...", "url": "..." }
+        // Removed the placeholder value "University" to avoid shipping fake data.
       },
       {
-        "@type": "City",
-        "name": "Georgetown",
-        "addressCountry": "GY"
+        "@type": "ProfessionalService",
+        "@id": `${siteUrl}/#business`,
+        "name": "Kevon Cadogan — Web Design & Development",
+        "url": siteUrl,
+        "image": portraitUrl,
+        "description": "Web design, e-commerce, and mobile app development for businesses in Georgetown and across Guyana.",
+        "telephone": "+592-694-3827",
+        "email": CONTACT_EMAIL,
+        "priceRange": "$$", // TODO: confirm the price range ($/$$/$$$) or remove this field
+        "founder": { "@id": `${siteUrl}/#person` },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Georgetown",
+          "addressCountry": "GY"
+        },
+        "areaServed": [
+          { "@type": "Country", "name": "Guyana" },
+          { "@type": "City", "name": "Georgetown", "addressCountry": "GY" }
+        ],
+        "serviceType": [
+          "website development",
+          "web design Georgetown",
+          "e-commerce website development",
+          "responsive web design",
+          "small business website design",
+          "website maintenance services in Guyana",
+          "mobile app development"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "url": CALENDLY_URL
+        },
+        "sameAs": [
+          "https://github.com/blackMastery",
+          "https://www.linkedin.com/in/kevon-cadogan-113034a8",
+          "https://x.com/kevon_cadogan",
+          "https://www.facebook.com/kevongudlove24"
+        ]
       }
-    ],
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Georgetown",
-      "addressCountry": "GY"
-    },
-    "serviceType": [
-      "website development",
-      "web design Georgetown",
-      "e-commerce website development",
-      "responsive web design",
-      "small business website design",
-      "website maintenance services in Guyana"
-    ],
-    "birthDate": "1988-02-05",
-    "knowsAbout": [
-      "React",
-      "Node.js",
-      "JavaScript",
-      "TypeScript",
-      "Python",
-      "Django",
-      "MongoDB",
-      "MySQL",
-      "React Native",
-      "Angular",
-      "Full-Stack Development",
-      "AI Engineering",
-      "Mobile Development"
-    ],
-    "worksFor": {
-      "@type": "Organization",
-      "name": "V75 Inc",
-      "url": "https://v75inc.com"
-    },
-    "sameAs": [
-      "https://github.com/blackMastery",
-      "https://www.linkedin.com/in/kevon-cadogan-113034a8",
-      "https://x.com/kevon_cadogan",
-      "https://www.facebook.com/kevongudlove24",
-      "https://v75inc.com/our-team/kevon-cadogan"
-    ],
-    "alumniOf": {
-      "@type": "Organization",
-      "name": "University"
-    }
+    ]
   };
 
   return (
@@ -142,19 +159,13 @@ export default function Index() {
       {/* Top navbar */}
       <Header />
 
-      {/* Main content */}
+      {/* Main content — the homepage is now a landing page (Hero only); the former
+          sections live on their own pages (/about, /skills, /resume, /services,
+          /portfolio, /contact) linked from the nav and footer. */}
       <main className="min-h-screen flex flex-col">
         <Hero />
-        <Suspense fallback={null}>
-          <About />
-          <Skills />
-          <Resume />
-          <Services />
-          <Portfolio />
-          <Contact />
-          <Footer />
-        </Suspense>
       </main>
+      <Footer />
 
       {/* Back to top button */}
       <motion.a

@@ -1,6 +1,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "@remix-run/react";
 import { CALENDLY_URL } from "~/config/contact";
+import { SERVICE_PAGES } from "~/config/services";
 
 export default function Services() {
   const ref = useRef(null);
@@ -62,7 +64,7 @@ export default function Services() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: "easeOut" as const },
     },
   };
 
@@ -105,6 +107,32 @@ export default function Services() {
               <p className="text-gray-700 text-sm md:text-base leading-relaxed">{item}</p>
             </div>
           ))}
+        </motion.div>
+
+        {/* Dedicated service pages (real, indexable routes) */}
+        <motion.div
+          className="mb-12 md:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+        >
+          <p className="text-center text-gray-600 text-sm md:text-base mb-5">
+            Explore each service in detail:
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {SERVICE_PAGES.map((service) => (
+              <Link
+                key={service.path}
+                to={service.path}
+                className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white"
+              >
+                {service.navLabel}
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            ))}
+          </div>
         </motion.div>
 
         <motion.div

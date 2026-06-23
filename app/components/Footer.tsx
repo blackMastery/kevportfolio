@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { CALENDLY_URL, CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_HREF } from "~/config/contact";
+import { SERVICE_PAGES } from "~/config/services";
+import { SECTION_PAGES } from "~/config/sections";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -35,21 +37,12 @@ export default function Footer() {
     },
   ];
 
+  // Footer Quick Links are real page navigations (the top nav keeps the
+  // homepage smooth-scroll anchors). Driven by SECTION_PAGES so they stay in sync.
   const quickLinks = [
-    { label: 'Home', href: '#hero' },
-    { label: 'About', href: '#about' },
-    { label: 'Services', href: '#services' },
-    { label: 'Resume', href: '#resume' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Home', href: '/' },
+    ...SECTION_PAGES.map((page) => ({ label: page.navLabel, href: page.path })),
   ];
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <footer className="bg-dark text-white relative overflow-hidden">
@@ -86,7 +79,6 @@ export default function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
                     className="text-gray-300 hover:text-primary transition-colors duration-300 text-sm lg:text-base inline-flex items-center group"
                   >
                     <svg 
@@ -98,6 +90,24 @@ export default function Footer() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                     {link.label}
+                  </a>
+                </li>
+              ))}
+              {SERVICE_PAGES.map((service) => (
+                <li key={service.path}>
+                  <a
+                    href={service.path}
+                    className="text-gray-300 hover:text-primary transition-colors duration-300 text-sm lg:text-base inline-flex items-center group"
+                  >
+                    <svg
+                      className="w-4 h-4 mr-2 transform group-hover:translate-x-1 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    {service.navLabel}
                   </a>
                 </li>
               ))}
