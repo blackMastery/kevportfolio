@@ -2,7 +2,6 @@ import { json } from "@remix-run/node";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import Header from "~/components/Header";
 import Footer from "~/components/Footer";
 import { createServerClientHandler } from "~/config/supabase";
@@ -21,6 +20,12 @@ interface Category {
   slug: string;
 }
 
+interface Tag {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 interface BlogPost {
   id: string;
   title: string;
@@ -33,6 +38,7 @@ interface BlogPost {
   created_at: string;
   author: Profile | null;
   category: Category | null;
+  tags: Tag[];
   banner_image: string | null;
 }
 
@@ -68,7 +74,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       view_count,
       created_at,
       author:profiles(id, username, full_name, avatar_url),
-      category:categories(id, name, slug)
+      category:categories(id, name, slug),
+      post_tags(tag:tags(id, name, slug))
     `
     )
     .eq("published", true)
@@ -95,6 +102,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     created_at: post.created_at,
     author: Array.isArray(post.author) ? post.author[0] || null : post.author || null,
     category: Array.isArray(post.category) ? post.category[0] || null : post.category || null,
+    tags: (post.post_tags || [])
+      .map((pt: { tag: Tag | Tag[] | null }) =>
+        Array.isArray(pt.tag) ? pt.tag[0] || null : pt.tag
+      )
+      .filter((tag: Tag | null): tag is Tag => !!tag),
   }));
 
   return json({ posts: transformedPosts, error: null }, { headers: response.headers });
@@ -103,7 +115,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function Blog() {
   const data = useLoaderData<typeof loader>();
   const { posts, error } = data;
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   console.log("Blog component render - data:", data, "posts:", posts, "posts length:", posts?.length, "error:", error);
 
@@ -201,27 +212,9 @@ export default function Blog() {
 
   return (
     <div className="relative min-h-screen">
-      {/* Mobile nav toggle */}
-      <button
-        type="button"
-        className="fixed top-4 right-4 z-50 xl:hidden w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white"
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
+      <Header />
 
-      {/* Header/Sidebar */}
-      <Header isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
-
-      {/* Main content */}
-      <main className="xl:ml-80 min-h-screen flex flex-col bg-gray-50">
+      <main className="pt-16 min-h-screen flex flex-col bg-gray-50">
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-primary to-primary-hover text-white py-20 px-4">
           <div className="container mx-auto">
@@ -303,11 +296,23 @@ export default function Blog() {
 
                     {/* Content */}
                     <div className="p-6 flex-1 flex flex-col">
-                      {/* Category Badge */}
-                      {post.category && (
-                        <span className="inline-block mb-3 px-3 py-1 text-xs font-semibold text-primary bg-primary/10 rounded-full">
-                          {post.category.name}
-                        </span>
+                      {/* Category & Tags */}
+                      {(post.category || post.tags.length > 0) && (
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {post.category && (
+                            <span className="inline-block px-3 py-1 text-xs font-semibold text-primary bg-primary/10 rounded-full">
+                              {post.category.name}
+                            </span>
+                          )}
+                          {post.tags.map((tag) => (
+                            <span
+                              key={tag.id}
+                              className="inline-block px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full"
+                            >
+                              {tag.name}
+                            </span>
+                          ))}
+                        </div>
                       )}
 
                       {/* Title */}

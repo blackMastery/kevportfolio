@@ -9,6 +9,8 @@ import Header from "~/components/Header";
 import Footer from "~/components/Footer";
 import { createServerClientHandler } from "~/config/supabase";
 
+const SITE_URL = "https://www.kevoncadogan.com";
+
 // Type definitions for blog posts
 interface Profile {
   id: string;
@@ -18,6 +20,12 @@ interface Profile {
 }
 
 interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+interface Tag {
   id: string;
   name: string;
   slug: string;
@@ -38,6 +46,7 @@ interface BlogPost {
   created_at: string;
   author: Profile | null;
   category: Category | null;
+  tags: Tag[];
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -50,10 +59,13 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
   const imageUrl = data.post.banner_image || data.post.featured_image;
   const description = data.post.excerpt || `Read ${data.post.title} on Kevon Cadogan's blog.`;
+  const tagNames = data.post.tags.map((tag) => tag.name).join(", ");
+  const keywords = [data.post.category?.name, tagNames, "blog", "web development"]
+    .filter(Boolean)
+    .join(", ");
   
   // Construct full URL for the post
-  const siteUrl = process.env.PUBLIC_SITE_URL || "https://kevportfolio.vercel.app";
-  const postUrl = `${siteUrl}/blog/${data.post.slug}`;
+  const postUrl = `${SITE_URL}/blog/${data.post.slug}`;
 
   return [
     { title: `${data.post.title} - Kevon Cadogan | Blog` },
@@ -63,7 +75,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     },
     {
       name: "keywords",
-      content: data.post.category ? `${data.post.category.name}, blog, web development` : "blog, web development",
+      content: keywords,
     },
     // Open Graph tags (used by LinkedIn, Facebook, etc.)
     { property: "og:type", content: "article" },
@@ -130,7 +142,8 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
         view_count,
         created_at,
         author:profiles(id, username, full_name, avatar_url),
-        category:categories(id, name, slug)
+        category:categories(id, name, slug),
+        post_tags(tag:tags(id, name, slug))
       `
       )
       .eq("slug", slug)
@@ -210,6 +223,12 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       }
     }
 
+    const tags: Tag[] = (posts.post_tags || [])
+      .map((pt: { tag: Tag | Tag[] | null }) =>
+        Array.isArray(pt.tag) ? pt.tag[0] || null : pt.tag
+      )
+      .filter((tag: Tag | null): tag is Tag => !!tag);
+
     const transformedPost: BlogPost = {
       id: posts.id,
       title: posts.title,
@@ -225,6 +244,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       created_at: posts.created_at,
       author,
       category,
+      tags,
     };
 
     console.log("Blog post loader - transformed post:", transformedPost.title);
@@ -393,7 +413,6 @@ function getGuestSessionId(): string {
 export default function BlogPost() {
   const data = useLoaderData<typeof loader>();
   const { post, error } = data;
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const fetcher = useFetcher<typeof action>();
   const [likeError, setLikeError] = useState<string | null>(null);
   const [guestSessionId] = useState(() => getGuestSessionId());
@@ -438,24 +457,9 @@ export default function BlogPost() {
   if (error || !post) {
     return (
       <div className="relative min-h-screen">
-        <button
-          type="button"
-          className="fixed top-4 right-4 z-50 xl:hidden w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
+        <Header />
 
-        <Header isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
-
-        <main className="xl:ml-80 min-h-screen flex flex-col bg-gray-50">
+        <main className="pt-16 min-h-screen flex flex-col bg-gray-50">
           <section className="py-20 px-4">
             <div className="container mx-auto max-w-4xl text-center">
               <h1 className="text-4xl font-bold mb-4 text-gray-800 font-raleway">Post Not Found</h1>
@@ -476,27 +480,9 @@ export default function BlogPost() {
 
   return (
     <div className="relative min-h-screen">
-      {/* Mobile nav toggle */}
-      <button
-        type="button"
-        className="fixed top-4 right-4 z-50 xl:hidden w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white"
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
+      <Header />
 
-      {/* Header/Sidebar */}
-      <Header isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
-
-      {/* Main content */}
-      <main className="xl:ml-80 min-h-screen flex flex-col bg-gray-50">
+      <main className="pt-16 min-h-screen flex flex-col bg-gray-50">
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-primary to-primary-hover text-white py-16 px-4">
           <div className="container mx-auto max-w-4xl">
@@ -525,10 +511,22 @@ export default function BlogPost() {
                 Back to Blog
               </Link>
 
-              {post.category && (
-                <span className="inline-block mb-4 px-4 py-1 text-sm font-semibold text-primary bg-white rounded-full">
-                  {post.category.name}
-                </span>
+              {(post.category || post.tags.length > 0) && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {post.category && (
+                    <span className="inline-block px-4 py-1 text-sm font-semibold text-primary bg-white rounded-full">
+                      {post.category.name}
+                    </span>
+                  )}
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag.id}
+                      className="inline-block px-3 py-1 text-sm font-medium text-white bg-white/20 rounded-full"
+                    >
+                      {tag.name}
+                    </span>
+                  ))}
+                </div>
               )}
 
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 font-raleway">
@@ -676,7 +674,6 @@ export default function BlogPost() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   let errorMessage = "An unexpected error occurred";
   let errorStatus = 500;
@@ -692,24 +689,9 @@ export function ErrorBoundary() {
 
   return (
     <div className="relative min-h-screen">
-      <button
-        type="button"
-        className="fixed top-4 right-4 z-50 xl:hidden w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white"
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
+      <Header />
 
-      <Header isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
-
-      <main className="xl:ml-80 min-h-screen flex flex-col bg-gray-50">
+      <main className="pt-16 min-h-screen flex flex-col bg-gray-50">
         <section className="py-20 px-4">
           <div className="container mx-auto max-w-4xl text-center">
             <h1 className="text-4xl font-bold mb-4 text-gray-800 font-raleway">
