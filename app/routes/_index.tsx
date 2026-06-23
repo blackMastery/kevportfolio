@@ -1,16 +1,17 @@
 import type { MetaFunction } from "@remix-run/node";
+import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import Header from "~/components/Header";
 import Hero from "~/components/Hero";
-import About from "~/components/About";
-import Facts from "~/components/Facts";
-import Skills from "~/components/Skills";
-import Resume from "~/components/Resume";
-import Services from "~/components/Services";
-import Portfolio from "~/components/Portfolio";
-import Contact from "~/components/Contact";
-import Footer from "~/components/Footer";
 import { CALENDLY_URL } from "~/config/contact";
+
+const About = lazy(() => import("~/components/About"));
+const Skills = lazy(() => import("~/components/Skills"));
+const Resume = lazy(() => import("~/components/Resume"));
+const Services = lazy(() => import("~/components/Services"));
+const Portfolio = lazy(() => import("~/components/Portfolio"));
+const Contact = lazy(() => import("~/components/Contact"));
+const Footer = lazy(() => import("~/components/Footer"));
 
 export const meta: MetaFunction = () => {
   const title = "Kevon Cadogan - Full-Stack Developer & AI Engineer | React, Node.js, Mobile Development";
@@ -144,14 +145,15 @@ export default function Index() {
       {/* Main content */}
       <main className="min-h-screen flex flex-col">
         <Hero />
-        <About />
-        {/* <Facts /> */}
-        <Skills />
-        <Resume />
-        <Services />
-        <Portfolio />
-        <Contact />
-        <Footer />
+        <Suspense fallback={null}>
+          <About />
+          <Skills />
+          <Resume />
+          <Services />
+          <Portfolio />
+          <Contact />
+          <Footer />
+        </Suspense>
       </main>
 
       {/* Back to top button */}

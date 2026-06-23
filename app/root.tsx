@@ -7,10 +7,40 @@ import {
   useLocation,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
+import { lazy, Suspense, useEffect, useState } from "react";
 
 import "./tailwind.css";
-import Chatbot from "~/components/Chatbot";
 import { Analytics } from "@vercel/analytics/react";
+
+const Chatbot = lazy(() => import("~/components/Chatbot"));
+
+function DeferredChatbot() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(() => setShow(true), { timeout: 3000 });
+      return () => window.cancelIdleCallback(id);
+    }
+
+    const timeoutId = setTimeout(() => setShow(true), 1500);
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  if (!show) {
+    return null;
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <Chatbot />
+    </Suspense>
+  );
+}
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -19,6 +49,7 @@ export const links: LinksFunction = () => [
     href: "https://fonts.gstatic.com",
     crossOrigin: "anonymous",
   },
+  { rel: "preconnect", href: "https://prod.spline.design" },
   {
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
@@ -45,7 +76,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
       <Analytics />
         {children}
-        <Chatbot />
+        <DeferredChatbot />
         <ScrollRestoration />
         <Scripts />
       </body>

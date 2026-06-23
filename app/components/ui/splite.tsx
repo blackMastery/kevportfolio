@@ -6,30 +6,35 @@ interface SplineSceneProps {
   className?: string
 }
 
+function scheduleIdleWork(callback: () => void) {
+  if (typeof window === 'undefined') {
+    return () => {}
+  }
+
+  if ('requestIdleCallback' in window) {
+    const id = window.requestIdleCallback(callback, { timeout: 2000 })
+    return () => window.cancelIdleCallback(id)
+  }
+
+  const timeoutId = setTimeout(callback, 300)
+  return () => clearTimeout(timeoutId)
+}
+
 export function SplineScene({ scene, className }: SplineSceneProps) {
   // Remix renders on the server; the Spline runtime relies on browser APIs,
-  // so only mount it on the client (mirrors ParticlesBackground.tsx).
+  // so only mount it on the client after higher-priority work finishes.
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
-    setMounted(true)
+    return scheduleIdleWork(() => setMounted(true))
   }, [])
 
-  const fallback = (
-    <div className="w-full h-full flex items-center justify-center">
-      <span className="loader"></span>
-    </div>
-  )
-
   if (!mounted) {
-    return fallback
+    return <div className={className} aria-hidden="true" />
   }
 
   return (
-    <Suspense fallback={fallback}>
-      <Spline
-        scene={scene}
-        className={className}
-      />
+    <Suspense fallback={<div className={className} aria-hidden="true" />}>
+      <Spline scene={scene} className={className} />
     </Suspense>
   )
 }
