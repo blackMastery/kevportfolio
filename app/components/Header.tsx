@@ -19,7 +19,6 @@ const serviceLinks: SubLink[] = SERVICE_PAGES.map((service) => ({
 const menuItems: MenuItem[] = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/skills", label: "Skills" },
   { href: "/resume", label: "Resume" },
   { href: "/services", label: "Services", children: serviceLinks },
   { href: "/portfolio", label: "Portfolio" },

@@ -8,7 +8,7 @@ export const meta: MetaFunction = () =>
   buildPageMeta({
     title: "Resume | Kevon Cadogan, Full-Stack Developer",
     description:
-      "Kevon Cadogan's resume — education, certifications, and professional background as a full-stack developer based in Georgetown, Guyana.",
+      "Kevon Cadogan's resume — education, certifications in AI agents, deep learning, and AWS, and professional background as a full-stack developer based in Georgetown, Guyana.",
     path: PATH,
   });
 

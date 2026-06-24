@@ -11,7 +11,6 @@ export type SectionPage = {
 
 export const SECTION_PAGES: SectionPage[] = [
   { path: "/about", navLabel: "About" },
-  { path: "/skills", navLabel: "Skills" },
   { path: "/resume", navLabel: "Resume" },
   { path: "/services", navLabel: "Services" },
   { path: "/portfolio", navLabel: "Portfolio" },

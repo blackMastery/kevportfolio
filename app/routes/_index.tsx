@@ -160,7 +160,7 @@ export default function Index() {
       <Header />
 
       {/* Main content — the homepage is now a landing page (Hero only); the former
-          sections live on their own pages (/about, /skills, /resume, /services,
+          sections live on their own pages (/about, /resume, /services,
           /portfolio, /contact) linked from the nav and footer. */}
       <main className="min-h-screen flex flex-col">
         <Hero />
