@@ -11,7 +11,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 
 import "./tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
-
+import { SpeedInsights } from "@vercel/speed-insights/remix"
 const Chatbot = lazy(() => import("~/components/Chatbot"));
 
 function DeferredChatbot() {
@@ -75,6 +75,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
       <Analytics />
+      <SpeedInsights />
         {children}
         <DeferredChatbot />
         <ScrollRestoration />
