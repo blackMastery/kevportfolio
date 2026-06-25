@@ -38,4 +38,10 @@ export const SERVICE_PAGES: ServicePage[] = [
     cardTitle: "Mobile App Development in Guyana",
     cardDescription: "iOS and Android apps built for local users.",
   },
+  {
+    path: "/agentic-ai-for-business",
+    navLabel: "Agentic AI",
+    cardTitle: "Agentic AI for Business & Government",
+    cardDescription: "Custom AI agents that automate tasks and cut costs.",
+  },
 ];
