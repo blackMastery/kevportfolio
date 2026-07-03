@@ -5,6 +5,8 @@ interface Project {
   name: string;
   description: string;
   url: string;
+  logo: string;
+  logoDarkBg?: boolean;
 }
 
 const projects: Project[] = [
@@ -12,7 +14,9 @@ const projects: Project[] = [
     id: "impact-business-solutions",
     name: "Impact Business Solutions",
     description: "Since 2021, Impact Business Solutions has been empowering businesses to grow both online and offline through innovative marketing and business development strategies. We are a boutique marketing and business development agency, dedicated to fueling business growth through innovation and excellence.",
-    url: "https://impact-business-solutions.vercel.app/"
+    url: "https://impact-business-solutions.vercel.app/",
+    logo: "/img/portfolio/impact-business-solutions-logo.png",
+    logoDarkBg: true,
   },
   // {
   //   id: "synergy-auto-zone",
@@ -24,32 +28,38 @@ const projects: Project[] = [
     id: "healthyzway",
     name: "Healthyzway",
     description: "Proudly Guyanese-Owned 🇬🇾 Premium SeaMoss Gel - Nature's 92 minerals for your complete wellness",
-    url: "https://healthyzway.vercel.app/"
+    url: "https://healthyzway.vercel.app/",
+    logo: "/img/portfolio/healthyzway-logo.png",
   },
   {
     id: "smartwastegy",
     name: "SmartWasteGy",
     description: "SmartWasteGy Management at Your Fingertips. Join thousands of Guyanese making waste collection smarter, faster, and more sustainable. Track bins, schedule pickups, and contribute to a cleaner Guyana.",
-    url: "https://smartwastegy.com"
+    url: "https://smartwastegy.com",
+    logo: "/img/portfolio/smartwastegy-logo.png",
   },
   {
     id: "selenafurniturestore",
     name: "Selena's Furniture Store Guyana",
     description: "Selena's Furniture Store Guyana is a furniture store that sells furniture for the home and office.",
-    url: "https://selenafurniturestore.com/"
+    url: "https://selenafurniturestore.com/",
+    logo: "/img/portfolio/selenafurniturestore-logo.jpg",
+  },
+  {
+    id: "waronretailguyana",
+    name: "War On Retail Guyana",
+    description: "Guyana's trusted electronics and home-appliance store. Authentic products with manufacturer warranties, nationwide delivery, and real human support on every order.",
+    url: "https://www.waronretailguyana.com/",
+    logo: "/img/portfolio/waronretailguyana-logo.png",
+  },
+  {
+    id: "mistaconciergetravel",
+    name: "Mista Concierge Travel",
+    description: "Specialty Caribbean and Latin America travel provider offering solo, private, and guided vacations with full concierge-level service across 15+ islands.",
+    url: "https://www.mistaconciergetravel.com/",
+    logo: "/img/portfolio/mistaconciergetravel-logo.png",
   }
 ];
-
-// TODO: Project cards are currently TEXT-ONLY (the previous runtime Microlink
-// screenshot fetch was removed). To re-add real images later, drop a descriptively
-// named screenshot into /public/img/portfolio/ for each project, then render an
-// <img> at the top of each card with the existing alt-text pattern:
-//   alt={`${project.name} website design project in Guyana`}
-// Suggested descriptive filenames:
-//   impact-business-solutions → /img/portfolio/impact-business-solutions-marketing-agency-guyana.webp
-//   healthyzway               → /img/portfolio/healthyzway-seamoss-ecommerce-guyana.webp
-//   smartwastegy              → /img/portfolio/smartwastegy-waste-management-app-guyana.webp
-//   selenafurniturestore      → /img/portfolio/selena-furniture-store-ecommerce-guyana.webp
 
 export default function Portfolio() {
   const containerVariants = {
@@ -107,6 +117,20 @@ export default function Portfolio() {
                 className="absolute inset-0 z-10"
                 aria-label={`View ${project.name}`}
               />
+
+              {/* Project Logo */}
+              <div
+                className={`h-24 xs:h-28 flex items-center justify-center p-4 border-b border-gray-200 ${
+                  project.logoDarkBg ? "bg-gray-900" : "bg-white"
+                }`}
+              >
+                <img
+                  src={project.logo}
+                  alt={`${project.name} logo`}
+                  className="max-h-full max-w-full object-contain"
+                  loading="lazy"
+                />
+              </div>
 
               {/* Project Content */}
               <div className="p-5 xs:p-6 flex flex-col flex-1">
