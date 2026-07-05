@@ -6,6 +6,7 @@ interface Project {
   description: string;
   url: string;
   logo: string;
+  banner?: string;
   logoDarkBg?: boolean;
 }
 
@@ -16,6 +17,7 @@ const projects: Project[] = [
     description: "Since 2021, Impact Business Solutions has been empowering businesses to grow both online and offline through innovative marketing and business development strategies. We are a boutique marketing and business development agency, dedicated to fueling business growth through innovation and excellence.",
     url: "https://impact-business-solutions.vercel.app/",
     logo: "/img/portfolio/impact-business-solutions-logo.png",
+    banner: "/img/portfolio/banner/impact-bg.png",
     logoDarkBg: true,
   },
   // {
@@ -30,27 +32,31 @@ const projects: Project[] = [
     description: "Proudly Guyanese-Owned 🇬🇾 Premium SeaMoss Gel - Nature's 92 minerals for your complete wellness",
     url: "https://healthyzway.vercel.app/",
     logo: "/img/portfolio/healthyzway-logo.png",
+    banner: "/img/portfolio/banner/healthyzway-banner.png",
   },
-  {
-    id: "smartwastegy",
-    name: "SmartWasteGy",
-    description: "SmartWasteGy Management at Your Fingertips. Join thousands of Guyanese making waste collection smarter, faster, and more sustainable. Track bins, schedule pickups, and contribute to a cleaner Guyana.",
-    url: "https://smartwastegy.com",
-    logo: "/img/portfolio/smartwastegy-logo.png",
-  },
+  // {
+  //   id: "smartwastegy",
+  //   name: "SmartWasteGy",
+  //   description: "SmartWasteGy Management at Your Fingertips. Join thousands of Guyanese making waste collection smarter, faster, and more sustainable. Track bins, schedule pickups, and contribute to a cleaner Guyana.",
+  //   url: "https://smartwastegy.com",
+  //   logo: "/img/portfolio/smartwastegy-logo.png",
+  // },
   {
     id: "selenafurniturestore",
     name: "Selena's Furniture Store Guyana",
     description: "Selena's Furniture Store Guyana is a furniture store that sells furniture for the home and office.",
     url: "https://selenafurniturestore.com/",
     logo: "/img/portfolio/selenafurniturestore-logo.jpg",
+    banner: "/img/portfolio/banner/selena-banner.png",
   },
   {
     id: "waronretailguyana",
     name: "War On Retail Guyana",
     description: "Guyana's trusted electronics and home-appliance store. Authentic products with manufacturer warranties, nationwide delivery, and real human support on every order.",
     url: "https://www.waronretailguyana.com/",
-    logo: "/img/portfolio/waronretailguyana-logo.png",
+    logo: "/img/portfolio/banner/waronretail-banner.png",
+    banner: "/img/portfolio/banner/waronretail-banner.png",
+
   },
   {
     id: "mistaconciergetravel",
@@ -58,6 +64,7 @@ const projects: Project[] = [
     description: "Specialty Caribbean and Latin America travel provider offering solo, private, and guided vacations with full concierge-level service across 15+ islands.",
     url: "https://www.mistaconciergetravel.com/",
     logo: "/img/portfolio/mc-logo.png",
+    banner: "/img/portfolio/banner/mista-banner.png",
   },
   {
     id: "bucketlistcaribbean",
@@ -65,6 +72,7 @@ const projects: Project[] = [
     description: "Guyanese travel company specializing in Caribbean tours and vacations — curated getaways, all-inclusive packages, and island journeys across the region.",
     url: "https://www.bucketlistcaribbean.com/",
     logo: "/img/portfolio/bucketlistcaribbean-logo.png",
+    banner: "/img/portfolio/banner/busketlistcaribbean2.png",
   }
 ];
 
@@ -125,19 +133,30 @@ export default function Portfolio() {
                 aria-label={`View ${project.name}`}
               />
 
-              {/* Project Logo */}
-              <div
-                className={`h-24 xs:h-28 flex items-center justify-center p-4 border-b border-gray-200 ${
-                  project.logoDarkBg ? "bg-gray-900" : "bg-white"
-                }`}
-              >
-                <img
-                  src={project.logo}
-                  alt={`${project.name} logo`}
-                  className="max-h-full max-w-full object-contain"
-                  loading="lazy"
-                />
-              </div>
+              {/* Project Image */}
+              {project.banner ? (
+                <div className="aspect-video w-full overflow-hidden border-b border-gray-200 bg-gray-100">
+                  <img
+                    src={project.banner}
+                    alt={`${project.name} website preview`}
+                    className="h-full w-full object-cover object-top"
+                    loading="lazy"
+                  />
+                </div>
+              ) : (
+                <div
+                  className={`h-24 xs:h-28 flex items-center justify-center p-4 border-b border-gray-200 ${
+                    project.logoDarkBg ? "bg-gray-900" : "bg-white"
+                  }`}
+                >
+                  <img
+                    src={project.logo}
+                    alt={`${project.name} logo`}
+                    className="max-h-full max-w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              )}
 
               {/* Project Content */}
               <div className="p-5 xs:p-6 flex flex-col flex-1">
