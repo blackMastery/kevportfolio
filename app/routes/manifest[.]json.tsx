@@ -12,16 +12,22 @@ export const loader: LoaderFunction = () => {
     orientation: "portrait-primary",
     icons: [
       {
-        src: "/img/favicon.png",
+        src: "/android-chrome-192x192.png",
         sizes: "192x192",
         type: "image/png",
-        purpose: "any maskable",
+        purpose: "any",
       },
       {
-        src: "/img/apple-touch-icon.png",
+        src: "/android-chrome-512x512.png",
         sizes: "512x512",
         type: "image/png",
-        purpose: "any maskable",
+        purpose: "any",
+      },
+      {
+        src: "/android-chrome-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
       },
     ],
     categories: ["portfolio", "technology", "developer"],

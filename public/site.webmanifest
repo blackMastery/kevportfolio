@@ -1,0 +1,21 @@
+{
+  "name": "Kevon Cadogan - Full-Stack Developer Portfolio",
+  "short_name": "Kevon Cadogan",
+  "description": "Professional portfolio of Kevon Cadogan, Full-Stack Developer & AI Engineer specializing in React, Node.js, and mobile development",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#149ddd",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -57,7 +57,14 @@ const projects: Project[] = [
     name: "Mista Concierge Travel",
     description: "Specialty Caribbean and Latin America travel provider offering solo, private, and guided vacations with full concierge-level service across 15+ islands.",
     url: "https://www.mistaconciergetravel.com/",
-    logo: "/img/portfolio/mistaconciergetravel-logo.png",
+    logo: "/img/portfolio/mc-logo.png",
+  },
+  {
+    id: "bucketlistcaribbean",
+    name: "Bucketlist Caribbean",
+    description: "Guyanese travel company specializing in Caribbean tours and vacations — curated getaways, all-inclusive packages, and island journeys across the region.",
+    url: "https://www.bucketlistcaribbean.com/",
+    logo: "/img/portfolio/bucketlistcaribbean-logo.png",
   }
 ];
 
