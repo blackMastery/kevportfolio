@@ -1,7 +1,10 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import SectionPageLayout, { buildPageMeta } from "~/components/SectionPageLayout";
 import Portfolio from "~/components/Portfolio";
-import { portfolioProjectNames } from "~/data/portfolioProjects";
+import {
+  portfolioPriorityBanners,
+  portfolioProjectNames,
+} from "~/data/portfolioProjects";
 import { buildPortfolioJsonLd, PORTFOLIO_OG_IMAGE } from "~/utils/portfolioSeo";
 
 const PATH = "/portfolio";
@@ -19,9 +22,21 @@ export const meta: MetaFunction = () =>
     keywords: PORTFOLIO_KEYWORDS,
     image: PORTFOLIO_OG_IMAGE,
     imageAlt: "Portfolio of web and app projects built by Kevon Cadogan in Guyana",
-    imageWidth: "3346",
-    imageHeight: "1798",
+    imageWidth: "1200",
+    imageHeight: "630",
   });
+
+export const links: LinksFunction = () =>
+  portfolioPriorityBanners.flatMap((banner) => [
+    {
+      rel: "preload",
+      as: "image",
+      href: banner.src.replace("-800.jpg", "-800.webp"),
+      type: "image/webp",
+      imageSrcSet: banner.srcSet,
+      imageSizes: banner.sizes,
+    },
+  ]);
 
 const portfolioJsonLd = buildPortfolioJsonLd({
   title: TITLE,

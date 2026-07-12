@@ -3,7 +3,7 @@ import { SITE_URL } from "~/components/SectionPageLayout";
 
 const PORTFOLIO_PATH = "/portfolio";
 const PORTFOLIO_URL = `${SITE_URL}${PORTFOLIO_PATH}`;
-export const PORTFOLIO_OG_IMAGE = `${SITE_URL}/img/portfolio/banner/impact-bg.png`;
+export const PORTFOLIO_OG_IMAGE = `${SITE_URL}/img/portfolio/banner/optimized/portfolio-og.jpg`;
 
 export function buildPortfolioJsonLd({
   title,
@@ -56,7 +56,7 @@ export function buildPortfolioJsonLd({
             name: project.name,
             description: project.description,
             url: project.url,
-            image: `${SITE_URL}${project.banner ?? project.logo}`,
+            image: `${SITE_URL}${project.banner?.src ?? project.logo}`,
             creator: { "@id": `${SITE_URL}/#person` },
           },
         })),
