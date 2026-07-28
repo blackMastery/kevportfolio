@@ -33,6 +33,15 @@ function optimizedBanner(slug: string, width = 800, height = 450): PortfolioBann
 
 export const portfolioProjects: PortfolioProject[] = [
   {
+    id: "cmeprep",
+    name: "cmeprep.me",
+    description:
+      "Medical board and exit exam prep platform with practice questions, timed mock exams, per-topic analytics, and an OSCE station bank across 7 examination question banks.",
+    url: "https://www.cmeprep.me/",
+    logo: "/img/portfolio/cmeprep-logo.jpg",
+    banner: optimizedBanner("cmeprep"),
+  },
+  {
     id: "waronretailguyana",
     name: "War On Retail Guyana",
     description:
