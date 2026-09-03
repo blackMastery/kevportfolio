@@ -33,6 +33,15 @@ function optimizedBanner(slug: string, width = 800, height = 450): PortfolioBann
 
 export const portfolioProjects: PortfolioProject[] = [
   {
+    id: "inneralchemyinstitution",
+    name: "Inner Alchemy Institution",
+    description:
+      "Transformational life coaching and BQH/QHHT® hypnotherapy practice led by Hadassah Headley — coaching programs across life, money, business, relationships and spirit, with online sessions and free discovery calls.",
+    url: "https://www.inneralchemyinstitution.com/",
+    logo: "/img/portfolio/inneralchemy-logo.png",
+    banner: optimizedBanner("inneralchemy"),
+  },
+  {
     id: "cmeprep",
     name: "cmeprep.me",
     description:
