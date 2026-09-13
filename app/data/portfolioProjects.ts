@@ -42,13 +42,13 @@ export const portfolioProjects: PortfolioProject[] = [
     banner: optimizedBanner("inneralchemy"),
   },
   {
-    id: "cmeprep",
-    name: "cmeprep.me",
+    id: "cmeqbank",
+    name: "cmeqbank.com",
     description:
-      "Medical board and exit exam prep platform with practice questions, timed mock exams, per-topic analytics, and an OSCE station bank across 7 examination question banks.",
-    url: "https://www.cmeprep.me/",
-    logo: "/img/portfolio/cmeprep-logo.jpg",
-    banner: optimizedBanner("cmeprep"),
+      "Medical board and exit exam prep platform with practice questions, timed mock exams, AI-graded OSCE stations, and an AI tutor that answers from the course materials — across CAMC, USMLE, PLAB, NCLEX and MBBS question banks.",
+    url: "https://www.cmeqbank.com/",
+    logo: "/img/portfolio/cmeqbank-logo.jpg",
+    banner: optimizedBanner("cmeqbank"),
   },
   {
     id: "waronretailguyana",
