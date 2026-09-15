@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { portfolioProjects } from "~/data/portfolioProjects";
+import { Link } from "@remix-run/react";
+import { portfolioProjects, portfolioProjectPath } from "~/data/portfolioProjects";
 
 const EAGER_COUNT = 2;
 
@@ -55,12 +56,10 @@ export default function Portfolio() {
                 className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col relative cursor-pointer"
               >
                 {/* Full-card tap target for mobile */}
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to={portfolioProjectPath(project)}
                   className="absolute inset-0 z-10"
-                  aria-label={`View ${project.name}`}
+                  aria-label={`View the ${project.name} project`}
                 />
 
                 {/* Project Image */}
@@ -110,17 +109,15 @@ export default function Portfolio() {
                     {project.description}
                   </p>
 
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    to={portfolioProjectPath(project)}
                     className="relative z-20 mt-auto inline-flex items-center justify-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors text-xs xs:text-sm font-medium"
                   >
-                    <span>View</span>
+                    <span>View project</span>
                     <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                  </a>
+                  </Link>
                 </div>
               </motion.div>
             );

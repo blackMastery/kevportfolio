@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { SERVICE_PAGES } from "~/config/services";
 import { SECTION_PAGES } from "~/config/sections";
 import { createServerClientHandler } from "~/config/supabase";
+import { portfolioProjectPath, portfolioProjects } from "~/data/portfolioProjects";
 
 type SitemapRoute = {
   path: string;
@@ -50,6 +51,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       path: section.path,
       changefreq: "monthly",
       priority: "0.6",
+    })),
+    ...portfolioProjects.map((project) => ({
+      path: portfolioProjectPath(project),
+      changefreq: "monthly",
+      priority: "0.7",
     })),
   ];
 
