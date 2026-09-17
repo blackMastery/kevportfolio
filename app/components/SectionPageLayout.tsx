@@ -4,7 +4,7 @@ import Header from "~/components/Header";
 import Footer from "~/components/Footer";
 
 const SITE_URL = "https://www.kevoncadogan.com";
-const DEFAULT_SOCIAL_IMAGE = `${SITE_URL}/img/kev_logo.png`;
+const DEFAULT_SOCIAL_IMAGE = `${SITE_URL}/img/kevon-cadogan-social-card.jpg`;
 
 type SectionPageLayoutProps = {
   /** Unique, descriptive H1 for the page (rendered visually hidden so it doesn't
@@ -74,6 +74,7 @@ export function buildPageMeta({
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:image", content: image },
+    { property: "og:image:secure_url", content: image },
     { property: "og:image:width", content: imageWidth },
     { property: "og:image:height", content: imageHeight },
     { property: "og:image:alt", content: imageAlt },

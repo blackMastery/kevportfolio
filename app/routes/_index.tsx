@@ -10,7 +10,9 @@ export const meta: MetaFunction = () => {
   const description = "Experienced full-stack developer specializing in React, Node.js, Django, and mobile development. 5+ years building scalable web and mobile applications. Available for freelance projects.";
   const keywords = "full-stack developer, React developer, Node.js, Django, mobile developer, AI engineer, software engineer, web development, JavaScript, TypeScript, Python, React Native, freelance developer, Georgetown Guyana";
   const siteUrl = "https://www.kevoncadogan.com";
-  const imageUrl = `${siteUrl}/img/kev_logo.png`;
+  // 1200x630 social card (WhatsApp / Facebook / X link previews). Must stay in
+  // sync with the og:image:width/height below, or the crop goes wrong.
+  const imageUrl = `${siteUrl}/img/kevon-cadogan-social-card.jpg`;
 
   return [
     { title },
@@ -25,6 +27,8 @@ export const meta: MetaFunction = () => {
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:image", content: imageUrl },
+    { property: "og:image:secure_url", content: imageUrl },
+    { property: "og:image:type", content: "image/jpeg" },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
     { property: "og:image:alt", content: "Kevon Cadogan - Full-Stack Developer" },

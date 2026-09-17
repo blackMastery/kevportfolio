@@ -7,7 +7,7 @@ import { CALENDLY_URL } from "~/config/contact";
 import { SERVICE_PAGES } from "~/config/services";
 
 const SITE_URL = "https://www.kevoncadogan.com";
-const SOCIAL_IMAGE = `${SITE_URL}/img/kev_logo.png`;
+const SOCIAL_IMAGE = `${SITE_URL}/img/kevon-cadogan-social-card.jpg`;
 
 type ServicePageLayoutProps = {
   /** Single H1 for the page */
@@ -72,6 +72,10 @@ export function buildServiceMeta({
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:image", content: SOCIAL_IMAGE },
+    { property: "og:image:secure_url", content: SOCIAL_IMAGE },
+    { property: "og:image:type", content: "image/jpeg" },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
     { property: "og:site_name", content: "Kevon Cadogan Portfolio" },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },

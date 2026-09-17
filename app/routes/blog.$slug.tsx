@@ -57,7 +57,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     ];
   }
 
-  const imageUrl = data.post.banner_image || data.post.featured_image;
+  // Posts without a cover image used to emit no og:image at all, which left their
+  // shares with a blank preview -- fall back to the site social card.
+  const postImage = data.post.banner_image || data.post.featured_image;
+  const imageUrl = postImage || `${SITE_URL}/img/kevon-cadogan-social-card.jpg`;
   const description = data.post.excerpt || `Read ${data.post.title} on Kevon Cadogan's blog.`;
   const tagNames = data.post.tags.map((tag) => tag.name).join(", ");
   const keywords = [data.post.category?.name, tagNames, "blog", "web development"]
@@ -83,12 +86,17 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     { property: "og:description", content: description },
     { property: "og:url", content: postUrl },
     { property: "og:site_name", content: "Kevon Cadogan" },
-    ...(imageUrl ? [
-      { property: "og:image", content: imageUrl },
+    { property: "og:image", content: imageUrl },
+    { property: "og:image:secure_url", content: imageUrl },
+    { property: "og:image:alt", content: postImage ? data.post.title : "Kevon Cadogan - Full-Stack Developer" },
+    // Only declare dimensions for the card we ship and whose size we know. A post's
+    // own cover is an arbitrary upload, and claiming 1200x630 for it makes the
+    // scrapers crop to a size the file does not have.
+    ...(postImage ? [] : [
+      { property: "og:image:type", content: "image/jpeg" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: data.post.title },
-    ] : []),
+    ]),
     // Article-specific tags (LinkedIn, Facebook)
     ...(data.post.published_at ? [
       { property: "article:published_time", content: data.post.published_at },
@@ -103,7 +111,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: `${data.post.title} - Kevon Cadogan | Blog` },
     { name: "twitter:description", content: description },
-    ...(imageUrl ? [{ name: "twitter:image", content: imageUrl }] : []),
+    { name: "twitter:image", content: imageUrl },
     // LinkedIn-specific tags
     { name: "linkedin:owner", content: "Kevon Cadogan" },
   ];
