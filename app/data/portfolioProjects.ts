@@ -108,58 +108,58 @@ export const portfolioProjects: PortfolioProject[] = [
       stack: ["Next.js", "React", "Tailwind CSS", "Vercel"],
     },
   },
-  {
-    id: "cmeqbank",
-    name: "cmeqbank.com",
-    description:
-      "Medical board and exit exam prep platform with practice questions, timed mock exams, AI-graded OSCE stations, and an AI tutor that answers from the course materials — across CAMC, USMLE, PLAB, NCLEX and MBBS question banks.",
-    url: "https://www.cmeqbank.com/",
-    logo: "/img/portfolio/cmeqbank-logo.jpg",
-    banner: optimizedBanner("cmeqbank"),
-    detail: {
-      tagline:
-        "A subscription exam-prep platform for medical students, with AI marking and a source-citing tutor.",
-      category: "Web application",
-      overview: [
-        "cmeqbank.com prepares medical students for board and exit examinations across the CAMC, USMLE, PLAB, NCLEX and MBBS syllabuses. It is the largest build in this portfolio: a full subscription product with question banks, exam sittings, analytics and two separate AI features, rather than a marketing site.",
-        "The hard problems here were integrity and trust. Exam timing runs on the server so that refreshing or closing a laptop can neither buy extra time nor lose an answer, and the AI tutor answers only from curated course materials — citing the file and page it used, and saying so when a topic isn't covered instead of guessing.",
-      ],
-      highlights: [
-        {
-          title: "Build any test",
-          body: "Students choose subjects, question count, difficulty and time limit — from a ten-question drill on one topic to a full paper across every subject.",
-        },
-        {
-          title: "Server-timed mock exams",
-          body: "The clock runs server-side under real exam conditions, so refreshing or closing the browser neither extends the sitting nor discards answers.",
-        },
-        {
-          title: "Tutor mode",
-          body: "Untimed practice that grades each question on answer and shows the explanation immediately, so students learn during the paper rather than after it.",
-        },
-        {
-          title: "AI tutor with citations",
-          body: "Answers are drawn from curated course materials and cite the source file and page, with an explicit 'not covered' response instead of a guess.",
-        },
-        {
-          title: "AI-graded OSCE stations",
-          body: "Free-text station answers are marked against the model answer in seconds, then the model answer is shown for comparison.",
-        },
-        {
-          title: "Per-subject analytics",
-          body: "Performance broken down by subject so students can see exactly where to spend revision time.",
-        },
-      ],
-      stack: [
-        "Next.js",
-        "React",
-        "Tailwind CSS",
-        "AI / LLM integration",
-        "Subscription billing",
-        "Vercel",
-      ],
-    },
-  },
+  // {
+  //   id: "cmeqbank",
+  //   name: "cmeqbank.com",
+  //   description:
+  //     "Medical board and exit exam prep platform with practice questions, timed mock exams, AI-graded OSCE stations, and an AI tutor that answers from the course materials — across CAMC, USMLE, PLAB, NCLEX and MBBS question banks.",
+  //   url: "https://www.cmeqbank.com/",
+  //   logo: "/img/portfolio/cmeqbank-logo.jpg",
+  //   banner: optimizedBanner("cmeqbank"),
+  //   detail: {
+  //     tagline:
+  //       "A subscription exam-prep platform for medical students, with AI marking and a source-citing tutor.",
+  //     category: "Web application",
+  //     overview: [
+  //       "cmeqbank.com prepares medical students for board and exit examinations across the CAMC, USMLE, PLAB, NCLEX and MBBS syllabuses. It is the largest build in this portfolio: a full subscription product with question banks, exam sittings, analytics and two separate AI features, rather than a marketing site.",
+  //       "The hard problems here were integrity and trust. Exam timing runs on the server so that refreshing or closing a laptop can neither buy extra time nor lose an answer, and the AI tutor answers only from curated course materials — citing the file and page it used, and saying so when a topic isn't covered instead of guessing.",
+  //     ],
+  //     highlights: [
+  //       {
+  //         title: "Build any test",
+  //         body: "Students choose subjects, question count, difficulty and time limit — from a ten-question drill on one topic to a full paper across every subject.",
+  //       },
+  //       {
+  //         title: "Server-timed mock exams",
+  //         body: "The clock runs server-side under real exam conditions, so refreshing or closing the browser neither extends the sitting nor discards answers.",
+  //       },
+  //       {
+  //         title: "Tutor mode",
+  //         body: "Untimed practice that grades each question on answer and shows the explanation immediately, so students learn during the paper rather than after it.",
+  //       },
+  //       {
+  //         title: "AI tutor with citations",
+  //         body: "Answers are drawn from curated course materials and cite the source file and page, with an explicit 'not covered' response instead of a guess.",
+  //       },
+  //       {
+  //         title: "AI-graded OSCE stations",
+  //         body: "Free-text station answers are marked against the model answer in seconds, then the model answer is shown for comparison.",
+  //       },
+  //       {
+  //         title: "Per-subject analytics",
+  //         body: "Performance broken down by subject so students can see exactly where to spend revision time.",
+  //       },
+  //     ],
+  //     stack: [
+  //       "Next.js",
+  //       "React",
+  //       "Tailwind CSS",
+  //       "AI / LLM integration",
+  //       "Subscription billing",
+  //       "Vercel",
+  //     ],
+  //   },
+  // },
   {
     id: "waronretailguyana",
     name: "War On Retail Guyana",
