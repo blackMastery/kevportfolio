@@ -179,7 +179,7 @@ This document contains all text content from the main portfolio components refer
 - **Name:** Impact Business Solutions
 - **Description:**
   > Since 2021, Impact Business Solutions has been empowering businesses to grow both online and offline through innovative marketing and business development strategies. We are a boutique marketing and business development agency, dedicated to fueling business growth through innovation and excellence.
-- **URL:** https://impact-business-solutions.vercel.app/
+- **URL:** https://www.impact-business-solutions.com/
 - **Button Text:** View
 
 ### Project 2: Synergy Auto Zone

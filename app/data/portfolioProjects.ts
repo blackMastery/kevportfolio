@@ -247,7 +247,7 @@ export const portfolioProjects: PortfolioProject[] = [
     name: "Impact Business Solutions",
     description:
       "Since 2021, Impact Business Solutions has been empowering businesses to grow both online and offline through innovative marketing and business development strategies. We are a boutique marketing and business development agency, dedicated to fueling business growth through innovation and excellence.",
-    url: "https://impact-business-solutions.vercel.app/",
+    url: "https://www.impact-business-solutions.com/",
     logo: "/img/portfolio/impact-business-solutions-logo.png",
     banner: optimizedBanner("impact"),
     logoDarkBg: true,

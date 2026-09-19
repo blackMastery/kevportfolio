@@ -136,7 +136,7 @@ const PORTFOLIO_CONTENT_MD = `# Kevon Cadogan - Portfolio Information
 4. Cloud - Server migrations, infrastructure planning, cost optimization
 
 **Projects:**
-1. Impact Business Solutions (https://impact-business-solutions.vercel.app/) - Marketing & business development agency since 2021
+1. Impact Business Solutions (https://www.impact-business-solutions.com/) - Marketing & business development agency since 2021
 2. Synergy Auto Zone (https://synergyautozone.vercel.app/) - Car-buying platform with transparent pricing
 3. Healthyzway (https://healthyzway.vercel.app/) - Premium SeaMoss Gel e-commerce
 4. SmartWasteGy (https://smartwaste-landing-page.vercel.app/) - Waste management platform for Guyana
