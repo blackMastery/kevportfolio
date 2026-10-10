@@ -68,6 +68,89 @@ function optimizedBanner(slug: string, width = 800, height = 450): PortfolioBann
 
 export const portfolioProjects: PortfolioProject[] = [
   {
+    id: "poshhomedecor",
+    name: "Posh Home Decor",
+    description:
+      "Curated home decor, furniture, wall decor and lighting from a Georgetown, Guyana showroom — browse the collection, build your bag and order on WhatsApp.",
+    url: "https://www.poshhomedecorgy.com/",
+    logo: "/img/portfolio/poshhomedecor-logo.png",
+    banner: optimizedBanner("posh"),
+    detail: {
+      tagline:
+        "A showroom catalogue for a Georgetown home decor boutique, with a bag that checks out over WhatsApp.",
+      category: "E-commerce",
+      overview: [
+        "Posh Home Decor is a home decor and furniture boutique on Joseph Pollydore Street in Georgetown, Guyana, selling curated accent pieces, furniture, wall decor and lighting. The site takes the showroom online so customers can browse the full collection before they visit or order.",
+        "Decor is bought on look and feel, so the build is image-led and editorial rather than a dense product grid. Shoppers build a bag of pieces and send it to the team on WhatsApp, where pricing and delivery are confirmed — matching how the boutique already sells.",
+      ],
+      highlights: [
+        {
+          title: "Category catalogue",
+          body: "Decor, furniture, wall decor and lighting, each browsable on its own, with piece counts so visitors can see the depth of the range.",
+        },
+        {
+          title: "New-in and coming-soon drops",
+          body: "Fresh arrivals and pre-order pieces surfaced on the home page, giving repeat visitors a reason to come back.",
+        },
+        {
+          title: "Bag-to-WhatsApp ordering",
+          body: "Customers build a bag of pieces and send it as a WhatsApp order, with delivery quoted in the conversation.",
+        },
+        {
+          title: "Saved pieces",
+          body: "A wishlist kept on the visitor's device, so shoppers can shortlist items without creating an account.",
+        },
+        {
+          title: "Gallery of styled spaces",
+          body: "Room shots showing the pieces in use, selling the look rather than the individual item.",
+        },
+      ],
+      stack: ["Next.js", "React", "Tailwind CSS", "WhatsApp Business", "Vercel"],
+    },
+  },
+  {
+    id: "wsengineering",
+    name: "W&S Engineering",
+    description:
+      "Authorized Kraft Tool Co. and W. Rose reseller in Guyana — concrete, masonry, drywall, tile and measuring tools, ordered from the supplier on request and invoiced only for what arrives.",
+    url: "https://www.wsengineeringgy.com/",
+    logo: "/img/portfolio/wsengineering-logo.jpg",
+    banner: optimizedBanner("wsengineering"),
+    logoDarkBg: true,
+    detail: {
+      tagline:
+        "A trade-tool catalogue for an authorized Kraft Tool Co. reseller, built around order requests instead of online payment.",
+      category: "E-commerce",
+      overview: [
+        "W&S Engineering is an authorized reseller of Kraft Tool Co. and W. Rose in Guyana, supplying concrete, masonry, drywall, tile and layout tools from Kraft Tool Co., W. Rose, Sands Level, Gator Tools and Hi-Craft to contractors and tradespeople.",
+        "Tools are sourced from the supplier per order, so the site can't promise stock or take payment up front. The build is designed around that: customers add tools to a cart and place an order request, nothing is charged online, and they are invoiced only for what actually arrives.",
+      ],
+      highlights: [
+        {
+          title: "Large trade catalogue",
+          body: "Over 900 products across concrete, masonry, drywall and plaster, tile and floor, levels and measuring, and general tools.",
+        },
+        {
+          title: "Part-number search",
+          body: "A ⌘K search that finds tools by name or manufacturer part number — how tradespeople actually look up what they need.",
+        },
+        {
+          title: "Product variants",
+          body: "Trowels and floats offered in dozens of sizes and options, each selectable on a single product page.",
+        },
+        {
+          title: "Order requests, not checkout",
+          body: "A cart that submits a request rather than taking payment, with invoicing based on what the supplier delivers.",
+        },
+        {
+          title: "Customer accounts",
+          body: "Sign-in for repeat trade customers placing order requests.",
+        },
+      ],
+      stack: ["Next.js", "React", "Tailwind CSS", "Vercel"],
+    },
+  },
+  {
     id: "inneralchemyinstitution",
     name: "Inner Alchemy Institution",
     description:
