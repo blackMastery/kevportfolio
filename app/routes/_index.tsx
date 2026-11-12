@@ -6,9 +6,9 @@ import Footer from "~/components/Footer";
 import { CALENDLY_URL, CONTACT_EMAIL } from "~/config/contact";
 
 export const meta: MetaFunction = () => {
-  const title = "Full-Stack Developer in Georgetown, Guyana | Kevon Cadogan";
-  const description = "Experienced full-stack developer specializing in React, Node.js, Django, and mobile development. 5+ years building scalable web and mobile applications. Available for freelance projects.";
-  const keywords = "full-stack developer, React developer, Node.js, Django, mobile developer, AI engineer, software engineer, web development, JavaScript, TypeScript, Python, React Native, freelance developer, Georgetown Guyana";
+  const title = "Full-Stack & AI Developer in Georgetown, Guyana | Kevon Cadogan";
+  const description = "Full-stack developer & AI engineer in Georgetown, Guyana with 5+ years building web apps, mobile apps, and AI agents using React, Next.js, Node.js and Python.";
+  const keywords = "full-stack developer, AI developer, AI engineer, AI agents, agentic workflows, AI automation, React developer, Next.js developer, React Native, Angular, Node.js, Python, Django, PostgreSQL, MongoDB, mobile app developer, web developer Guyana, software developer Georgetown, freelance developer";
   const siteUrl = "https://www.kevoncadogan.com";
   // 1200x630 social card (WhatsApp / Facebook / X link previews). Must stay in
   // sync with the og:image:width/height below, or the crop goes wrong.
@@ -31,7 +31,7 @@ export const meta: MetaFunction = () => {
     { property: "og:image:type", content: "image/jpeg" },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
-    { property: "og:image:alt", content: "Kevon Cadogan - Full-Stack Developer" },
+    { property: "og:image:alt", content: "Kevon Cadogan - Full-Stack Developer & AI Engineer" },
     { property: "og:locale", content: "en_US" },
     { property: "og:site_name", content: "Kevon Cadogan Portfolio" },
     
@@ -41,8 +41,8 @@ export const meta: MetaFunction = () => {
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
     { name: "twitter:image", content: imageUrl },
-    { name: "twitter:image:alt", content: "Kevon Cadogan - Full-Stack Developer" },
-    { name: "twitter:creator", content: "@kevoncadogan" },
+    { name: "twitter:image:alt", content: "Kevon Cadogan - Full-Stack Developer & AI Engineer" },
+    { name: "twitter:creator", content: "@kevon_cadogan" },
     
     // Additional SEO tags
     { name: "theme-color", content: "#149ddd" },
@@ -68,8 +68,8 @@ export default function Index() {
         "name": "Kevon Cadogan",
         "url": siteUrl,
         "image": portraitUrl,
-        "jobTitle": "Full-Stack Developer",
-        "description": "Website design and development in Georgetown, Guyana including custom websites, e-commerce, and ongoing maintenance.",
+        "jobTitle": ["Full-Stack Software Developer", "AI Engineer"],
+        "description": "Full-stack software developer with 5+ years of experience building modern web applications, mobile apps, and AI-powered solutions, including AI agents and agentic workflows that automate business processes.",
         "email": CONTACT_EMAIL,
         "telephone": "+592-694-3827",
         "address": {
@@ -80,18 +80,25 @@ export default function Index() {
         "birthDate": "1988-02-05",
         "knowsAbout": [
           "React",
+          "Next.js",
+          "React Native",
+          "Angular",
           "Node.js",
           "JavaScript",
           "TypeScript",
           "Python",
           "Django",
-          "MongoDB",
+          "PostgreSQL",
           "MySQL",
-          "React Native",
-          "Angular",
+          "MongoDB",
           "Full-Stack Development",
-          "AI Engineering",
-          "Mobile Development"
+          "Mobile App Development",
+          "Artificial Intelligence",
+          "AI Agents",
+          "Agentic Workflows",
+          "Business Process Automation",
+          "Software Architecture",
+          "Agile Project Management"
         ],
         "worksFor": {
           "@type": "Organization",
@@ -112,10 +119,10 @@ export default function Index() {
       {
         "@type": "ProfessionalService",
         "@id": `${siteUrl}/#business`,
-        "name": "Kevon Cadogan — Web Design & Development",
+        "name": "Kevon Cadogan — Web, Mobile & AI Development",
         "url": siteUrl,
         "image": portraitUrl,
-        "description": "Web design, e-commerce, and mobile app development for businesses in Georgetown and across Guyana.",
+        "description": "Custom websites, web platforms, cross-platform mobile apps, and AI solutions (AI agents and agentic workflows) for businesses in Georgetown, across Guyana, and remotely.",
         "telephone": "+592-694-3827",
         "email": CONTACT_EMAIL,
         "priceRange": "$$", // TODO: confirm the price range ($/$$/$$$) or remove this field
@@ -136,7 +143,11 @@ export default function Index() {
           "responsive web design",
           "small business website design",
           "website maintenance services in Guyana",
-          "mobile app development"
+          "mobile app development",
+          "custom web application development",
+          "AI application development",
+          "AI agent development",
+          "AI workflow automation"
         ],
         "contactPoint": {
           "@type": "ContactPoint",

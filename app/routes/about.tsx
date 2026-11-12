@@ -6,9 +6,11 @@ const PATH = "/about";
 
 export const meta: MetaFunction = () =>
   buildPageMeta({
-    title: "About Kevon Cadogan | Full-Stack Developer in Guyana",
+    title: "About Kevon Cadogan | Full-Stack & AI Developer in Guyana",
     description:
-      "Learn about Kevon Cadogan, a full-stack developer based in Georgetown, Guyana, building modern web and mobile applications.",
+      "Meet Kevon Cadogan, a Georgetown, Guyana full-stack developer with 5+ years building web apps, mobile apps, AI agents and agentic workflows for growing businesses.",
+    keywords:
+      "Kevon Cadogan, about, full-stack developer, AI engineer, AI agents, agentic workflows, React, Next.js, React Native, Node.js, Python, Django, Georgetown Guyana",
     path: PATH,
   });
 

@@ -80,13 +80,44 @@ export default function About() {
             <h3 className="text-3xl font-semibold text-gray-800 mb-2">
               Full-Stack Developer
             </h3>
-            <p className="text-gray-600 text-lg mb-8 leading-relaxed italic mt-4">
-              I am a full-stack developer with an eye for detail, building client and server 
-              applications for five years, with a diverse set of skills from HTML and JavaScript, 
-              with frameworks like React and Angular to Django, MySQL, MongoDB etc. With a sound 
-              agile project management discipline from years of building client-server applications, 
-              there is very little that we cannot achieve in a timely manner.
-            </p>
+            <div className="text-gray-600 text-lg mb-8 leading-relaxed mt-4 space-y-4">
+              <p>
+                I am a passionate and detail-oriented{" "}
+                <strong className="text-gray-800">Full-Stack Software Developer</strong> with over
+                five years of experience designing and building modern web applications, mobile
+                apps, and AI-powered solutions.
+              </p>
+              <p>
+                My expertise spans frontend and backend development, working with technologies such
+                as{" "}
+                <strong className="text-gray-800">
+                  React, Next.js, React Native, Angular, Node.js, Python, Django, PostgreSQL, MySQL,
+                  and MongoDB
+                </strong>
+                .
+              </p>
+              <p>
+                Beyond traditional software development, I specialize in building{" "}
+                <strong className="text-gray-800">
+                  AI-powered applications, intelligent AI agents, and agentic workflows
+                </strong>{" "}
+                that automate business processes, enhance productivity, and deliver smarter user
+                experiences.
+              </p>
+              <p>
+                With a strong foundation in agile project management, problem-solving, and scalable
+                software architecture, I transform complex ideas into reliable, user-friendly
+                digital solutions.
+              </p>
+              <p>
+                Whether it's a business website, a custom web platform, a cross-platform mobile
+                application, or an intelligent AI solution,{" "}
+                <strong className="text-gray-800">
+                  my goal is to deliver high-quality, innovative software that solves real-world
+                  problems and helps businesses grow.
+                </strong>
+              </p>
+            </div>
 
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-4">
