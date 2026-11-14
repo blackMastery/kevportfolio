@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Header from "~/components/Header";
 import Footer from "~/components/Footer";
 import { createServerClientHandler } from "~/config/supabase";
+import { buildPageMeta } from "~/components/SectionPageLayout";
 
 // Type definitions for blog posts
 interface Profile {
@@ -42,17 +43,13 @@ interface BlogPost {
   banner_image: string | null;
 }
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Blog - Kevon Cadogan | Full-Stack Developer" },
-    {
-      name: "description",
-      content:
-        "Read my latest blog posts about web development, React, Node.js, mobile development, and technology insights.",
-    },
-    { name: "keywords", content: "blog, web development, React, Node.js, programming, tech blog" },
-  ];
-};
+export const meta: MetaFunction = () =>
+  buildPageMeta({
+    title: "Web Development & AI Blog | Kevon Cadogan",
+    description:
+      "Practical articles on web development, React, Node.js, mobile apps, and AI agents from Kevon Cadogan, a full-stack developer in Georgetown, Guyana.",
+    path: "/blog",
+  });
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const response = new Response();

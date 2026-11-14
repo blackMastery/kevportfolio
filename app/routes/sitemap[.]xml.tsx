@@ -11,14 +11,15 @@ type SitemapRoute = {
   lastmod?: string;
 };
 
-function formatLastmod(date: string | null | undefined, fallback: string): string {
-  if (!date) return fallback;
-  return new Date(date).toISOString().split("T")[0];
+// Only real dates: a lastmod that is always "today" teaches Google to ignore it.
+function formatLastmod(date: string | null | undefined): string | undefined {
+  if (!date) return undefined;
+  const parsed = new Date(date);
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed.toISOString().split("T")[0];
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const baseUrl = "https://www.kevoncadogan.com";
-  const currentDate = new Date().toISOString().split("T")[0];
 
   const responseHeaders = new Headers();
   const supabase = createServerClientHandler(request, responseHeaders);
@@ -33,7 +34,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     path: `/blog/${post.slug}`,
     changefreq: "monthly",
     priority: "0.6",
-    lastmod: formatLastmod(post.updated_at ?? post.published_at, currentDate),
+    lastmod: formatLastmod(post.updated_at ?? post.published_at),
   }));
 
   // Only real, canonical, indexable pages belong in a sitemap — not URL fragments
@@ -62,8 +63,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const urls = routes
     .map(
       (route) => `  <url>
-    <loc>${baseUrl}${route.path}</loc>
-    <lastmod>${route.lastmod ?? currentDate}</lastmod>
+    <loc>${baseUrl}${route.path}</loc>${route.lastmod ? `
+    <lastmod>${route.lastmod}</lastmod>` : ""}
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
   </url>`

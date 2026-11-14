@@ -4,69 +4,36 @@ import { Link } from "@remix-run/react";
 import { CALENDLY_URL } from "~/config/contact";
 import { SERVICE_PAGES } from "~/config/services";
 
+/** Outline icon paths (24x24) keyed by service page path. */
+const ICONS: Record<string, string> = {
+  "/web-design-guyana":
+    "M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9",
+  "/ecommerce-development-guyana":
+    "M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z",
+  "/hire-web-developer-georgetown": "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",
+  "/mobile-app-development-guyana":
+    "M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z",
+  "/agentic-ai-for-business":
+    "M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z",
+};
+
+const CLOUD_ICON =
+  "M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z";
+
+function ServiceIcon({ path }: { path: string }) {
+  return (
+    <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={path} />
+    </svg>
+  );
+}
+
+const CARD_CLASS =
+  "flex h-full flex-col rounded-xl bg-gray-50 p-6 shadow-md transition-shadow duration-300 hover:shadow-xl md:p-8";
+
 export default function Services() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1, margin: "-100px" });
-
-  const services = [
-    {
-      icon: (
-        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      ),
-      title: "Website Development",
-      description: "The Web Development Services offered by me vary from simple automation script for your existing Web Services to fully functional Custom facing Web solutions such as Static Website (for images and Text base only) for Detailing the products and services you offer to potential customers, such as E-commerce Applications, Business to Business Applications, Administrative Control Panel for internal business applications."
-    },
-    {
-      icon: (
-        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-        </svg>
-      ),
-      title: "DevOps",
-      description: "Create and maintain continuous integration strategies using GitHub, AWS Boto3, Jenkins, Chef, Puppet or Ansible."
-    },
-    {
-      icon: (
-        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-      ),
-      title: "Machine Learning",
-      description: "Applied Linear Algebra, AI and Neural Networks designs and coding using Octave and Python scikit-learn and NumPy"
-    },
-    {
-      icon: (
-        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      ),
-      title: "Cloud",
-      description: "Server migrations, and consultation on cloud infrastructure planning to minimize costs while maximizing security and performance."
-    }
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" as const },
-    },
-  };
 
   return (
     <section id="services" className="py-12 md:py-20 bg-white" ref={ref}>
@@ -81,102 +48,43 @@ export default function Services() {
           <div className="w-20 h-1 bg-primary mx-auto"></div>
         </motion.div>
 
-        <motion.div
-          className="mt-4 mb-8 md:mb-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          {[
-            "Custom website design for Guyanese businesses",
-            "E-commerce website development in Guyana",
-            "Responsive web design Georgetown",
-            "Affordable web design packages Guyana",
-            "Website maintenance and speed optimization",
-            "Small business website design Guyana",
-            "Hire a local web developer in Georgetown",
-            "IT services and cloud setup for local teams"
-          ].map((item) => (
-            <div
-              key={item}
-              className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3 shadow-sm"
-            >
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white text-sm font-semibold">
-                •
-              </span>
-              <p className="text-gray-700 text-sm md:text-base leading-relaxed">{item}</p>
-            </div>
-          ))}
-        </motion.div>
+        <p className="mx-auto mb-10 max-w-3xl text-center text-base leading-relaxed text-gray-600 md:mb-14 md:text-lg">
+          I design and build websites, online stores, mobile apps, and AI agents for businesses in
+          Georgetown, across Guyana, and remotely. You work directly with me from the first call to
+          launch and beyond.
+        </p>
 
-        {/* Dedicated service pages (real, indexable routes) */}
-        <motion.div
-          className="mb-12 md:mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-        >
-          <p className="text-center text-gray-600 text-sm md:text-base mb-5">
-            Explore each service in detail:
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {SERVICE_PAGES.map((service) => (
-              <Link
-                key={service.path}
-                to={service.path}
-                className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white"
-              >
-                {service.navLabel}
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        {/* Each offering links to its dedicated, indexable service page. */}
+        <div className="grid gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+          {SERVICE_PAGES.map((service) => (
+            <Link key={service.path} to={service.path} className={`${CARD_CLASS} group`}>
+              <span className="mb-5 text-primary">
+                <ServiceIcon path={ICONS[service.path] ?? CLOUD_ICON} />
+              </span>
+              <h3 className="mb-3 text-xl font-semibold text-gray-800 transition-colors group-hover:text-primary md:text-2xl">
+                {service.cardTitle}
+              </h3>
+              <p className="mb-5 flex-1 leading-relaxed text-gray-600">{service.summary}</p>
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                Learn more
+                <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
-              </Link>
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "visible"}
-        >
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className="bg-gray-50 rounded-xl p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group"
-              whileHover={{ 
-                y: -10, 
-                scale: 1.02,
-                boxShadow: "0 20px 40px rgba(20, 157, 221, 0.1)"
-              }}
-            >
-              <motion.div
-                className="text-primary mb-6 flex justify-center group-hover:text-primary-hover transition-colors duration-300"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                {service.icon}
-              </motion.div>
-              
-              <h4 className="text-2xl font-semibold text-gray-800 mb-4 text-center group-hover:text-primary transition-colors duration-300">
-                {service.title}
-              </h4>
-              
-              <p className="text-gray-600 leading-relaxed text-center">
-                {service.description}
-              </p>
-
-              {/* Hover effect overlay */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-primary to-primary-hover opacity-0 rounded-xl group-hover:opacity-5 transition-opacity duration-300"
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 0.05 }}
-              />
-            </motion.div>
+              </span>
+            </Link>
           ))}
-        </motion.div>
+
+          <div className={CARD_CLASS}>
+            <span className="mb-5 text-primary">
+              <ServiceIcon path={CLOUD_ICON} />
+            </span>
+            <h3 className="mb-3 text-xl font-semibold text-gray-800 md:text-2xl">Cloud &amp; DevOps</h3>
+            <p className="flex-1 leading-relaxed text-gray-600">
+              Cloud hosting, server migrations, and CI/CD pipelines on AWS and GitHub, planned to
+              keep costs down while improving security and performance.
+            </p>
+          </div>
+        </div>
 
         {/* Call to Action */}
         <motion.div
@@ -186,7 +94,7 @@ export default function Services() {
           transition={{ delay: 0.8, duration: 0.6 }}
         >
           <p className="text-lg md:text-xl text-gray-600 mb-6 md:mb-8 px-4">
-            Ready to start your next project? Let's work together!
+            Ready to start your next project? Book a free consultation.
           </p>
           <motion.a
             href={CALENDLY_URL}

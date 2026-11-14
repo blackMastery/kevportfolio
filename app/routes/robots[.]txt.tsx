@@ -3,32 +3,14 @@ import type { LoaderFunction } from "@remix-run/node";
 export const loader: LoaderFunction = () => {
   const baseUrl = "https://www.kevoncadogan.com";
 
+  // A single group for every crawler. Rules belong to the User-agent group
+  // directly above them, so per-bot groups silently drop the shared rules.
   const robotsTxt = `# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
+Disallow: /api/
 
-# Sitemaps
 Sitemap: ${baseUrl}/sitemap.xml
-
-# Crawl-delay for specific bots (optional)
-User-agent: Googlebot
-Crawl-delay: 0
-
-User-agent: Bingbot
-Crawl-delay: 0
-
-# Block access to build artifacts and config files
-Disallow: /build/
-Disallow: /*.json$
-Disallow: /*.config.*
-
-# Allow all images
-User-agent: Googlebot-Image
-Allow: /img/
-
-# Allow all main resources
-Allow: /*.css$
-Allow: /*.js$
 `;
 
   return new Response(robotsTxt, {
@@ -39,4 +21,3 @@ Allow: /*.js$
     },
   });
 };
-

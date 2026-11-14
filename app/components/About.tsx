@@ -7,23 +7,6 @@ export default function About() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
-  // Function to calculate age from birthday
-  const calculateAge = (birthDate: string): number => {
-    const birth = new Date(birthDate);
-    const today = new Date();
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-    
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-      age--;
-    }
-    
-    return age;
-  };
-
-  const birthday = "1988-02-05"; // February 5, 1988
-  const currentAge = calculateAge(birthday);
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -123,14 +106,6 @@ export default function About() {
               <div className="space-y-4">
                 <div className="flex items-center">
                   <svg className="w-5 h-5 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0V6a2 2 0 012-2h2a2 2 0 012 2v1m-6 0h6m-6 0v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4m6 0v4m0-4v4" />
-                  </svg>
-                  <span className="text-gray-700">
-                    <strong>Birthday:</strong> 5 FEB 1988
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                   <span className="text-gray-700">
@@ -149,14 +124,6 @@ export default function About() {
               </div>
 
               <div className="space-y-4">
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span className="text-gray-700">
-                    <strong>Age:</strong> {currentAge}
-                  </span>
-                </div>
                 <div className="flex items-center">
                   <svg className="w-5 h-5 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

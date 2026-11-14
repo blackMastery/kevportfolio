@@ -61,7 +61,7 @@ export default function Footer() {
           >
             <h3 className="text-xl lg:text-2xl font-bold font-raleway mb-4">Kevon Cadogan</h3>
             <p className="text-gray-300 text-sm lg:text-base leading-relaxed">
-              Full-stack developer passionate about building modern, user-friendly web applications and creating elegant solutions to complex problems.
+              Full-stack &amp; AI developer in Georgetown, Guyana, building websites, online stores, mobile apps and AI agents for growing businesses.
             </p>
           </motion.div>
 

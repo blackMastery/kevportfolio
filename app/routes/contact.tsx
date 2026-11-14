@@ -16,7 +16,7 @@ export const meta: MetaFunction = () =>
 // this page from the homepage's Contact section.
 export default function ContactPage() {
   return (
-    <SectionPageLayout h1="Contact">
+    <SectionPageLayout h1="Contact Kevon Cadogan, Web Developer in Georgetown">
       <Contact />
     </SectionPageLayout>
   );

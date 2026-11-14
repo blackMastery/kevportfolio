@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { motion } from "framer-motion";
 import Header from "~/components/Header";
 import Hero from "~/components/Hero";
+import HomeSections from "~/components/HomeSections";
 import Footer from "~/components/Footer";
 import { CALENDLY_URL, CONTACT_EMAIL } from "~/config/contact";
 
@@ -63,6 +64,16 @@ export default function Index() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        "url": siteUrl,
+        "name": "Kevon Cadogan",
+        "alternateName": "Kevon Cadogan Portfolio",
+        "description": "Full-stack web, mobile and AI development by Kevon Cadogan in Georgetown, Guyana.",
+        "inLanguage": "en",
+        "publisher": { "@id": `${siteUrl}/#person` }
+      },
+      {
         "@type": "Person",
         "@id": `${siteUrl}/#person`,
         "name": "Kevon Cadogan",
@@ -77,7 +88,6 @@ export default function Index() {
           "addressLocality": "Georgetown",
           "addressCountry": "GY"
         },
-        "birthDate": "1988-02-05",
         "knowsAbout": [
           "React",
           "Next.js",
@@ -174,11 +184,11 @@ export default function Index() {
       {/* Top navbar */}
       <Header />
 
-      {/* Main content — the homepage is now a landing page (Hero only); the former
-          sections live on their own pages (/about, /resume, /services,
-          /portfolio, /contact) linked from the nav and footer. */}
-      <main className="min-h-screen flex flex-col">
+      {/* Main content — hero, then a short services / work / process / CTA run that
+          links into the dedicated pages (/services/*, /portfolio/*, /contact). */}
+      <main className="flex flex-col">
         <Hero />
+        <HomeSections />
       </main>
       <Footer />
 

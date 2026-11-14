@@ -19,7 +19,7 @@ export const meta: MetaFunction = () =>
   buildServiceMeta({
     title: "Agentic AI for Business & Government | Kevon Cadogan",
     description:
-      "We build custom AI agents that automate tasks, cut costs, and improve service for businesses and government. AI agent creation, audits, and staff training.",
+      "I build custom AI agents that automate tasks, cut costs, and improve service for businesses and government in Guyana and beyond. AI agent creation, audits, and staff training.",
     path: PATH,
   });
 
@@ -48,7 +48,7 @@ export default function AgenticAiForBusiness() {
   return (
     <ServicePageLayout
       h1="Agentic AI That Works for Your Organization"
-      intro="Move beyond chatbots. We build autonomous AI agents that take real action — handling tasks, making decisions within your rules, and working around the clock so your people can focus on what matters. Trusted by businesses and public-sector teams to automate operations, cut costs, and deliver results."
+      intro="Move beyond chatbots. I build autonomous AI agents that take real action — handling tasks, making decisions within your rules, and working around the clock so your people can focus on what matters."
       jsonLd={jsonLd}
     >
       {/* Hero CTAs */}
@@ -65,7 +65,7 @@ export default function AgenticAiForBusiness() {
       <section className="mb-12 rounded-xl border-l-4 border-primary bg-gray-50 p-6 xs:p-8">
         <h2 className="mb-3 text-xl font-semibold text-gray-800">TL;DR</h2>
         <p className="mb-4 leading-relaxed text-gray-600">
-          We build <strong className="text-gray-800">autonomous AI agents</strong> that don&apos;t
+          I build <strong className="text-gray-800">autonomous AI agents</strong> that don&apos;t
           just answer questions — they do the work, around the clock, within rules you define. For
           businesses and government, that means lower costs, faster service, fewer errors, and a team
           freed from busywork.
@@ -126,14 +126,14 @@ export default function AgenticAiForBusiness() {
         />
         <p className="mt-4 leading-relaxed text-gray-600">
           The question is no longer <em>whether</em> to adopt AI agents — it&apos;s{" "}
-          <em>how quickly and safely</em> you can do it. That&apos;s where we come in.
+          <em>how quickly and safely</em> you can do it. That&apos;s where I come in.
         </p>
       </section>
 
       <section className="mt-8">
-        <h2 className="mb-4 text-2xl font-semibold text-gray-800">Our services</h2>
+        <h2 className="mb-4 text-2xl font-semibold text-gray-800">Services</h2>
         <p className="mb-6 leading-relaxed text-gray-600">
-          We don&apos;t sell you a tool and walk away. We assess, build, and train — so the
+          I don&apos;t sell you a tool and walk away. I assess, build, and train — so the
           technology actually sticks.
         </p>
 
@@ -141,7 +141,7 @@ export default function AgenticAiForBusiness() {
           <div>
             <h3 className="mb-2 text-xl font-semibold text-gray-800">1. AI Agent Creation</h3>
             <p className="mb-3 leading-relaxed text-gray-600">
-              Custom agents built around your real workflows. We design and deploy AI agents tailored
+              Custom agents built around your real workflows. I design and deploy AI agents tailored
               to your organization&apos;s unique needs — not off-the-shelf templates. Each agent
               integrates with the systems you already use and automates the work that costs you the
               most time.
@@ -159,7 +159,7 @@ export default function AgenticAiForBusiness() {
           <div>
             <h3 className="mb-2 text-xl font-semibold text-gray-800">2. AI Audits</h3>
             <p className="mb-3 leading-relaxed text-gray-600">
-              Know exactly where AI will pay off — before you spend a dollar building. We analyze your
+              Know exactly where AI will pay off — before you spend a dollar building. I analyze your
               processes, tools, and data to pinpoint the highest-impact opportunities for automation.
               You get a clear, prioritized plan grounded in real ROI — not hype.
             </p>
@@ -176,7 +176,7 @@ export default function AgenticAiForBusiness() {
           <div>
             <h3 className="mb-2 text-xl font-semibold text-gray-800">3. AI Training for Staff</h3>
             <p className="mb-3 leading-relaxed text-gray-600">
-              Technology only works when your people do. We equip your team with the knowledge and
+              Technology only works when your people do. I equip your team with the knowledge and
               confidence to work alongside AI tools effectively. Adoption — not just installation — is
               what turns AI into results.
             </p>
@@ -228,7 +228,7 @@ export default function AgenticAiForBusiness() {
       </section>
 
       <section className="mt-8">
-        <h2 className="mb-4 text-2xl font-semibold text-gray-800">What our AI agents can do</h2>
+        <h2 className="mb-4 text-2xl font-semibold text-gray-800">What AI agents can do for you</h2>
         <p className="mb-4 leading-relaxed text-gray-600">
           A short list of where agents deliver fast, measurable wins:
         </p>
@@ -278,7 +278,7 @@ export default function AgenticAiForBusiness() {
         <p className="mb-4 leading-relaxed text-gray-600">
           Public-sector organizations carry a unique mandate: serve more people, more efficiently,
           with full accountability — often under tight budgets. Agentic AI is one of the most
-          powerful tools available to meet that mandate. We help government agencies and public
+          powerful tools available to meet that mandate. I help government agencies and public
           institutions modernize responsibly.
         </p>
         <Bullets
@@ -291,14 +291,14 @@ export default function AgenticAiForBusiness() {
           ]}
         />
         <h3 className="mb-3 mt-6 text-xl font-semibold text-gray-800">
-          We take public-sector concerns seriously
+          I take public-sector concerns seriously
         </h3>
         <Bullets
           items={[
             "Security & data protection — solutions designed with confidentiality and data governance front of mind.",
             "Human oversight — agents operate within defined boundaries, with people in control of sensitive decisions.",
             "Accountability & auditability — clear records of what was done and why, supporting transparency requirements.",
-            "Responsible, phased adoption — we start with low-risk, high-value pilots so you can prove results before scaling.",
+            "Responsible, phased adoption — I start with low-risk, high-value pilots so you can prove results before scaling.",
           ]}
         />
         {/* TODO: Government buyers value trust signals. When available, add a line here
@@ -313,33 +313,33 @@ export default function AgenticAiForBusiness() {
 
       <section className="mt-8">
         <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-          We train your team on leading AI tools
+          I train your team on leading AI tools
         </h2>
         <p className="mb-4 leading-relaxed text-gray-600">
-          Our training keeps your organization fluent in the tools that matter, including{" "}
+          My training keeps your organization fluent in the tools that matter, including{" "}
           <strong className="text-gray-800">
             Claude (by Anthropic), Microsoft Copilot 365, Perplexity, DeepSeek
           </strong>{" "}
           — and more.
         </p>
         <p className="leading-relaxed text-gray-600">
-          We&apos;re tool-agnostic. We recommend and train on what genuinely fits your needs, budget,
+          I&apos;m tool-agnostic. I recommend and train on what genuinely fits your needs, budget,
           and security requirements — not what&apos;s trendy.
         </p>
       </section>
 
       <section className="mt-8">
-        <h2 className="mb-4 text-2xl font-semibold text-gray-800">How we work</h2>
+        <h2 className="mb-4 text-2xl font-semibold text-gray-800">How I work</h2>
         <p className="mb-4 leading-relaxed text-gray-600">
           A clear, low-risk path from &quot;interested&quot; to &quot;in production.&quot;
         </p>
         <ol className="space-y-3">
           {[
             ["Discover", "A free consultation to understand your goals, challenges, and current operations."],
-            ["Audit", "We map your processes and identify where AI will deliver the strongest return."],
-            ["Build", "We develop and deploy custom agents that integrate with your existing systems."],
-            ["Train", "We equip your team to work confidently alongside the new tools."],
-            ["Support", "We provide ongoing guidance, optimization, and expansion as you grow."],
+            ["Audit", "I map your processes and identify where AI will deliver the strongest return."],
+            ["Build", "I develop and deploy custom agents that integrate with your existing systems."],
+            ["Train", "I equip your team to work confidently alongside the new tools."],
+            ["Support", "I provide ongoing guidance, optimization, and expansion as you grow."],
           ].map(([step, body], i) => (
             <li key={step} className="flex items-start text-gray-600">
               <span className="mr-3 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-white">
@@ -357,13 +357,13 @@ export default function AgenticAiForBusiness() {
       </section>
 
       <section className="mt-8">
-        <h2 className="mb-4 text-2xl font-semibold text-gray-800">Why work with us</h2>
+        <h2 className="mb-4 text-2xl font-semibold text-gray-800">Why work with me</h2>
         <Bullets
           items={[
-            "We focus on outcomes, not gadgets. Every solution is tied to a real result — saved time, lower cost, better service.",
-            "We're practical and honest. If AI isn't the right fit for a task, we'll tell you. Our audits are built to find genuine value.",
-            "We handle the whole journey. Strategy, build, and training under one roof — so nothing falls through the cracks.",
-            "We make AI accessible. No jargon, no overwhelm. We translate powerful technology into plain business value.",
+            "I focus on outcomes, not gadgets. Every solution is tied to a real result — saved time, lower cost, better service.",
+            "I'm practical and honest. If AI isn't the right fit for a task, I'll tell you. My audits are built to find genuine value.",
+            "I handle the whole journey. Strategy, build, and training from one person — so nothing falls through the cracks.",
+            "I make AI accessible. No jargon, no overwhelm. I translate powerful technology into plain business value.",
           ]}
         />
         <p className="mt-4 font-semibold text-primary">Technology · Agility · Growth</p>
@@ -376,7 +376,7 @@ export default function AgenticAiForBusiness() {
         <Link to="/contact" className="text-primary hover:underline">
           Request an AI audit
         </Link>{" "}
-        and we&apos;ll identify exactly where AI can save you time and money.
+        and I&apos;ll identify exactly where AI can save you time and money.
       </p>
 
       <OtherServices currentPath={PATH} />

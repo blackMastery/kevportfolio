@@ -68,7 +68,10 @@ export const links: LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const currentUrl = `https://www.kevoncadogan.com${location.pathname}`;
+  // Strip trailing slashes so /about/ and /about share one canonical URL.
+  const canonicalPath =
+    location.pathname === "/" ? "/" : location.pathname.replace(/\/+$/, "") || "/";
+  const currentUrl = `https://www.kevoncadogan.com${canonicalPath}`;
 
   return (
     <html lang="en">

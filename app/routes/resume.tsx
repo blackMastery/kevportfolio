@@ -16,7 +16,7 @@ export const meta: MetaFunction = () =>
 // this page from the homepage's Resume section.
 export default function ResumePage() {
   return (
-    <SectionPageLayout h1="Resume">
+    <SectionPageLayout h1="Kevon Cadogan — Full-Stack Developer Resume">
       <Resume />
     </SectionPageLayout>
   );

@@ -5,9 +5,7 @@ import Header from "~/components/Header";
 import Footer from "~/components/Footer";
 import { CALENDLY_URL } from "~/config/contact";
 import { SERVICE_PAGES } from "~/config/services";
-
-const SITE_URL = "https://www.kevoncadogan.com";
-const SOCIAL_IMAGE = `${SITE_URL}/img/kevon-cadogan-social-card.jpg`;
+import { buildPageMeta, SITE_URL } from "~/components/SectionPageLayout";
 
 type ServicePageLayoutProps = {
   /** Single H1 for the page */
@@ -52,7 +50,7 @@ export default function ServicePageLayout({ h1, intro, jsonLd, children }: Servi
   );
 }
 
-/** Builds a Remix `meta` array for a service page, mirroring the homepage tag shape. */
+/** Builds a Remix `meta` array for a service page (same tag set as every other page). */
 export function buildServiceMeta({
   title,
   description,
@@ -62,26 +60,12 @@ export function buildServiceMeta({
   description: string;
   path: string;
 }): ReturnType<MetaFunction> {
-  const url = `${SITE_URL}${path}`;
-  return [
-    { title },
-    { name: "description", content: description },
-    { name: "author", content: "Kevon Cadogan" },
-    { property: "og:type", content: "website" },
-    { property: "og:url", content: url },
-    { property: "og:title", content: title },
-    { property: "og:description", content: description },
-    { property: "og:image", content: SOCIAL_IMAGE },
-    { property: "og:image:secure_url", content: SOCIAL_IMAGE },
-    { property: "og:image:type", content: "image/jpeg" },
-    { property: "og:image:width", content: "1200" },
-    { property: "og:image:height", content: "630" },
-    { property: "og:site_name", content: "Kevon Cadogan Portfolio" },
-    { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: title },
-    { name: "twitter:description", content: description },
-    { name: "twitter:image", content: SOCIAL_IMAGE },
-  ];
+  return buildPageMeta({
+    title,
+    description,
+    path,
+    imageAlt: "Kevon Cadogan - Full-Stack Developer & AI Engineer in Guyana",
+  });
 }
 
 /** Builds a WebPage + Service JSON-LD graph tied back to the homepage Person/Business by @id. */
@@ -118,6 +102,15 @@ export function buildServiceJsonLd({
         areaServed: [
           { "@type": "Country", name: "Guyana" },
           { "@type": "City", name: "Georgetown", addressCountry: "GY" },
+        ],
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
+          { "@type": "ListItem", position: 3, name, item: pageUrl },
         ],
       },
     ],

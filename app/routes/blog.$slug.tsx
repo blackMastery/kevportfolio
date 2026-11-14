@@ -40,6 +40,7 @@ interface BlogPost {
   featured_image: string | null;
   banner_image: string | null;
   published_at: string | null;
+  updated_at: string | null;
   view_count: number;
   like_count: number;
   is_liked: boolean;
@@ -49,11 +50,53 @@ interface BlogPost {
   tags: Tag[];
 }
 
+/** BlogPosting + breadcrumb graph, tied to the homepage Person by @id. */
+function buildPostJsonLd(post: BlogPost) {
+  const postUrl = `${SITE_URL}/blog/${post.slug}`;
+  const rawImage = post.banner_image || post.featured_image;
+  const image = rawImage
+    ? rawImage.startsWith("http")
+      ? rawImage
+      : `${SITE_URL}${rawImage.startsWith("/") ? "" : "/"}${rawImage}`
+    : `${SITE_URL}/img/kevon-cadogan-social-card.jpg`;
+  const published = post.published_at || post.created_at;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${postUrl}#article`,
+        headline: post.title,
+        description: post.excerpt || `Read ${post.title} on Kevon Cadogan's blog.`,
+        image,
+        url: postUrl,
+        mainEntityOfPage: postUrl,
+        datePublished: published,
+        dateModified: post.updated_at || published,
+        author: { "@id": `${SITE_URL}/#person` },
+        publisher: { "@id": `${SITE_URL}/#person` },
+        ...(post.category ? { articleSection: post.category.name } : {}),
+        ...(post.tags.length ? { keywords: post.tags.map((tag) => tag.name).join(", ") } : {}),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+          { "@type": "ListItem", position: 3, name: post.title, item: postUrl },
+        ],
+      },
+    ],
+  };
+}
+
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data?.post) {
     return [
-      { title: "Post Not Found - Kevon Cadogan" },
+      { title: "Post Not Found | Kevon Cadogan" },
       { name: "description", content: "The requested blog post could not be found." },
+      { name: "robots", content: "noindex, follow" },
     ];
   }
 
@@ -71,7 +114,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const postUrl = `${SITE_URL}/blog/${data.post.slug}`;
 
   return [
-    { title: `${data.post.title} - Kevon Cadogan | Blog` },
+    { title: `${data.post.title} | Kevon Cadogan` },
     {
       name: "description",
       content: description,
@@ -82,10 +125,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     },
     // Open Graph tags (used by LinkedIn, Facebook, etc.)
     { property: "og:type", content: "article" },
-    { property: "og:title", content: `${data.post.title} - Kevon Cadogan | Blog` },
+    { property: "og:title", content: `${data.post.title} | Kevon Cadogan` },
     { property: "og:description", content: description },
     { property: "og:url", content: postUrl },
-    { property: "og:site_name", content: "Kevon Cadogan" },
+    { property: "og:site_name", content: "Kevon Cadogan Portfolio" },
     { property: "og:image", content: imageUrl },
     { property: "og:image:secure_url", content: imageUrl },
     { property: "og:image:alt", content: postImage ? data.post.title : "Kevon Cadogan - Full-Stack Developer" },
@@ -109,7 +152,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     ] : []),
     // Twitter Card tags
     { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: `${data.post.title} - Kevon Cadogan | Blog` },
+    { name: "twitter:title", content: `${data.post.title} | Kevon Cadogan` },
     { name: "twitter:description", content: description },
     { name: "twitter:image", content: imageUrl },
     // LinkedIn-specific tags
@@ -147,6 +190,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
         featured_image,
         banner_image,
         published_at,
+        updated_at,
         view_count,
         created_at,
         author:profiles(id, username, full_name, avatar_url),
@@ -160,11 +204,13 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
     console.log("Blog post loader - Supabase response:", { error, hasData: !!posts });
 
-    if (error) {
+    // PGRST116 = `.single()` matched no rows: a genuine 404, not a server error.
+    // Returning 200 here made every mistyped slug an indexable "soft 404".
+    if (error && error.code !== "PGRST116") {
       console.error("Supabase error fetching post:", error);
       return json(
-        { post: null, error: error.message || "Post not found" },
-        { headers: response.headers }
+        { post: null, error: "Something went wrong loading this post." },
+        { status: 500, headers: response.headers }
       );
     }
 
@@ -172,7 +218,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       console.log("Blog post loader - no post found for slug:", slug);
       return json(
         { post: null, error: "Post not found" },
-        { headers: response.headers }
+        { status: 404, headers: response.headers }
       );
     }
 
@@ -246,6 +292,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       featured_image: posts.featured_image,
       banner_image: posts.banner_image,
       published_at: posts.published_at,
+      updated_at: posts.updated_at ?? null,
       view_count: posts.view_count || 0,
       like_count: likeCount || 0,
       is_liked: isLiked,
@@ -490,6 +537,13 @@ export default function BlogPost() {
     <div className="relative min-h-screen">
       <Header />
 
+      <script
+        type="application/ld+json"
+        // Escape "<" so post text can never close the script tag early.
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildPostJsonLd(post)).replace(/</g, "\\u003c"),
+        }}
+      />
       <main className="pt-16 min-h-screen flex flex-col bg-gray-50">
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-primary to-primary-hover text-white py-16 px-4">
