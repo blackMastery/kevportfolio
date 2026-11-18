@@ -9,7 +9,7 @@ import { CALENDLY_URL, CONTACT_EMAIL } from "~/config/contact";
 export const meta: MetaFunction = () => {
   const title = "Full-Stack & AI Developer in Georgetown, Guyana | Kevon Cadogan";
   const description = "Full-stack developer & AI engineer in Georgetown, Guyana with 5+ years building web apps, mobile apps, and AI agents using React, Next.js, Node.js and Python.";
-  const keywords = "full-stack developer, AI developer, AI engineer, AI agents, agentic workflows, AI automation, React developer, Next.js developer, React Native, Angular, Node.js, Python, Django, PostgreSQL, MongoDB, mobile app developer, web developer Guyana, software developer Georgetown, freelance developer";
+  const keywords = "full-stack developer, AI developer, AI engineer, AI agents, agentic workflows, AI automation, React developer, Next.js developer, React Native, Flutter, Angular, Node.js, Python, Django, PostgreSQL, MongoDB, mobile app developer, web developer Guyana, software developer Georgetown, freelance developer";
   const siteUrl = "https://www.kevoncadogan.com";
   // 1200x630 social card (WhatsApp / Facebook / X link previews). Must stay in
   // sync with the og:image:width/height below, or the crop goes wrong.
@@ -92,6 +92,7 @@ export default function Index() {
           "React",
           "Next.js",
           "React Native",
+          "Flutter",
           "Angular",
           "Node.js",
           "JavaScript",

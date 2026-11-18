@@ -46,7 +46,7 @@ export const SERVICE_PAGES: ServicePage[] = [
     cardTitle: "Mobile App Development in Guyana",
     cardDescription: "iOS and Android apps built for local users.",
     summary:
-      "Cross-platform iOS and Android apps built with React Native: one codebase, a native feel, and a smooth path to the App Store and Google Play.",
+      "Cross-platform iOS and Android apps built with Flutter and React Native: one codebase, a native feel, and a smooth path to the App Store and Google Play.",
   },
   {
     path: "/agentic-ai-for-business",

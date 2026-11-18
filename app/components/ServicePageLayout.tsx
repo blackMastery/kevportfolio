@@ -74,13 +74,33 @@ export function buildServiceJsonLd({
   description,
   path,
   serviceType,
+  faqs,
 }: {
   name: string;
   description: string;
   path: string;
   serviceType: string;
+  /** When given, adds an FAQPage node. Pass the same list rendered by <ServiceFAQ />. */
+  faqs?: FAQItem[];
 }) {
   const pageUrl = `${SITE_URL}${path}`;
+  // FAQPage markup must match the visible Q&A text exactly, so it is built from
+  // the same list the page renders rather than written separately.
+  const faqNode =
+    faqs && faqs.length > 0
+      ? [
+          {
+            "@type": "FAQPage",
+            "@id": `${pageUrl}#faq`,
+            isPartOf: { "@id": `${pageUrl}#webpage` },
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: { "@type": "Answer", text: faq.answer },
+            })),
+          },
+        ]
+      : [];
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -113,8 +133,52 @@ export function buildServiceJsonLd({
           { "@type": "ListItem", position: 3, name, item: pageUrl },
         ],
       },
+      ...faqNode,
     ],
   };
+}
+
+export type FAQItem = {
+  question: string;
+  /** Plain text: it is reused verbatim as the FAQPage JSON-LD answer. */
+  answer: string;
+};
+
+/**
+ * Frequently asked questions as native <details> accordions: crawlable, keyboard
+ * accessible, and working without JavaScript. Pair with `faqs` in buildServiceJsonLd.
+ */
+export function ServiceFAQ({ faqs, heading = "Frequently asked questions" }: { faqs: FAQItem[]; heading?: string }) {
+  if (faqs.length === 0) return null;
+  return (
+    <section className="mt-12" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" className="mb-6 text-2xl font-semibold text-gray-800">
+        {heading}
+      </h2>
+      <div className="divide-y divide-gray-200 rounded-lg border border-gray-200">
+        {faqs.map((faq) => (
+          <details key={faq.question} className="group px-5 [&_summary::-webkit-details-marker]:hidden">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-semibold text-gray-800 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+              <span>{faq.question}</span>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="h-5 w-5 flex-shrink-0 text-primary transition-transform group-open:rotate-180"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </summary>
+            <p className="pb-5 leading-relaxed text-gray-600">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 /** Shared call-to-action block for service pages. */

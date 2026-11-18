@@ -74,7 +74,7 @@ export default function About() {
                 My expertise spans frontend and backend development, working with technologies such
                 as{" "}
                 <strong className="text-gray-800">
-                  React, Next.js, React Native, Angular, Node.js, Python, Django, PostgreSQL, MySQL,
+                  React, Next.js, React Native, Flutter, Angular, Node.js, Python, Django, PostgreSQL, MySQL,
                   and MongoDB
                 </strong>
                 .

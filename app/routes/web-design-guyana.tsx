@@ -4,10 +4,13 @@ import ServicePageLayout, {
   buildServiceMeta,
   buildServiceJsonLd,
   ServiceCTA,
+  ServiceFAQ,
   OtherServices,
 } from "~/components/ServicePageLayout";
+import { SERVICE_FAQS } from "~/config/serviceFaqs";
 
 const PATH = "/web-design-guyana";
+const FAQS = SERVICE_FAQS[PATH] ?? [];
 
 export const meta: MetaFunction = () =>
   buildServiceMeta({
@@ -24,6 +27,7 @@ export default function WebDesignGuyana() {
       "Custom, responsive web design and development for businesses across Guyana.",
     path: PATH,
     serviceType: "Web Design",
+    faqs: FAQS,
   });
 
   return (
@@ -83,6 +87,8 @@ export default function WebDesignGuyana() {
           to talk through your project.
         </p>
       </section>
+
+      <ServiceFAQ faqs={FAQS} />
 
       <ServiceCTA />
       <OtherServices currentPath={PATH} />

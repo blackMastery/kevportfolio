@@ -10,7 +10,7 @@ export const meta: MetaFunction = () =>
     description:
       "Meet Kevon Cadogan, a Georgetown, Guyana full-stack developer with 5+ years building web apps, mobile apps, AI agents and agentic workflows for growing businesses.",
     keywords:
-      "Kevon Cadogan, about, full-stack developer, AI engineer, AI agents, agentic workflows, React, Next.js, React Native, Node.js, Python, Django, Georgetown Guyana",
+      "Kevon Cadogan, about, full-stack developer, AI engineer, AI agents, agentic workflows, React, Next.js, React Native, Flutter, Node.js, Python, Django, Georgetown Guyana",
     path: PATH,
   });
 

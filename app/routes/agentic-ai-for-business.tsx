@@ -4,11 +4,14 @@ import ServicePageLayout, {
   buildServiceMeta,
   buildServiceJsonLd,
   ServiceCTA,
+  ServiceFAQ,
   OtherServices,
 } from "~/components/ServicePageLayout";
+import { SERVICE_FAQS } from "~/config/serviceFaqs";
 import { CALENDLY_URL } from "~/config/contact";
 
 const PATH = "/agentic-ai-for-business";
+const FAQS = SERVICE_FAQS[PATH] ?? [];
 
 const PRIMARY_BTN =
   "inline-block rounded-full bg-gradient-to-r from-primary to-primary-hover px-8 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-xl";
@@ -43,6 +46,7 @@ export default function AgenticAiForBusiness() {
       "Custom AI agents that automate workflows, plus AI audits and staff training for businesses and public-sector organizations.",
     path: PATH,
     serviceType: "Agentic AI Development",
+    faqs: FAQS,
   });
 
   return (
@@ -368,6 +372,8 @@ export default function AgenticAiForBusiness() {
         />
         <p className="mt-4 font-semibold text-primary">Technology · Agility · Growth</p>
       </section>
+
+      <ServiceFAQ faqs={FAQS} />
 
       <ServiceCTA />
 

@@ -4,16 +4,19 @@ import ServicePageLayout, {
   buildServiceMeta,
   buildServiceJsonLd,
   ServiceCTA,
+  ServiceFAQ,
   OtherServices,
 } from "~/components/ServicePageLayout";
+import { SERVICE_FAQS } from "~/config/serviceFaqs";
 
 const PATH = "/mobile-app-development-guyana";
+const FAQS = SERVICE_FAQS[PATH] ?? [];
 
 export const meta: MetaFunction = () =>
   buildServiceMeta({
     title: "Mobile App Development in Guyana | iOS & Android",
     description:
-      "Mobile app development in Guyana for iOS and Android. Fast, reliable cross-platform apps built with React Native — from idea and design to launch on the app stores.",
+      "Mobile app development in Guyana for iOS and Android. Fast, reliable cross-platform apps built with Flutter and React Native — from idea and design to launch on the app stores.",
     path: PATH,
   });
 
@@ -24,25 +27,26 @@ export default function MobileAppDevelopmentGuyana() {
       "Cross-platform iOS and Android mobile app development for clients in Guyana.",
     path: PATH,
     serviceType: "Mobile App Development",
+    faqs: FAQS,
   });
 
   return (
     <ServicePageLayout
       h1="Mobile App Development in Guyana"
-      intro="Bring your idea to the App Store and Google Play. I build cross-platform mobile apps with React Native — one codebase, native performance, and a smooth experience for your users in Guyana and beyond."
+      intro="Bring your idea to the App Store and Google Play. I build cross-platform mobile apps with Flutter and React Native — one codebase, native performance, and a smooth experience for your users in Guyana and beyond."
       jsonLd={jsonLd}
     >
-      {/* TODO: Review this placeholder copy. Confirm the platforms/stack you commit to
-          (React Native is assumed from your skills) and replace any capability you
-          don't want to advertise. */}
+      {/* Stack confirmed: Flutter and React Native. TODO: review the remaining copy and
+          remove any capability you don't want to advertise. */}
 
       <section>
         <h2 className="mb-4 text-2xl font-semibold text-gray-800">One app, both app stores</h2>
         <p className="mb-4 leading-relaxed text-gray-600">
           Building separately for iOS and Android usually means double the cost and double the
-          maintenance. With React Native I build a single codebase that runs natively on both —
-          so you reach every customer without paying twice. You get an app that feels fast,
-          looks polished, and is straightforward to update.
+          maintenance. With Flutter or React Native I build a single codebase that runs natively
+          on both, so you reach every customer without paying twice. I&apos;ll recommend the
+          framework that best fits your app. You get an app that feels fast, looks polished, and
+          is straightforward to update.
         </p>
       </section>
 
@@ -50,7 +54,7 @@ export default function MobileAppDevelopmentGuyana() {
         <h2 className="mb-4 text-2xl font-semibold text-gray-800">What I can build</h2>
         <ul className="space-y-3">
           {[
-            "Cross-platform iOS and Android apps with React Native",
+            "Cross-platform iOS and Android apps with Flutter and React Native",
             "Customer-facing apps: booking, ordering, loyalty, and more",
             "Apps backed by a custom API and secure user accounts",
             "Push notifications and offline-friendly experiences",
@@ -81,6 +85,8 @@ export default function MobileAppDevelopmentGuyana() {
           .
         </p>
       </section>
+
+      <ServiceFAQ faqs={FAQS} />
 
       <ServiceCTA />
       <OtherServices currentPath={PATH} />

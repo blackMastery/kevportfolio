@@ -4,10 +4,13 @@ import ServicePageLayout, {
   buildServiceMeta,
   buildServiceJsonLd,
   ServiceCTA,
+  ServiceFAQ,
   OtherServices,
 } from "~/components/ServicePageLayout";
+import { SERVICE_FAQS } from "~/config/serviceFaqs";
 
 const PATH = "/hire-web-developer-georgetown";
+const FAQS = SERVICE_FAQS[PATH] ?? [];
 
 export const meta: MetaFunction = () =>
   buildServiceMeta({
@@ -24,6 +27,7 @@ export default function HireWebDeveloperGeorgetown() {
       "Freelance full-stack web development services in Georgetown, Guyana.",
     path: PATH,
     serviceType: "Web Development",
+    faqs: FAQS,
   });
 
   return (
@@ -53,7 +57,7 @@ export default function HireWebDeveloperGeorgetown() {
             "Full-stack web applications (React, Node.js, Django)",
             "Marketing sites, landing pages, and business websites",
             "E-commerce stores and custom dashboards",
-            "Mobile apps for iOS and Android",
+            "Mobile apps for iOS and Android with Flutter and React Native",
             "API development and third-party integrations",
             "Ongoing maintenance, fixes, and performance tuning",
           ].map((item) => (
@@ -85,6 +89,8 @@ export default function HireWebDeveloperGeorgetown() {
           to discuss yours.
         </p>
       </section>
+
+      <ServiceFAQ faqs={FAQS} />
 
       <ServiceCTA />
       <OtherServices currentPath={PATH} />
