@@ -68,6 +68,47 @@ function optimizedBanner(slug: string, width = 800, height = 450): PortfolioBann
 
 export const portfolioProjects: PortfolioProject[] = [
   {
+    id: "breezytropicspm",
+    name: "Breezy Tropics Property Management",
+    description:
+      "Property management and real estate in Guyana — buying, selling, rentals, furnished stays, construction oversight and Discovery Tours for investors and owners living abroad.",
+    url: "https://www.breezytropicspm.com/",
+    logo: "/img/portfolio/breezytropics-logo.png",
+    banner: optimizedBanner("breezytropics"),
+    detail: {
+      tagline:
+        "A cross-border real estate site helping investors and diaspora owners buy, manage and grow property in Guyana.",
+      category: "Real Estate",
+      overview: [
+        "Breezy Tropics Property Management helps people buy, sell, rent and develop property in Guyana, with a team on the ground and offices in the United States and the Dominican Republic. Services span property management, sales and purchases, corporate housing, Airbnb and short-stay management, construction oversight and investment consulting.",
+        "Many of its clients live abroad and can't see a property or a building site for themselves, so the site is built around trust and remote contact: vetted listings, a dedicated path for owners overseas, and WhatsApp and consultation requests on every page.",
+      ],
+      highlights: [
+        {
+          title: "Service-led structure",
+          body: "Dedicated pages for each service — from property management and corporate housing to construction oversight and portfolio growth — so visitors land on exactly what they need.",
+        },
+        {
+          title: "Vetted property listings",
+          body: "Homes and land for sale and rent, searchable by place, home type or feature and filterable by market and listing type, each inspected by the team on the ground.",
+        },
+        {
+          title: "Discovery Tour packages",
+          body: "A three-day, two-night real estate tourism offer with a sample itinerary, inclusions and a custom-itinerary request for longer stays.",
+        },
+        {
+          title: "Consultation booking",
+          body: "A short form capturing market, budget and goals, so the team can reply within a business day with a clear next step.",
+        },
+        {
+          title: "Owners-abroad and WhatsApp contact",
+          body: "A path for overseas owners to hand off viewings, tenant search or site visits, with one-tap WhatsApp to the Guyana team throughout.",
+        },
+      ],
+      stack: ["Next.js", "React", "WhatsApp Business", "Vercel"],
+    },
+  },
+  {
     id: "poshhomedecor",
     name: "Posh Home Decor",
     description:
